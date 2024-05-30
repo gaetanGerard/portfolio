@@ -1,15 +1,12 @@
 import {useEffect} from 'react';
 import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout';
-import { Head } from '@inertiajs/react';
+import { Head, usePage } from '@inertiajs/react';
 import Button from '@mui/material/Button';
-import axios from 'axios';
 
 export default function Dashboard({ auth }) {
-    useEffect(() => {
-        axios.get('/admin/dashboard').then(response => {
-            console.log(response);
-        });
-    }, []);
+    const {projects} = usePage().props;
+
+    console.log(projects);
 
     return (
         <AuthenticatedLayout

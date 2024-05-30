@@ -15,6 +15,7 @@ class ProjectsController extends Controller
     public function index()
     {
         $projects = Projects::all();
+
         return Inertia::render('Dashboard', ['projects' => $projects]);
     }
 
