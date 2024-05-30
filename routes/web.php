@@ -1,9 +1,11 @@
 <?php
 
 use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\ProjectsController;
 use Illuminate\Foundation\Application;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
+
 
 Route::get('/', function () {
     return Inertia::render('Welcome', [
@@ -11,10 +13,11 @@ Route::get('/', function () {
         'canRegister' => Route::has('register')
     ]);
 });
-Route::prefix('admin')->group(function () {
-    Route::get('/dashboard', function () {
-        return Inertia::render('Dashboard');
-    })->middleware(['auth', 'verified'])->name('dashboard');
+Route::prefix('admin/dashboard')->group(function () {
+    Route::get('/', [ProjectsController::class, 'index'])->middleware(['auth', 'verified'])->name('dashboard');
+    Route::get('/projects/add', [ProjectsController::class, 'add'])->middleware(['auth', 'verified'])->name('projects.add');
+    Route::post('/projects/add', [ProjectsController::class, 'store'])->middleware(['auth', 'verified'])->name('projects.store');
+    Route::post('/projects/add/upload-image', [ProjectsController::class, 'uploadImage'])->middleware(['auth', 'verified'])->name('projects.uploadImage');
 });
 
 // Authentication for administrators
