@@ -18,7 +18,7 @@ Route::prefix('admin/dashboard')->group(function () {
     Route::prefix('projects')->group(function () {
         Route::get('/{action}', [ProjectsController::class, 'showForm'])->where('action', 'add|edit')->middleware(['auth', 'verified'])->name('projects.showForm');
         Route::post('/{action}', [ProjectsController::class, 'handleForm'])->where('action', 'add|edit')->middleware(['auth', 'verified'])->name('projects.store');
-        Route::delete('/{id}', [ProjectsController::class, 'destroy'])->middleware(['auth', 'verified'])->name('projects.destroy');
+        Route::delete('/delete/{id}', [ProjectsController::class, 'destroy'])->middleware(['auth', 'verified'])->name('projects.destroy');
         Route::post('/{action}/upload-image', [ProjectsController::class, 'uploadImage'])->where('action', 'add|edit')->middleware(['auth', 'verified'])->name('projects.uploadImage');
         Route::delete('/{action}/delete-image', [ProjectsController::class, 'deleteImage'])->where('action', 'add|edit')->middleware(['auth', 'verified'])->name('projects.deleteImage');
     });

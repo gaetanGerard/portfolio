@@ -66,6 +66,18 @@ class ProjectsController extends Controller
         return Redirect::to('/admin/dashboard');
     }
 
+    public function destroy(Request $request, $id)
+    {
+        $project = Projects::find($id);
+
+        if (!$project) {
+            return response()->json(['message' => 'Projet non trouvé'], 404);
+        }
+
+        $project->delete();
+        return response()->json(['message' => 'Projet supprimé avec succès'], 200);
+    }
+
     public function uploadImage(Request $request)
     {
         if ($request->hasFile('image')) {

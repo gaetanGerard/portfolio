@@ -7,6 +7,17 @@ export default function Dashboard({ auth }) {
 
     console.log(projects);
 
+    const handleDeleteProject = async (id) => {
+        try {
+            const response = await axios.delete(`/admin/dashboard/projects/delete/${id}`);
+            window.location.reload();
+            console.log(response.data.message);
+        } catch (error) {
+            console.error('Une erreur est survenue lors de la suppression du projet :', error);
+        }
+    };
+
+
     return (
         <AuthenticatedLayout
             user={auth.user}
@@ -18,7 +29,7 @@ export default function Dashboard({ auth }) {
                 <div className="max-w-7xl mx-auto sm:px-6 lg:px-8">
                     <div className="bg-white overflow-hidden shadow-sm sm:rounded-lg">
                         <ul className="p-6 text-gray-900">
-                            {projects.map((project, index) => (
+                            {projects.length > 0 ? projects.map((project, index) => (
                                 <li key={index}>
                                     <h3>Titre : {project.title}</h3>
                                     <img src={`${project.main_img}`} alt={`${project.title}`} />
@@ -27,10 +38,10 @@ export default function Dashboard({ auth }) {
                                     {project.github_repo != null ? (<p>Github: {project.github_repo}</p>) : null}
                                     <div className="button-group">
                                         <Button variant="contained" className="mt-2" color="warning" href={`/admin/dashboard/projects/edit?id=${project.id}`}>Modifier le projet</Button>
-                                        <Button variant="contained" className="mt-2" color="error" href={`/admin/dashboard/projects/delete?id=${project.id}`}>Supprimer le projet</Button>
+                                        <Button variant="contained" className="mt-2" color="error" onClick={() => handleDeleteProject(project.id)}>Supprimer le projet</Button>
                                     </div>
                                 </li>
-                            ))}
+                            ))  : <p>Aucun projet n'a été trouvé.</p>}
                         </ul>
                     </div>
                     <Button variant="contained" className="mt-2" href='/admin/dashboard/projects/add'>Ajouter un projet</Button>
