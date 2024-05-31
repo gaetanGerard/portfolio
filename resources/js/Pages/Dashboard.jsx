@@ -5,8 +5,6 @@ import Button from '@mui/material/Button';
 export default function Dashboard({ auth }) {
     const {projects} = usePage().props;
 
-    console.log(projects);
-
     const handleDeleteProject = async (id) => {
         try {
             const response = await axios.delete(`/admin/dashboard/projects/delete/${id}`);
@@ -17,11 +15,10 @@ export default function Dashboard({ auth }) {
         }
     };
 
-
     return (
         <AuthenticatedLayout
             user={auth.user}
-            header={<h2 className="font-semibold text-xl text-gray-800 leading-tight">Dashboard</h2>}
+            header={<h2 className="font-semibold text-xl text-gray-800 leading-tight">Projets & Technologies</h2>}
         >
             <Head title="Dashboard" />
 
@@ -44,7 +41,20 @@ export default function Dashboard({ auth }) {
                             ))  : <p>Aucun projet n'a été trouvé.</p>}
                         </ul>
                     </div>
-                    <Button variant="contained" className="mt-2" href='/admin/dashboard/projects/add'>Ajouter un projet</Button>
+                    <Button variant="contained" className="my-2" href='/admin/dashboard/projects/add'>Ajouter un projet</Button>
+                    <div className="bg-white overflow-hidden shadow-sm sm:rounded-lg">
+                        <ul className="p-6 text-gray-900">
+                            Ici il y aura une liste des technologies utilisées
+                        </ul>
+                    </div>
+                    <Button variant="contained" className="my-2" href='/admin/dashboard'>Ajouter un projet</Button>
+                    <div className="bg-white overflow-hidden shadow-sm sm:rounded-lg">
+                        <ul className="p-6 text-gray-900">
+                            Ici il y aura une liste des catégories utilisées
+                        </ul>
+                    </div>
+                    <Button variant="contained" className="my-2" href='/admin/dashboard'>Ajouter un projet</Button>
+
                 </div>
             </div>
         </AuthenticatedLayout>
