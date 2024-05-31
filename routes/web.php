@@ -15,9 +15,13 @@ Route::get('/', function () {
 });
 Route::prefix('admin/dashboard')->group(function () {
     Route::get('/', [ProjectsController::class, 'index'])->middleware(['auth', 'verified'])->name('dashboard');
-    Route::get('/projects/add', [ProjectsController::class, 'add'])->middleware(['auth', 'verified'])->name('projects.add');
-    Route::post('/projects/add', [ProjectsController::class, 'store'])->middleware(['auth', 'verified'])->name('projects.store');
-    Route::post('/projects/add/upload-image', [ProjectsController::class, 'uploadImage'])->middleware(['auth', 'verified'])->name('projects.uploadImage');
+    Route::prefix('projects')->group(function () {
+        Route::get('/{action}', [ProjectsController::class, 'showForm'])->where('action', 'add|edit')->middleware(['auth', 'verified'])->name('projects.showForm');
+        Route::post('/{action}', [ProjectsController::class, 'handleForm'])->where('action', 'add|edit')->middleware(['auth', 'verified'])->name('projects.store');
+        Route::delete('/{id}', [ProjectsController::class, 'destroy'])->middleware(['auth', 'verified'])->name('projects.destroy');
+        Route::post('/{action}/upload-image', [ProjectsController::class, 'uploadImage'])->where('action', 'add|edit')->middleware(['auth', 'verified'])->name('projects.uploadImage');
+        Route::delete('/{action}/delete-image', [ProjectsController::class, 'deleteImage'])->where('action', 'add|edit')->middleware(['auth', 'verified'])->name('projects.deleteImage');
+    });
 });
 
 // Authentication for administrators

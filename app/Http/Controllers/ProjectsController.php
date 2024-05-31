@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Projects;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Redirect;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
@@ -19,35 +20,48 @@ class ProjectsController extends Controller
         return Inertia::render('Dashboard', ['projects' => $projects]);
     }
 
-    public function add()
+    public function showForm($action, Request $request)
     {
-        return Inertia::render('Projects/Add');
+
+        $project = null;
+
+        if ($action == 'edit') {
+            $projectId = $request->query('id');
+            $project = Projects::find($projectId);
+            if (!$project) {
+                return Inertia::render('Projects/add', ['status' => '404']);
+            }
+        }
+        return Inertia::render('Projects/Add', ['action' => $action, 'project' => $project]);
     }
 
-    public function store(Request $request)
+    public function handleForm(Request $request, $action)
     {
 
         $validatedData = $request->validate([
             'title' => 'required',
             'short_description' => 'required',
-            'images' => 'required|array|max:75',
+            'images' => 'required|array|max:20',
             'main_img' => 'required|string',
             'used_technologies' => 'required|array',
-            'demo_link' => 'nullable|url',
-            'github_repo' => 'nullable|url',
+            'demo_link' => 'nullable|string',
+            'github_repo' => 'nullable|string',
             'description' => 'required',
         ]);
 
-        $project = Projects::create([
-            'title' => $request->title,
-            'short_description' => $request->short_description,
-            'used_technologies' => $request->used_technologies,
-            'main_img' => $request->main_img,
-            'images' => $request->images,
-            'demo_link' => $request->demo_link,
-            'github_repo' => $request->github_repo,
-            'description' => $request->description,
-        ]);
+        if ($action === 'add') {
+            $project = Projects::create($validatedData);
+        } elseif ($action === 'edit') {
+            $validatedData = array_merge($validatedData, $request->validate([
+                'id' => 'required|integer|exists:projects,id',
+            ]));
+
+            $project = Projects::findOrFail($validatedData['id']);
+
+            // Log::debug($validatedData);
+
+            $project->update($validatedData);
+        }
 
         return Redirect::to('/admin/dashboard');
     }
@@ -63,5 +77,39 @@ class ProjectsController extends Controller
         }
 
         return response()->json(['error' => 'No image uploaded'], 400);
+    }
+
+    public function deleteImage(Request $request)
+    {
+
+        $request->validate([
+            'id' => 'required|integer|exists:projects,id',
+            'path' => 'required|string',
+            'images' => 'required|array|max:75',
+            'main_img' => 'nullable|string',
+        ]);
+
+        $project = Projects::find($request->input('id'));
+
+        if (!$project) {
+            return response()->json(['message' => 'Project not found'], 404);
+        }
+
+        $images = $project->images;
+
+        $index = array_search($request->input('path'), $images);
+        if ($index !== false) {
+            array_splice($images, $index, 1);
+            $project->images = $images;
+            $project->save();
+        }
+
+        $project->main_img = $request->input('main_img');
+        $project->save();
+
+
+        $path = str_replace('/storage/', 'public/', $request->input('path'));
+        Storage::delete($path);
+        return response()->json(['message' => 'Image deleted'], 200);
     }
 }
