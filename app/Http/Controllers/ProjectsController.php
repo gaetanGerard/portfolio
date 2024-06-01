@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Projects;
+use App\Models\TechnoCategory;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Redirect;
@@ -16,8 +17,12 @@ class ProjectsController extends Controller
     public function index()
     {
         $projects = Projects::all();
+        $technoCategory = TechnoCategory::all();
 
-        return Inertia::render('Dashboard', ['projects' => $projects]);
+        return Inertia::render('Dashboard', [
+            'projects' => $projects,
+            'technoCategory' => $technoCategory,
+        ]);
     }
 
     public function showForm($action, Request $request)

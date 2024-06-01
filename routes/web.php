@@ -1,10 +1,12 @@
 <?php
 
+use App\Http\Controllers\CategoriesController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\ProjectsController;
 use Illuminate\Foundation\Application;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
+
 
 
 Route::get('/', function () {
@@ -21,6 +23,11 @@ Route::prefix('admin/dashboard')->group(function () {
         Route::delete('/delete/{id}', [ProjectsController::class, 'destroy'])->middleware(['auth', 'verified'])->name('projects.destroy');
         Route::post('/{action}/upload-image', [ProjectsController::class, 'uploadImage'])->where('action', 'add|edit')->middleware(['auth', 'verified'])->name('projects.uploadImage');
         Route::delete('/{action}/delete-image', [ProjectsController::class, 'deleteImage'])->where('action', 'add|edit')->middleware(['auth', 'verified'])->name('projects.deleteImage');
+    });
+    Route::prefix('categories')->group(function () {
+        Route::get('/{action}', [CategoriesController::class, 'showForm'])->where('action', 'add|edit')->middleware(['auth', 'verified'])->name('categories.showForm');
+        Route::post('/{action}', [CategoriesController::class, 'handleForm'])->where('action', 'add|edit')->middleware(['auth', 'verified'])->name('categories.store');
+        Route::delete('/delete/{id}', [CategoriesController::class, 'destroy'])->middleware(['auth', 'verified'])->name('categories.destroy');
     });
 });
 

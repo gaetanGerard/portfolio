@@ -212,8 +212,6 @@ export const ProjectForm = () => {
             formDataToSend.append('id', project.id);
         }
 
-        console.log(selectedImg)
-
         try {
             const response = await axios.post(url, formDataToSend);
             window.location.href = '/admin/dashboard';

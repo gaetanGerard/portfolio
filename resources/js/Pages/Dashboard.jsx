@@ -3,7 +3,9 @@ import { Head, usePage } from '@inertiajs/react';
 import Button from '@mui/material/Button';
 
 export default function Dashboard({ auth }) {
-    const {projects} = usePage().props;
+    const {projects, technoCategory} = usePage().props;
+
+    console.log(technoCategory);
 
     const handleDeleteProject = async (id) => {
         try {
@@ -12,6 +14,16 @@ export default function Dashboard({ auth }) {
             console.log(response.data.message);
         } catch (error) {
             console.error('Une erreur est survenue lors de la suppression du projet :', error);
+        }
+    };
+
+    const handleDeleteCategory = async (id) => {
+        try {
+            const response = await axios.delete(`/admin/dashboard/categories/delete/${id}`);
+            window.location.reload();
+            console.log(response.data.message);
+        } catch (error) {
+            console.error('Une erreur est survenue lors de la suppression de la catégorie :', error);
         }
     };
 
@@ -47,13 +59,22 @@ export default function Dashboard({ auth }) {
                             Ici il y aura une liste des technologies utilisées
                         </ul>
                     </div>
-                    <Button variant="contained" className="my-2" href='/admin/dashboard'>Ajouter un projet</Button>
+                    <Button variant="contained" className="my-2" href='/admin/dashboard/technologies/add'>Ajouter une technologie</Button>
                     <div className="bg-white overflow-hidden shadow-sm sm:rounded-lg">
                         <ul className="p-6 text-gray-900">
-                            Ici il y aura une liste des catégories utilisées
+                            {technoCategory.length > 0 ? technoCategory.map((category, index) => (
+                                <li key={index}>
+                                    <h3>Nom : {category.name}</h3>
+                                    <p>Description : {category.description}</p>
+                                    <div className="button-group">
+                                        <Button variant="contained" className="mt-2" color="warning" href={`/admin/dashboard/categories/edit?id=${category.id}`}>Modifier la catégorie</Button>
+                                        <Button variant="contained" className="mt-2" color="error" onClick={() => handleDeleteCategory(category.id)}>Supprimer la catégorie</Button>
+                                    </div>
+                                </li>
+                            ))  : <p>Aucune catégorie n'a été trouvé.</p>}
                         </ul>
                     </div>
-                    <Button variant="contained" className="my-2" href='/admin/dashboard'>Ajouter un projet</Button>
+                    <Button variant="contained" className="my-2" href='/admin/dashboard/categories/add'>Ajouter une catégorie</Button>
 
                 </div>
             </div>
