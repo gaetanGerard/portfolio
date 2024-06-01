@@ -1,12 +1,16 @@
 <?php
 
 use App\Http\Controllers\CategoriesController;
+use App\Http\Controllers\EducationsController;
+use App\Http\Controllers\ExperiencesController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\ProjectsController;
 use App\Http\Controllers\TechnologiesController;
 use Illuminate\Foundation\Application;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
+
+
 
 
 
@@ -37,6 +41,18 @@ Route::prefix('admin/dashboard')->group(function () {
         Route::get('/{action}', [CategoriesController::class, 'showForm'])->where('action', 'add|edit')->middleware(['auth', 'verified'])->name('categories.showForm');
         Route::post('/{action}', [CategoriesController::class, 'handleForm'])->where('action', 'add|edit')->middleware(['auth', 'verified'])->name('categories.store');
         Route::delete('/delete/{id}', [CategoriesController::class, 'destroy'])->middleware(['auth', 'verified'])->name('categories.destroy');
+    });
+    Route::prefix('experiences')->group(function () {
+        Route::get('/', [ExperiencesController::class, 'index'])->middleware(['auth', 'verified'])->name('experiences.index');
+        // Route::get('/{action}', [ExperiencesController::class, 'showForm'])->where('action', 'add|edit')->middleware(['auth', 'verified'])->name('experiences.showForm');
+        // Route::post('/{action}', [ExperiencesController::class, 'handleForm'])->where('action', 'add|edit')->middleware(['auth', 'verified'])->name('experiences.store');
+        // Route::delete('/delete/{id}', [ExperiencesController::class, 'destroy'])->middleware(['auth', 'verified'])->name('experiences.destroy');
+    });
+    Route::prefix('education')->group(function () {
+        Route::get('/', [EducationsController::class, 'index'])->middleware(['auth', 'verified'])->name('education.index');
+        // Route::get('/{action}', [EducationsController::class, 'showForm'])->where('action', 'add|edit')->middleware(['auth', 'verified'])->name('eductation.showForm');
+        // Route::post('/{action}', [EducationsController::class, 'handleForm'])->where('action', 'add|edit')->middleware(['auth', 'verified'])->name('eductation.store');
+        // Route::delete('/delete/{id}', [EducationsController::class, 'destroy'])->middleware(['auth', 'verified'])->name('eductation.destroy');
     });
 });
 
