@@ -18,8 +18,6 @@ const CategoriesForm = () => {
         });
     }, []);
 
-    console.log(categories);
-
     const handleInputChange = (e) => {
         setFormData({
             ...formData,

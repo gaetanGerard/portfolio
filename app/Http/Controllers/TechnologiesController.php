@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\TechnoCategory;
 use App\Models\Technologies;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Redirect;
 use Inertia\Inertia;
 
@@ -36,6 +37,8 @@ class TechnologiesController extends Controller
             'skill_level' => 'required',
         ]);
 
+        Log::debug($validatedData);
+
         if ($action === 'add') {
             $technology = Technologies::create($validatedData);
         } else {
@@ -54,6 +57,12 @@ class TechnologiesController extends Controller
     public function destroy(Request $request, $id)
     {
         $technology = Technologies::find($id);
+        $iconPath = public_path() . $technology->icon_path;
+
+        if (file_exists($iconPath)) {
+            unlink($iconPath);
+        }
+
         if (!$technology) {
             return response()->json(['message' => 'Technologie non trouvé'], 404);
         }

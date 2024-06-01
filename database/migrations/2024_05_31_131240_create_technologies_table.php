@@ -17,7 +17,7 @@ return new class extends Migration
             $table->foreignId('category_id')->constrained('techno_categories');
             $table->string('icon_path');
             $table->string('technology_url');
-            $table->integer('skill_level');
+            $table->string('skill_level');
             $table->timestamps();
         });
     }

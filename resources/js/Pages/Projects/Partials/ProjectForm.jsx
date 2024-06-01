@@ -23,8 +23,6 @@ const VisuallyHiddenInput = styled('input')({
 export const ProjectForm = () => {
     const {project, action} = usePage().props;
     const [imgError, setImgError] = useState("");
-
-    // console.log(project);
     const [formData, setFormData] = useState({
         title: action==='edit' ? project.title : '',
         short_description: action==='edit' ? project.short_description : '',
@@ -118,8 +116,6 @@ export const ProjectForm = () => {
             console.error('Error uploading image: ', error);
         }
 
-        // console.log(uploadedImages);
-
         setSelectedImg([...selectedImg, ...uploadedImages]);
 
         setFormData({
@@ -158,7 +154,6 @@ export const ProjectForm = () => {
         if(selectedImg.length > 1) {
             const imgToDelete = selectedImg[index];
             const updatedImages = selectedImg.filter((img, imgIndex) => imgIndex !== index);
-            // console.log(updatedImages);
             setSelectedImg(updatedImages);
             const data = {
                 id: project.id,

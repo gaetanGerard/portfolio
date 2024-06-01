@@ -7,6 +7,7 @@ import CloudUploadIcon from '@mui/icons-material/CloudUpload';
 import Chip from '@mui/material/Chip';
 import Autocomplete from '@mui/material/Autocomplete';
 import { styled } from '@mui/material/styles';
+import Slider from '@mui/material/Slider';
 
 const VisuallyHiddenInput = styled('input')({
     clip: 'rect(0 0 0 0)',
@@ -21,21 +22,43 @@ const VisuallyHiddenInput = styled('input')({
   });
 
 const TechnologiesForm = () => {
-    const {technologies, technoCategories, action} = usePage().props;
+    const {technology, technoCategories, action} = usePage().props;
     const [formData, setFormData] = useState({
-        name: action === 'edit' ? technologies.name : '',
-        category_id: action === 'edit' ? technologies.category_id : '',
-        icon_path: action === 'edit' ? technologies.icon_path : '',
-        technology_url: action === 'edit' ? technologies.technology_url : '',
-        skill_level: action === 'edit' ? technologies.skill_level : '',
+        name: action === 'edit' ? technology.name : '',
+        category_id: action === 'edit' ? technology.category_id : '',
+        icon_path: action === 'edit' ? technology.icon_path : '',
+        technology_url: action === 'edit' ? technology.technology_url : '',
+        skill_level: action === 'edit' ? technology.skill_level : '',
     });
-
     useEffect(() => {
         axios.interceptors.request.use(config => {
             config.headers['X-CSRF-TOKEN'] = document.querySelector('meta[name="csrf-token"]').getAttribute('content');
             return config;
         });
     }, []);
+
+    const sliderStep = [
+        {
+            value: 0,
+            label: 'Débutant',
+        },
+        {
+            value: 25,
+            label: 'Intermédiaire',
+        },
+        {
+            value: 50,
+            label: 'Avancé',
+        },
+        {
+            value: 75,
+            label: 'Expert',
+        },
+        {
+            value: 100,
+            label: 'Maître',
+        }
+    ];
 
     const handleInputChange = (e) => {
         setFormData({
@@ -60,11 +83,16 @@ const TechnologiesForm = () => {
         }
     }
 
+    const handleSliderChange = (e, value) => {
+        setFormData({
+            ...formData,
+            skill_level: value
+        });
+    }
+
     const handleIconChange = async (e) => {
         const formDataToSend = new FormData();
         formDataToSend.append('icon', e.target.files[0]);
-
-        let uploadedIcon = '';
 
         try {
             const response = await axios.post(`/admin/dashboard/technologies/${action}/upload-icon`, formDataToSend, {
@@ -81,16 +109,32 @@ const TechnologiesForm = () => {
         }
     }
 
-    const handleSubmit = (e) => {
+    const handleSubmit = async (e) => {
         e.preventDefault();
+        const url = `/admin/dashboard/technologies/${action}`;
+        const formDataToSend = new FormData();
+        formDataToSend.append('name', formData.name);
+        formDataToSend.append('category_id', formData.category_id);
+        formDataToSend.append('icon_path', formData.icon_path);
+        formDataToSend.append('technology_url', formData.technology_url);
+        formDataToSend.append('skill_level', formData.skill_level.toString());
 
-        console.log(formData)
+        if (action === 'edit') {
+            formDataToSend.append('id', technology.id);
+        }
+
+        try {
+            const response = await axios.post(url, formDataToSend);
+            window.location.href = '/admin/dashboard';
+          } catch (error) {
+            console.error('Une erreur est survenu lorsque vous avez essayer d\'ajouter une technologie : ', error);
+        }
     }
 
   return (
     <form onSubmit={handleSubmit}>
         <div>
-            <TextField type="text" id="name" label="Nom de la technologie" onChange={handleInputChange} variant="filled" name="name" required defaultValue={action === 'edit' ? technologies.name : null} />
+            <TextField type="text" id="name" label="Nom de la technologie" onChange={handleInputChange} variant="filled" name="name" required defaultValue={action === 'edit' ? technology.name : null} />
         </div>
         <div>
             <Autocomplete
@@ -98,7 +142,7 @@ const TechnologiesForm = () => {
                 id="combo-box-demo"
                 options={technoCategories.map((option) => option.name)}
                 onChange={handleCategoryChange}
-                defaultValue={action === 'edit' && technologies ? technoCategories[technologies.category_id] : null}
+                defaultValue={action === 'edit' && technology ? technoCategories[technology.category_id].name : null}
                 sx={{ width: 300 }}
                 renderInput={(params) => <TextField {...params} label="Catégories" variant="filled" />}
             />
@@ -118,6 +162,21 @@ const TechnologiesForm = () => {
                 Ajouter une icône
                 <VisuallyHiddenInput type="file" />
             </Button>
+            {formData.icon_path.length > 0 ? (<img src={formData.icon_path} alt={`Image ${formData.name}`} style={{ width: '100px', height: '100px', objectFit: 'cover' }} />) : null}
+        </div>
+        <div>
+            <TextField type="text" id="technology_url" label="Lien Documentation Technologie" onChange={handleInputChange} variant="filled" name="technology_url" required defaultValue={action === 'edit' ? technology.technology_url : null} />
+        </div>
+        <div>
+            <Slider
+                aria-label="Maitrise de la technologie"
+                defaultValue={action === "edit" ? Number(technology.skill_level) : 0}
+                getAriaValueText={sliderStep.value}
+                step={25}
+                valueLabelDisplay="auto"
+                marks={sliderStep}
+                onChange={handleSliderChange}
+            />
         </div>
         <Button variant="contained" type="submit">{action === "edit" ? "Modifier la technologie" : "Ajouter une technologie"}</Button>
     </form>
