@@ -3,9 +3,11 @@
 use App\Http\Controllers\CategoriesController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\ProjectsController;
+use App\Http\Controllers\TechnologiesController;
 use Illuminate\Foundation\Application;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
+
 
 
 
@@ -23,6 +25,13 @@ Route::prefix('admin/dashboard')->group(function () {
         Route::delete('/delete/{id}', [ProjectsController::class, 'destroy'])->middleware(['auth', 'verified'])->name('projects.destroy');
         Route::post('/{action}/upload-image', [ProjectsController::class, 'uploadImage'])->where('action', 'add|edit')->middleware(['auth', 'verified'])->name('projects.uploadImage');
         Route::delete('/{action}/delete-image', [ProjectsController::class, 'deleteImage'])->where('action', 'add|edit')->middleware(['auth', 'verified'])->name('projects.deleteImage');
+    });
+    Route::prefix('technologies')->group(function () {
+        Route::get('/{action}', [TechnologiesController::class, 'showForm'])->where('action', 'add|edit')->middleware(['auth', 'verified'])->name('technologies.showForm');
+        Route::post('/{action}', [TechnologiesController::class, 'handleForm'])->where('action', 'add|edit')->middleware(['auth', 'verified'])->name('technologies.store');
+        Route::delete('/delete/{id}', [TechnologiesController::class, 'destroy'])->middleware(['auth', 'verified'])->name('technologies.destroy');
+        Route::post('/{action}/upload-icon', [TechnologiesController::class, 'uploadIcon'])->where('action', 'add|edit')->middleware(['auth', 'verified'])->name('technologies.uploadImage');
+        Route::delete('/{action}/delete-icon', [TechnologiesController::class, 'deleteIcon'])->where('action', 'add|edit')->middleware(['auth', 'verified'])->name('technologies.deleteImage');
     });
     Route::prefix('categories')->group(function () {
         Route::get('/{action}', [CategoriesController::class, 'showForm'])->where('action', 'add|edit')->middleware(['auth', 'verified'])->name('categories.showForm');
