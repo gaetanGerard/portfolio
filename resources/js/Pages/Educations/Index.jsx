@@ -1,8 +1,20 @@
 import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout';
-import { Head } from '@inertiajs/react';
+import { Head, usePage } from '@inertiajs/react';
 import Button from '@mui/material/Button';
 
 export default function Dashboard({ auth }) {
+    const { educations } = usePage().props;
+
+    const handleDeleteEducation = async (id) => {
+        try {
+            const response = await axios.delete(`/admin/dashboard/educations/delete/${id}`);
+            window.location.reload();
+            console.log(response.data.message);
+        } catch (error) {
+            console.error('Une erreur est survenue lors de la suppression de l\'éducation :', error);
+        }
+    };
+
     return (
         <AuthenticatedLayout
             user={auth.user}
@@ -14,10 +26,19 @@ export default function Dashboard({ auth }) {
                 <div className="max-w-7xl mx-auto sm:px-6 lg:px-8">
                     <div className="bg-white overflow-hidden shadow-sm sm:rounded-lg">
                         <ul className="p-6 text-gray-900">
-                            Aucune Education trouvées
+                        {educations.length > 0 ? educations.map((education, index) => (
+                                <li key={index}>
+                                    <h3>Nom de l'école : {education.school_name}</h3>
+                                    <p>Description : {education.description}</p>
+                                    <div className="button-group">
+                                        <Button variant="contained" className="mt-2" color="warning" href={`/admin/dashboard/educations/edit?id=${education.id}`}>Modifier</Button>
+                                        <Button variant="contained" className="mt-2" color="error" onClick={() => handleDeleteEducation(education.id)}>Supprimer</Button>
+                                    </div>
+                                </li>
+                            ))  : <p>Aucun projet n'a été trouvé.</p>}
                         </ul>
                     </div>
-                    <Button variant="contained" className="my-2" href='/admin/dashboard/experiences/add'>Ajouter une Education</Button>
+                    <Button variant="contained" className="my-2" href='/admin/dashboard/educations/add'>Ajouter une Education</Button>
                 </div>
             </div>
         </AuthenticatedLayout>

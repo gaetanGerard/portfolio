@@ -21,7 +21,7 @@ const VisuallyHiddenInput = styled('input')({
   });
 
 export const ProjectForm = () => {
-    const {project, action} = usePage().props;
+    const {project, technologies, action} = usePage().props;
     const [imgError, setImgError] = useState("");
     const [formData, setFormData] = useState({
         title: action==='edit' ? project.title : '',
@@ -227,7 +227,7 @@ export const ProjectForm = () => {
             <Autocomplete
                 multiple
                 id="used_technologies"
-                options={listOfTechnologies.map((option) => option.name)}
+                options={technologies.map((option) => option.name)}
                 freeSolo
                 onChange={handleTechnoChange}
                 defaultValue={action === 'edit' && project ? project.used_technologies : []}

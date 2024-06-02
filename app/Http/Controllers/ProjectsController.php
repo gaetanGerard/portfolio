@@ -32,6 +32,7 @@ class ProjectsController extends Controller
     {
 
         $project = null;
+        $technologies = Technologies::all();
 
         if ($action == 'edit') {
             $projectId = $request->query('id');
@@ -40,7 +41,7 @@ class ProjectsController extends Controller
                 return Inertia::render('Projects/add', ['status' => '404']);
             }
         }
-        return Inertia::render('Projects/Add', ['action' => $action, 'project' => $project]);
+        return Inertia::render('Projects/Add', ['action' => $action, 'project' => $project, 'technologies' => $technologies]);
     }
 
     public function handleForm(Request $request, $action)
