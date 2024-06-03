@@ -11,6 +11,13 @@ use Inertia\Inertia;
 
 class TechnologiesController extends Controller
 {
+
+    public function index()
+    {
+        $technologies = Technologies::all();
+        return Inertia::render('Technologies/Index', ['technologies' => $technologies]);
+    }
+
     public function showForm($action, Request $request)
     {
 
@@ -51,7 +58,7 @@ class TechnologiesController extends Controller
             $technology->update($validatedData);
         }
 
-        return Redirect::to('/admin/dashboard');
+        return response()->json(['success' => true, "message" => "Technologie ajouté avec succès"]);
     }
 
     public function destroy(Request $request, $id)

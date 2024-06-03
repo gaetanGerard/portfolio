@@ -9,6 +9,13 @@ use Inertia\Inertia;
 
 class CategoriesController extends Controller
 {
+
+    public function index()
+    {
+        $technoCategories = TechnoCategory::all();
+        return Inertia::render('Categories/Index', ['categories' => $technoCategories]);
+    }
+
     public function showForm($action, Request $request)
     {
 
@@ -43,7 +50,7 @@ class CategoriesController extends Controller
             $technoCategories->update($validatedData);
         }
 
-        return Redirect::to('/admin/dashboard');
+        return response()->json(['success' => true, "message" => "Catégorie ajouté avec succès"]);
     }
 
     public function destroy($id)

@@ -83,7 +83,7 @@ class EducationsController extends Controller
             $education->update($validatedData);
         }
 
-        return response()->json(['success' => true, 'education' => $education]);
+        return response()->json(['success' => true, "message" => "Education ajouté avec succès"]);
     }
 
     public function destroy($id)

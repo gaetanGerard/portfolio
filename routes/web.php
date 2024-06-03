@@ -34,6 +34,7 @@ Route::prefix('admin/dashboard')->group(function () {
         Route::delete('/{action}/delete-image', [ProjectsController::class, 'deleteImage'])->where('action', 'add|edit')->middleware(['auth', 'verified'])->name('projects.deleteImage');
     });
     Route::prefix('technologies')->group(function () {
+        Route::get('/', [TechnologiesController::class, 'index'])->middleware(['auth', 'verified'])->name('technologies.index');
         Route::get('/{action}', [TechnologiesController::class, 'showForm'])->where('action', 'add|edit')->middleware(['auth', 'verified'])->name('technologies.showForm');
         Route::post('/{action}', [TechnologiesController::class, 'handleForm'])->where('action', 'add|edit')->middleware(['auth', 'verified'])->name('technologies.store');
         Route::delete('/delete/{id}', [TechnologiesController::class, 'destroy'])->middleware(['auth', 'verified'])->name('technologies.destroy');
@@ -41,6 +42,7 @@ Route::prefix('admin/dashboard')->group(function () {
         Route::delete('/{action}/delete-icon', [TechnologiesController::class, 'deleteIcon'])->where('action', 'add|edit')->middleware(['auth', 'verified'])->name('technologies.deleteImage');
     });
     Route::prefix('categories')->group(function () {
+        Route::get('/', [CategoriesController::class, 'index'])->middleware(['auth', 'verified'])->name('categories.index');
         Route::get('/{action}', [CategoriesController::class, 'showForm'])->where('action', 'add|edit')->middleware(['auth', 'verified'])->name('categories.showForm');
         Route::post('/{action}', [CategoriesController::class, 'handleForm'])->where('action', 'add|edit')->middleware(['auth', 'verified'])->name('categories.store');
         Route::delete('/delete/{id}', [CategoriesController::class, 'destroy'])->middleware(['auth', 'verified'])->name('categories.destroy');

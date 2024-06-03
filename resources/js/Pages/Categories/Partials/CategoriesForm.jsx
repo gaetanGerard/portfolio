@@ -1,5 +1,5 @@
-import React, {useState, useEffect} from 'react';
-import { usePage } from '@inertiajs/react';
+import React, {useEffect} from 'react';
+import { usePage, router } from '@inertiajs/react';
 import axios from 'axios';
 import TextField from '@mui/material/TextField';
 import Button from '@mui/material/Button';
@@ -38,7 +38,9 @@ const CategoriesForm = () => {
 
         try {
             const response = await axios.post(url, formDataToSend);
-            window.location.href = '/admin/dashboard';
+            if (response.data.success) {
+                router.get(document.referrer, response.data.experience);
+            }
           } catch (error) {
             console.error('Une erreur est survenu lorsque vous avez essayer d\'ajouter une catégorie : ', error);
         }

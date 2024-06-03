@@ -1,5 +1,5 @@
 import React, {useState, useEffect} from 'react';
-import { usePage } from '@inertiajs/react';
+import { usePage, router } from '@inertiajs/react';
 import axios from 'axios';
 import { styled } from '@mui/material/styles';
 import TextField from '@mui/material/TextField';
@@ -34,46 +34,6 @@ export const ProjectForm = () => {
         description: action==='edit' ? project.description : ''
     });
     const [selectedImg, setSelectedImg] = useState([]);
-
-    const listOfTechnologies = [
-        { name: 'React' },
-        { name: 'Laravel' },
-        { name: 'Tailwind CSS' },
-        { name: 'MySQL' },
-        { name: 'MongoDB' },
-        { name: 'Node.js' },
-        { name: 'Express.js' },
-        { name: 'Django' },
-        { name: 'Flask' },
-        { name: 'Python' },
-        { name: 'PHP' },
-        { name: 'JavaScript' },
-        { name: 'TypeScript' },
-        { name: 'HTML' },
-        { name: 'CSS' },
-        { name: 'SASS' },
-        { name: 'SCSS' },
-        { name: 'Bootstrap' },
-        { name: 'Material-UI' },
-        { name: 'GraphQL' },
-        { name: 'REST API' },
-        { name: 'WebSockets' },
-        { name: 'Docker' },
-        { name: 'Kubernetes' },
-        { name: 'Git' },
-        { name: 'GitHub' },
-        { name: 'GitLab' },
-        { name: 'Bitbucket' },
-        { name: 'AWS' },
-        { name: 'GCP' },
-        { name: 'Firebase' },
-        { name: 'PostgreSQL' },
-        { name: 'SQLite' },
-        { name: 'Redis' },
-        { name: 'Prometheus' },
-        { name: 'Grafana' },
-        { name: 'Nginx' }
-    ]
 
     useEffect(() => {
         axios.interceptors.request.use(config => {
@@ -209,7 +169,9 @@ export const ProjectForm = () => {
 
         try {
             const response = await axios.post(url, formDataToSend);
-            window.location.href = '/admin/dashboard';
+            if (response.data.success) {
+                router.get(document.referrer, response.data.experience);
+            }
           } catch (error) {
             console.error('Une erreur est survenu lorsque vous avez essayer d\'ajouter un projet : ', error);
         }

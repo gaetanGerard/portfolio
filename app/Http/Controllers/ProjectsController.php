@@ -68,7 +68,7 @@ class ProjectsController extends Controller
             $project->update($validatedData);
         }
 
-        return Redirect::to('/admin/dashboard');
+        return response()->json(['success' => true, "message" => "Projet ajouté avec succès"]);
     }
 
     public function destroy(Request $request, $id)

@@ -74,7 +74,7 @@ class ExperiencesController extends Controller
             $experience->update($validatedData);
         }
 
-        return response()->json(['success' => true, 'experience' => $experience]);
+        return response()->json(['success' => true, "message" => "Expérience ajouté avec succès"]);
     }
 
     public function destroy($id)
