@@ -5,7 +5,6 @@ namespace App\Http\Controllers;
 use App\Models\Experience;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Redirect;
 use Inertia\Inertia;
 
 class ExperiencesController extends Controller
@@ -18,9 +17,19 @@ class ExperiencesController extends Controller
         return Inertia::render('Experiences/Index', ['experiences' => $experiences]);
     }
 
+    public function show($id)
+    {
+        $experience = Experience::find($id);
+
+        if (!$experience) {
+            return Inertia::render('Experiences/Show', ['status' => '404']);
+        }
+
+        return Inertia::render('Experiences/Show', ['experience' => $experience]);
+    }
+
     public function showForm($action, Request $request)
     {
-
         $experience = null;
 
         if ($action == 'edit') {
@@ -65,7 +74,7 @@ class ExperiencesController extends Controller
             $experience->update($validatedData);
         }
 
-        return Redirect::to('/admin/dashboard/experiences');
+        return response()->json(['success' => true, 'experience' => $experience]);
     }
 
     public function destroy($id)

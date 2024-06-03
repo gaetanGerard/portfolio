@@ -2,7 +2,7 @@ import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout';
 import { Head, usePage } from '@inertiajs/react';
 import Button from '@mui/material/Button';
 
-export default function Dashboard({ auth }) {
+export default function Index({ auth }) {
     const { experiences } = usePage().props;
 
     const handleDeleteExperience = async (id) => {
@@ -31,6 +31,7 @@ export default function Dashboard({ auth }) {
                                         <h3>Nom de l'entreprise : {experience.company_name}</h3>
                                         <p>Titre du job : {experience.job_title}</p>
                                         <div className="button-group">
+                                            <Button variant="contained" className="mt-2" href={`/admin/dashboard/experiences/experience/${experience.id}`}>Voire</Button>
                                             <Button variant="contained" className="mt-2" color="warning" href={`/admin/dashboard/experiences/edit?id=${experience.id}`}>Modifier</Button>
                                             <Button variant="contained" className="mt-2" color="error" onClick={() => handleDeleteExperience(experience.id)}>Supprimer</Button>
                                         </div>

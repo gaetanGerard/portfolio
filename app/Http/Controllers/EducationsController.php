@@ -22,6 +22,17 @@ class EducationsController extends Controller
         ]);
     }
 
+    public function show($id)
+    {
+        $education = Education::find($id);
+
+        if (!$education) {
+            return Inertia::render('Educations/Show', ['status' => '404']);
+        }
+
+        return Inertia::render('Educations/Show', ['education' => $education]);
+    }
+
     public function showForm($action, Request $request)
     {
 
@@ -72,7 +83,7 @@ class EducationsController extends Controller
             $education->update($validatedData);
         }
 
-        return Redirect::to('/admin/dashboard/educations');
+        return response()->json(['success' => true, 'education' => $education]);
     }
 
     public function destroy($id)

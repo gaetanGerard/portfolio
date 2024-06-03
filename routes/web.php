@@ -22,8 +22,9 @@ Route::get('/', function () {
     ]);
 });
 Route::prefix('admin/dashboard')->group(function () {
-    Route::get('/', [ProjectsController::class, 'index'])->middleware(['auth', 'verified'])->name('dashboard');
+    Route::get('/', [ProjectsController::class, 'dashboard'])->middleware(['auth', 'verified'])->name('dashboard');
     Route::prefix('projects')->group(function () {
+        Route::get('/', [ProjectsController::class, 'index'])->middleware(['auth', 'verified'])->name('projects.index');
         Route::get('/{action}', [ProjectsController::class, 'showForm'])->where('action', 'add|edit')->middleware(['auth', 'verified'])->name('projects.showForm');
         Route::post('/{action}', [ProjectsController::class, 'handleForm'])->where('action', 'add|edit')->middleware(['auth', 'verified'])->name('projects.store');
         Route::delete('/delete/{id}', [ProjectsController::class, 'destroy'])->middleware(['auth', 'verified'])->name('projects.destroy');
@@ -44,12 +45,14 @@ Route::prefix('admin/dashboard')->group(function () {
     });
     Route::prefix('experiences')->group(function () {
         Route::get('/', [ExperiencesController::class, 'index'])->middleware(['auth', 'verified'])->name('experiences.index');
+        Route::get('/experience/{id}', [ExperiencesController::class, 'show'])->middleware(['auth', 'verified'])->name('experiences.show');
         Route::get('/{action}', [ExperiencesController::class, 'showForm'])->where('action', 'add|edit')->middleware(['auth', 'verified'])->name('experiences.showForm');
         Route::post('/{action}', [ExperiencesController::class, 'handleForm'])->where('action', 'add|edit')->middleware(['auth', 'verified'])->name('experiences.store');
         Route::delete('/delete/{id}', [ExperiencesController::class, 'destroy'])->middleware(['auth', 'verified'])->name('experiences.destroy');
     });
     Route::prefix('educations')->group(function () {
         Route::get('/', [EducationsController::class, 'index'])->middleware(['auth', 'verified'])->name('education.index');
+        Route::get('/education/{id}', [EducationsController::class, 'show'])->middleware(['auth', 'verified'])->name('education.show');
         Route::get('/{action}', [EducationsController::class, 'showForm'])->where('action', 'add|edit')->middleware(['auth', 'verified'])->name('eductation.showForm');
         Route::post('/{action}', [EducationsController::class, 'handleForm'])->where('action', 'add|edit')->middleware(['auth', 'verified'])->name('eductation.store');
         Route::delete('/delete/{id}', [EducationsController::class, 'destroy'])->middleware(['auth', 'verified'])->name('eductation.destroy');

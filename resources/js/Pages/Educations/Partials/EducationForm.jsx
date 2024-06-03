@@ -1,5 +1,5 @@
 import React, {useState, useEffect} from 'react';
-import { usePage } from '@inertiajs/react';
+import { usePage, router } from '@inertiajs/react';
 import axios from 'axios';
 import TextField from '@mui/material/TextField';
 import Button from '@mui/material/Button';
@@ -66,8 +66,8 @@ const EducationForm = () => {
         formDataToSend.append('school_name', formData.school_name);
         formDataToSend.append('degree', formData.degree);
         formDataToSend.append('place_of_study', formData.place_of_study);
-        formDataToSend.append('start_date', formData.start_date);
-        formDataToSend.append('end_date', formData.end_date);
+        formDataToSend.append('start_date', dayjs(formData.start_date).format('DD/MM/YYYY'));
+        formDataToSend.append('end_date', formData.is_current ? '' : dayjs(formData.end_date).format('DD/MM/YYYY'));
         formDataToSend.append('is_current', formData.is_current);
         formDataToSend.append('description', formData.description);
 
@@ -77,7 +77,9 @@ const EducationForm = () => {
 
         try {
             const response = await axios.post(url, formDataToSend);
-            window.location.href = '/admin/dashboard/educations';
+            if (response.data.success) {
+                router.get(document.referrer, response.data.experience);
+            }
           } catch (error) {
             console.error('Une erreur est survenu lorsque vous avez essayer d\'ajouter une éducation : ', error);
         }
@@ -138,7 +140,7 @@ const EducationForm = () => {
             required
             />
         </div>
-        <Button variant="contained" type="submit">{action === "edit" ? "Modifier l'éducation'" : "Ajouter une éducation"}</Button>
+        <Button variant="contained" type="submit">{action === "edit" ? "Modifier l'éducation" : "Ajouter une éducation"}</Button>
     </form>
   )
 }
