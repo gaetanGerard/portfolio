@@ -10,16 +10,16 @@ import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
 import FormControlLabel from '@mui/material/FormControlLabel';
 import Checkbox from '@mui/material/Checkbox';
 
-const EducationForm = () => {
-    const {education, action} = usePage().props;
+const ExperienceForm = () => {
+    const {experience, action} = usePage().props;
     const [formData, setFormData] = useState({
-        school_name: action === 'edit' ? education.school_name : '',
-        degree: action === 'edit' ? education.degree : '',
-        place_of_study: action === 'edit' ? education.place_of_study : '',
-        start_date: action === 'edit' ? education.start_date : '',
-        end_date: action === 'edit' ? education.end_date : '',
+        company_name: action === 'edit' ? experience.company_name : '',
+        company_location: action === 'edit' ? experience.company_location : '',
+        job_title: action === 'edit' ? experience.job_title : '',
+        start_date: action === 'edit' ? experience.start_date : '',
+        end_date: action === 'edit' ? experience.end_date : '',
         is_current: false,
-        description: action === 'edit' ? education.description : '',
+        description: action === 'edit' ? experience.description : '',
     });
 
     useEffect(() => {
@@ -31,11 +31,11 @@ const EducationForm = () => {
         if(action === "edit") {
             setFormData({
                 ...formData,
-                is_current: education.is_current
+                is_current: experience.is_current
             })
         }
 
-    }, [action, education]);
+    }, [action, experience]);
 
     const handleInputChange = (e) => {
         setFormData({
@@ -61,44 +61,45 @@ const EducationForm = () => {
 
     const handleSubmit = async (e) => {
         e.preventDefault();
-        const url = `/admin/dashboard/educations/${action}`;
+        const url = `/admin/dashboard/experiences/${action}`;
         const formDataToSend = new FormData();
-        formDataToSend.append('school_name', formData.school_name);
-        formDataToSend.append('degree', formData.degree);
-        formDataToSend.append('place_of_study', formData.place_of_study);
+        formDataToSend.append('company_name', formData.company_name);
+        formDataToSend.append('company_location', formData.company_location);
+        formDataToSend.append('job_title', formData.job_title);
         formDataToSend.append('start_date', formData.start_date);
         formDataToSend.append('end_date', formData.end_date);
         formDataToSend.append('is_current', formData.is_current);
         formDataToSend.append('description', formData.description);
 
         if (action === 'edit') {
-            formDataToSend.append('id', education.id);
+            formDataToSend.append('id', experience.id);
         }
 
         try {
             const response = await axios.post(url, formDataToSend);
-            window.location.href = '/admin/dashboard/educations';
+            window.location.href = '/admin/dashboard/experiences';
           } catch (error) {
-            console.error('Une erreur est survenu lorsque vous avez essayer d\'ajouter une éducation : ', error);
+            console.error('Une erreur est survenu lorsque vous avez essayer d\'ajouter une experience : ', error);
         }
     }
+
 
   return (
     <form onSubmit={handleSubmit}>
         <div>
-            <TextField type="text" id="school_name" label="Nom de l'école" onChange={handleInputChange} variant="filled" name="school_name" required defaultValue={action === 'edit' ? education.school_name : null} />
+            <TextField type="text" id="company_name" label="Nom de l'entreprise'" onChange={handleInputChange} variant="filled" name="company_name" required defaultValue={action === 'edit' ? experience.company_name : null} />
         </div>
         <div>
-            <TextField type="text" id="degree" label="Diplôme" onChange={handleInputChange} variant="filled" name="degree" required defaultValue={action === 'edit' ? education.degree : null} />
+            <TextField type="text" id="company_location" label="Lieu de travail" onChange={handleInputChange} variant="filled" name="company_location" required defaultValue={action === 'edit' ? experience.company_location : null} />
         </div>
         <div>
-            <TextField type="text" id="place_of_study" label="Lieux des études" onChange={handleInputChange} variant="filled" name="place_of_study" required defaultValue={action === 'edit' ? education.place_of_study : null} />
+            <TextField type="text" id="job_title" label="Titre du job" onChange={handleInputChange} variant="filled" name="job_title" required defaultValue={action === 'edit' ? experience.job_title : null} />
         </div>
         <div>
             <LocalizationProvider dateAdapter={AdapterDayjs}>
                 <DatePicker
                     label="Date de début"
-                    defaultValue={action === "edit" ? dayjs(education.start_date, "DD/MM/YYYY") : dayjs()}
+                    defaultValue={action === "edit" ? dayjs(experience.start_date, "DD/MM/YYYY") : dayjs()}
                     onChange={(date) => setFormData({...formData, start_date: dayjs(date).format('DD/MM/YYYY')})}
                     renderInput={(params) => <TextField {...params} />}
                     format="DD/MM/YYYY"
@@ -131,16 +132,16 @@ const EducationForm = () => {
             label="Description"
             multiline
             rows={4}
-            defaultValue={action === 'edit' ? education.description : "Description du parcours scolaire"}
+            defaultValue={action === 'edit' ? experience.description : "Description du parcours professionnel"}
             variant="filled"
             name="description"
             onChange={handleInputChange}
             required
             />
         </div>
-        <Button variant="contained" type="submit">{action === "edit" ? "Modifier l'éducation'" : "Ajouter une éducation"}</Button>
+        <Button variant="contained" type="submit">{action === "edit" ? "Modifier l'expérience'" : "Ajouter une expérience"}</Button>
     </form>
   )
 }
 
-export default EducationForm
+export default ExperienceForm

@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Education;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Redirect;
@@ -47,11 +48,16 @@ class EducationsController extends Controller
             'school_name' => 'required',
             'degree' => 'required',
             'place_of_study' => 'required',
-            'start_date' => 'required',
-            'end_date' => 'nullable',
+            'start_date' => 'required|date_format:d/m/Y',
+            'end_date' => 'nullable|date_format:d/m/Y',
             'is_current' => 'required|boolean',
             'description' => 'nullable',
         ]);
+
+        $validatedData['start_date'] = Carbon::createFromFormat('d/m/Y', $validatedData['start_date'])->format('Y-m-d');
+        if (!empty($validatedData['end_date'])) {
+            $validatedData['end_date'] = Carbon::createFromFormat('d/m/Y', $validatedData['end_date'])->format('Y-m-d');
+        }
 
         if ($action === 'add') {
             $education = Education::create($validatedData);

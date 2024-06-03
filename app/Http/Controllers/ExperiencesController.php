@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Experience;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Redirect;
 use Inertia\Inertia;
@@ -43,17 +44,22 @@ class ExperiencesController extends Controller
             'company_name' => 'required',
             'company_location' => 'required',
             'job_title' => 'required',
-            'start_date' => 'required',
-            'end_date' => 'nullable',
+            'start_date' => 'required|date_format:d/m/Y',
+            'end_date' => 'nullable|date_format:d/m/Y',
             'is_current' => 'required|boolean',
             'description' => 'nullable',
         ]);
+
+        $validatedData['start_date'] = Carbon::createFromFormat('d/m/Y', $validatedData['start_date'])->format('Y-m-d');
+        if (!empty($validatedData['end_date'])) {
+            $validatedData['end_date'] = Carbon::createFromFormat('d/m/Y', $validatedData['end_date'])->format('Y-m-d');
+        }
 
         if ($action === 'add') {
             $experience = Experience::create($validatedData);
         } else {
             $validatedData = array_merge($validatedData, $request->validate([
-                'id' => 'required|integer|exists:experience,id',
+                'id' => 'required|integer|exists:experiences,id',
             ]));
             $experience = Experience::find($validatedData['id']);
             $experience->update($validatedData);
