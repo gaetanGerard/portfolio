@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\CategoriesController;
+use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\EducationsController;
 use App\Http\Controllers\ExperiencesController;
 use App\Http\Controllers\ProfileController;
@@ -15,6 +16,7 @@ use Inertia\Inertia;
 
 
 
+
 Route::get('/', function () {
     return Inertia::render('Welcome', [
         'canLogin' => Route::has('login'),
@@ -22,7 +24,7 @@ Route::get('/', function () {
     ]);
 });
 Route::prefix('admin/dashboard')->group(function () {
-    Route::get('/', [ProjectsController::class, 'dashboard'])->middleware(['auth', 'verified'])->name('dashboard');
+    Route::get('/', [DashboardController::class, 'index'])->middleware(['auth', 'verified'])->name('dashboard');
     Route::prefix('projects')->group(function () {
         Route::get('/', [ProjectsController::class, 'index'])->middleware(['auth', 'verified'])->name('projects.index');
         Route::get('/{action}', [ProjectsController::class, 'showForm'])->where('action', 'add|edit')->middleware(['auth', 'verified'])->name('projects.showForm');

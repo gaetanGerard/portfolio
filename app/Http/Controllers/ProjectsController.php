@@ -15,19 +15,6 @@ use Inertia\Inertia;
 class ProjectsController extends Controller
 {
 
-    public function dashboard()
-    {
-        $projects = Projects::all();
-        $technoCategory = TechnoCategory::all();
-        $technologies = Technologies::all();
-
-        return Inertia::render('Dashboard', [
-            'projects' => $projects,
-            'technoCategory' => $technoCategory,
-            'technologies' => $technologies,
-        ]);
-    }
-
     public function index()
     {
         $projects = Projects::all();
