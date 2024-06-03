@@ -30,7 +30,7 @@ const Index = ({ auth }) => {
                                 <h3>Nom : {category.name}</h3>
                                 <p>Description : {category.description}</p>
                                 <div className="button-group">
-                                    <Button variant="contained" className="mt-2" href={`/admin/dashboard/categories/category/${category.id}`}>Voire</Button>
+                                    <Button variant="contained" className="mt-2" href={`/admin/dashboard/categories/category/${category.id}`}>Détail</Button>
                                     <Button variant="contained" className="mt-2" color="warning" href={`/admin/dashboard/categories/edit?id=${category.id}`}>Modifier</Button>
                                     <Button variant="contained" className="mt-2" color="error" onClick={() => handleDeleteCategory(category.id)}>Supprimer</Button>
                                 </div>

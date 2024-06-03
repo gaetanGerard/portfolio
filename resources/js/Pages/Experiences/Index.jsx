@@ -31,7 +31,7 @@ export default function Index({ auth }) {
                                         <h3>Nom de l'entreprise : {experience.company_name}</h3>
                                         <p>Titre du job : {experience.job_title}</p>
                                         <div className="button-group">
-                                            <Button variant="contained" className="mt-2" href={`/admin/dashboard/experiences/experience/${experience.id}`}>Voire</Button>
+                                            <Button variant="contained" className="mt-2" href={`/admin/dashboard/experiences/experience/${experience.id}`}>Détail</Button>
                                             <Button variant="contained" className="mt-2" color="warning" href={`/admin/dashboard/experiences/edit?id=${experience.id}`}>Modifier</Button>
                                             <Button variant="contained" className="mt-2" color="error" onClick={() => handleDeleteExperience(experience.id)}>Supprimer</Button>
                                         </div>
@@ -39,7 +39,7 @@ export default function Index({ auth }) {
                                 ))  : <p>Aucune expérience n'a été trouvé.</p>}
                         </ul>
                     </div>
-                    <Button variant="contained" className="my-2" href='/admin/dashboard/experiences/add'>Ajouter une expériences</Button>
+                    <Button variant="contained" className="my-2" href='/admin/dashboard/experiences/add'>Ajouter une expérience</Button>
                 </div>
             </div>
         </AuthenticatedLayout>

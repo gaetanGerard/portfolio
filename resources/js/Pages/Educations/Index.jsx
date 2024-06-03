@@ -31,7 +31,7 @@ export default function Index({ auth }) {
                                     <h3>Nom de l'école : {education.school_name}</h3>
                                     <p>Description : {education.description}</p>
                                     <div className="button-group">
-                                        <Button variant="contained" className="mt-2" href={`/admin/dashboard/educations/education/${education.id}`}>Voire</Button>
+                                        <Button variant="contained" className="mt-2" href={`/admin/dashboard/educations/education/${education.id}`}>Détail</Button>
                                         <Button variant="contained" className="mt-2" color="warning" href={`/admin/dashboard/educations/edit?id=${education.id}`}>Modifier</Button>
                                         <Button variant="contained" className="mt-2" color="error" onClick={() => handleDeleteEducation(education.id)}>Supprimer</Button>
                                     </div>
