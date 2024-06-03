@@ -33,6 +33,7 @@ const Index = ({ auth }) => {
                                 {project.demo_link != null ? (<p>Demo Link: {project.demo_link}</p>) : null}
                                 {project.github_repo != null ? (<p>Github: {project.github_repo}</p>) : null}
                                 <div className="button-group">
+                                    <Button variant="contained" className="mt-2" href={`/admin/dashboard/projects/project/${project.id}`}>Voire</Button>
                                     <Button variant="contained" className="mt-2" color="warning" href={`/admin/dashboard/projects/edit?id=${project.id}`}>Modifier</Button>
                                     <Button variant="contained" className="mt-2" color="error" onClick={() => handleDeleteProject(project.id)}>Supprimer</Button>
                                 </div>

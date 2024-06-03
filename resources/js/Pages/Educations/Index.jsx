@@ -36,7 +36,7 @@ export default function Index({ auth }) {
                                         <Button variant="contained" className="mt-2" color="error" onClick={() => handleDeleteEducation(education.id)}>Supprimer</Button>
                                     </div>
                                 </li>
-                            ))  : <p>Aucun projet n'a été trouvé.</p>}
+                            ))  : <p>Aucune éducation n'a été trouvé.</p>}
                         </ul>
                     </div>
                     <Button variant="contained" className="my-2" href='/admin/dashboard/educations/add'>Ajouter une Education</Button>

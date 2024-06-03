@@ -7,7 +7,6 @@ use App\Models\TechnoCategory;
 use App\Models\Technologies;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Log;
-use Illuminate\Support\Facades\Redirect;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
 use Inertia\Inertia;
@@ -22,6 +21,17 @@ class ProjectsController extends Controller
         return Inertia::render('Projects/Index', [
             'projects' => $projects
         ]);
+    }
+
+    public function show($id)
+    {
+        $project = Projects::find($id);
+        $categories = TechnoCategory::all();
+        $technologies = Technologies::all();
+        if (!$project) {
+            return Inertia::render('Projects/Index', ['status' => '404']);
+        }
+        return Inertia::render('Projects/Show', ['project' => $project, 'categories' => $categories, 'technologies' => $technologies]);
     }
 
     public function showForm($action, Request $request)

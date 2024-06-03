@@ -30,6 +30,7 @@ const Index = ({ auth }) => {
                                     <h3>Nom : {technology.name}</h3>
                                     <img src={`${technology.icon_path}`} alt={`${technology.name}`} style={{ width: '100px', height: '100px', objectFit: 'cover' }}  />
                                     <div className="button-group">
+                                        <Button variant="contained" className="mt-2" href={`/admin/dashboard/technologies/technology/${technology.id}`}>Voire</Button>
                                         <Button variant="contained" className="mt-2" color="warning" href={`/admin/dashboard/technologies/edit?id=${technology.id}`}>Modifier</Button>
                                         <Button variant="contained" className="mt-2" color="error" onClick={() => handleDeleteTechnology(technology.id)}>Supprimer</Button>
                                     </div>

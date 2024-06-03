@@ -22,7 +22,7 @@ class ExperiencesController extends Controller
         $experience = Experience::find($id);
 
         if (!$experience) {
-            return Inertia::render('Experiences/Show', ['status' => '404']);
+            return Inertia::render('Experiences/Index', ['status' => '404']);
         }
 
         return Inertia::render('Experiences/Show', ['experience' => $experience]);

@@ -27,6 +27,7 @@ Route::prefix('admin/dashboard')->group(function () {
     Route::get('/', [DashboardController::class, 'index'])->middleware(['auth', 'verified'])->name('dashboard');
     Route::prefix('projects')->group(function () {
         Route::get('/', [ProjectsController::class, 'index'])->middleware(['auth', 'verified'])->name('projects.index');
+        Route::get('/project/{id}', [ProjectsController::class, 'show'])->middleware(['auth', 'verified'])->name('projects.show');
         Route::get('/{action}', [ProjectsController::class, 'showForm'])->where('action', 'add|edit')->middleware(['auth', 'verified'])->name('projects.showForm');
         Route::post('/{action}', [ProjectsController::class, 'handleForm'])->where('action', 'add|edit')->middleware(['auth', 'verified'])->name('projects.store');
         Route::delete('/delete/{id}', [ProjectsController::class, 'destroy'])->middleware(['auth', 'verified'])->name('projects.destroy');
@@ -35,6 +36,7 @@ Route::prefix('admin/dashboard')->group(function () {
     });
     Route::prefix('technologies')->group(function () {
         Route::get('/', [TechnologiesController::class, 'index'])->middleware(['auth', 'verified'])->name('technologies.index');
+        Route::get('/technology/{id}', [TechnologiesController::class, 'show'])->middleware(['auth', 'verified'])->name('technologies.show');
         Route::get('/{action}', [TechnologiesController::class, 'showForm'])->where('action', 'add|edit')->middleware(['auth', 'verified'])->name('technologies.showForm');
         Route::post('/{action}', [TechnologiesController::class, 'handleForm'])->where('action', 'add|edit')->middleware(['auth', 'verified'])->name('technologies.store');
         Route::delete('/delete/{id}', [TechnologiesController::class, 'destroy'])->middleware(['auth', 'verified'])->name('technologies.destroy');
@@ -43,6 +45,7 @@ Route::prefix('admin/dashboard')->group(function () {
     });
     Route::prefix('categories')->group(function () {
         Route::get('/', [CategoriesController::class, 'index'])->middleware(['auth', 'verified'])->name('categories.index');
+        Route::get('/category/{id}', [CategoriesController::class, 'show'])->middleware(['auth', 'verified'])->name('categories.show');
         Route::get('/{action}', [CategoriesController::class, 'showForm'])->where('action', 'add|edit')->middleware(['auth', 'verified'])->name('categories.showForm');
         Route::post('/{action}', [CategoriesController::class, 'handleForm'])->where('action', 'add|edit')->middleware(['auth', 'verified'])->name('categories.store');
         Route::delete('/delete/{id}', [CategoriesController::class, 'destroy'])->middleware(['auth', 'verified'])->name('categories.destroy');

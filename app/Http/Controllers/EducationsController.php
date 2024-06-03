@@ -27,7 +27,7 @@ class EducationsController extends Controller
         $education = Education::find($id);
 
         if (!$education) {
-            return Inertia::render('Educations/Show', ['status' => '404']);
+            return Inertia::render('Educations/Index', ['status' => '404']);
         }
 
         return Inertia::render('Educations/Show', ['education' => $education]);

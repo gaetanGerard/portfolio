@@ -36,7 +36,7 @@ export default function Index({ auth }) {
                                             <Button variant="contained" className="mt-2" color="error" onClick={() => handleDeleteExperience(experience.id)}>Supprimer</Button>
                                         </div>
                                     </li>
-                                ))  : <p>Aucun projet n'a été trouvé.</p>}
+                                ))  : <p>Aucune expérience n'a été trouvé.</p>}
                         </ul>
                     </div>
                     <Button variant="contained" className="my-2" href='/admin/dashboard/experiences/add'>Ajouter une expériences</Button>

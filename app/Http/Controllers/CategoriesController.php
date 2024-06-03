@@ -16,6 +16,15 @@ class CategoriesController extends Controller
         return Inertia::render('Categories/Index', ['categories' => $technoCategories]);
     }
 
+    public function show($id)
+    {
+        $technoCategories = TechnoCategory::find($id);
+        if (!$technoCategories) {
+            return Inertia::render('Categories/Index', ['status' => '404']);
+        }
+        return Inertia::render('Categories/Show', ['category' => $technoCategories]);
+    }
+
     public function showForm($action, Request $request)
     {
 

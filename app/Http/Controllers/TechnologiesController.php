@@ -18,6 +18,16 @@ class TechnologiesController extends Controller
         return Inertia::render('Technologies/Index', ['technologies' => $technologies]);
     }
 
+    public function show($id)
+    {
+        $technology = Technologies::find($id);
+        $categories = TechnoCategory::all();
+        if (!$technology) {
+            return Inertia::render('Technologies/Index', ['status' => '404']);
+        }
+        return Inertia::render('Technologies/Show', ['technology' => $technology, 'categories' => $categories]);
+    }
+
     public function showForm($action, Request $request)
     {
 

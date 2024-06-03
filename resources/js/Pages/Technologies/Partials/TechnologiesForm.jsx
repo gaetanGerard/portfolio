@@ -30,12 +30,20 @@ const TechnologiesForm = () => {
         technology_url: action === 'edit' ? technology.technology_url : '',
         skill_level: action === 'edit' ? technology.skill_level : '',
     });
+    const [categoryName, setCategoryName] = useState('');
     useEffect(() => {
         axios.interceptors.request.use(config => {
             config.headers['X-CSRF-TOKEN'] = document.querySelector('meta[name="csrf-token"]').getAttribute('content');
             return config;
         });
-    }, []);
+
+        technoCategories.map((category) => {
+            if (category.id === formData.category_id) {
+                setCategoryName(category.name);
+            }
+        });
+
+    }, [technoCategories, formData.category_id]);
 
     const sliderStep = [
         {
@@ -144,7 +152,8 @@ const TechnologiesForm = () => {
                 id="combo-box-demo"
                 options={technoCategories.map((option) => option.name)}
                 onChange={handleCategoryChange}
-                defaultValue={action === 'edit' && technology ? technoCategories[technology.category_id].name : null}
+                value={action === 'edit' ? categoryName : null}
+                isOptionEqualToValue={(option, value) => option === value}
                 sx={{ width: 300 }}
                 renderInput={(params) => <TextField {...params} label="Catégories" variant="filled" />}
             />
