@@ -16,6 +16,7 @@ const CategoriesForm = () => {
     const [open, setOpen] = useState(false);
     const [message, setMessage] = useState('');
     const [severity, setSeverity] = useState('');
+    const [errorInput, setErrorInput] = useState({});
 
     useEffect(() => {
         axios.interceptors.request.use(config => {
@@ -72,6 +73,31 @@ const CategoriesForm = () => {
         }
     }
 
+    const handleBlur = (e) => {
+        let message = '';
+        if(e.target.name === 'name') message = 'Le nom de la catégorie est requis';
+        if(e.target.name === 'description') message = 'Une description de la catégorie est requise';
+
+        if(e.target.value.length === 0) {
+            setErrorInput({
+                ...errorInput,
+                [e.target.name]: {
+                    message,
+                    status: true
+                }
+
+            })
+        } else {
+            setErrorInput({
+                ...errorInput,
+                [e.target.name]: {
+                    message: '',
+                    status: false
+                }
+            })
+        }
+    }
+
   return (
     <div>
         <Snackbar open={open} autoHideDuration={5000} onClose={handleClose}>
@@ -81,11 +107,27 @@ const CategoriesForm = () => {
         </Snackbar>
         <form onSubmit={handleSubmit} className="grid gap-1 bg-white overflow-hidden shadow-sm sm:rounded-lg grid-rows-3 p-3">
             <div>
-                <TextField type="text" className="w-full" id="name" label="Nom de la Catégorie" onChange={handleInputChange} variant="outlined" name="name" required defaultValue={action === 'edit' ? categories.name : null} />
+                <TextField
+                    type="text"
+                    onBlur={handleBlur}
+                    error={errorInput.name !== undefined ? errorInput.name.status : false}
+                    helperText={errorInput.name !== undefined ? errorInput.name.message : ''}
+                    className="w-full"
+                    id="name"
+                    label="Nom de la Catégorie"
+                    onChange={handleInputChange}
+                    variant="outlined"
+                    name="name"
+                    required
+                    defaultValue={action === 'edit' ? categories.name : null}
+                />
             </div>
             <div>
                 <TextField
                 id="description"
+                onBlur={handleBlur}
+                error={errorInput.description !== undefined ? errorInput.description.status : false}
+                helperText={errorInput.description !== undefined ? errorInput.description.message : ''}
                 label="Description"
                 multiline
                 rows={4}
