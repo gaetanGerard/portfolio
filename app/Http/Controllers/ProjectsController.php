@@ -52,6 +52,7 @@ class ProjectsController extends Controller
 
     public function handleForm(Request $request, $action)
     {
+        $message = '';
 
         $validatedData = $request->validate([
             'title' => 'required',
@@ -66,6 +67,7 @@ class ProjectsController extends Controller
 
         if ($action === 'add') {
             $project = Projects::create($validatedData);
+            $message = 'Projet ajouté avec succès';
         } elseif ($action === 'edit') {
             $validatedData = array_merge($validatedData, $request->validate([
                 'id' => 'required|integer|exists:projects,id',
@@ -76,9 +78,11 @@ class ProjectsController extends Controller
             // Log::debug($validatedData);
 
             $project->update($validatedData);
+
+            $message = 'Projet modifié avec succès';
         }
 
-        return response()->json(['success' => true, "message" => "Projet ajouté avec succès"]);
+        return response()->json(['success' => true, "message" => $message]);
     }
 
     public function destroy(Request $request, $id)

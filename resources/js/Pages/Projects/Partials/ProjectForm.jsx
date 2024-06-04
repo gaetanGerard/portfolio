@@ -7,6 +7,8 @@ import Button from '@mui/material/Button';
 import CloudUploadIcon from '@mui/icons-material/CloudUpload';
 import Chip from '@mui/material/Chip';
 import Autocomplete from '@mui/material/Autocomplete';
+import Snackbar from '@mui/material/Snackbar';
+import Alert from '@mui/material/Alert';
 
 const VisuallyHiddenInput = styled('input')({
     clip: 'rect(0 0 0 0)',
@@ -34,6 +36,9 @@ export const ProjectForm = () => {
         description: action==='edit' ? project.description : ''
     });
     const [selectedImg, setSelectedImg] = useState([]);
+    const [open, setOpen] = useState(false);
+    const [message, setMessage] = useState('');
+    const [severity, setSeverity] = useState('');
 
     useEffect(() => {
         axios.interceptors.request.use(config => {
@@ -44,8 +49,17 @@ export const ProjectForm = () => {
         if(action === 'edit') {
             setSelectedImg(project.images);
         }
-
     }, []);
+
+    const handleClose = (event, reason) => {
+        if (reason === 'clickaway') {
+          return;
+        }
+
+        setOpen(false);
+        setMessage('');
+        setSeverity('');
+      };
 
     // Associé la clé name de l'input à la clé du state et ajouter la valeur de l'input à la clé du state
     const handleInputChange = (e) => {
@@ -170,108 +184,126 @@ export const ProjectForm = () => {
         try {
             const response = await axios.post(url, formDataToSend);
             if (response.data.success) {
+                const message = response.data.message;
+                const open = true;
+                const severity = 'success';
+                localStorage.setItem('snackbarMessage', message);
+                localStorage.setItem('snackbarState', open);
+                localStorage.setItem('snackbarSeverity', severity);
                 router.get(document.referrer, response.data.experience);
             }
           } catch (error) {
+            const message = action === 'edit' ? 'Une erreur est survenu lorsque vous avez essayer de modifier un projet. Veuillez réessayer.' : 'Une erreur est survenu lorsque vous avez essayer d\'ajouter un projet. Veuillez réessayer.';
+            setOpen(true);
+            setMessage(message);
+            setSeverity('error');
             console.error('Une erreur est survenu lorsque vous avez essayer d\'ajouter un projet : ', error);
         }
     }
 
   return (
-    <form onSubmit={handleSubmit}>
-        <div>
-            <TextField type="text" id="title" label="Titre du projet" onChange={handleInputChange} variant="filled" name="title" required defaultValue={action === 'edit' ? project.title : null} />
-        </div>
-        <div>
-            <TextField type="text" id="short_description" label="Courte description du projet" onChange={handleInputChange} variant="filled" name="short_description" required defaultValue={action === 'edit' ? project.short_description : null} />
-        </div>
-        <div>
-            <Autocomplete
-                multiple
-                id="used_technologies"
-                options={technologies.map((option) => option.name)}
-                freeSolo
-                onChange={handleTechnoChange}
-                defaultValue={action === 'edit' && project ? project.used_technologies : []}
-                renderTags={(value, getTagProps) =>
-                value.map((option, index) => (
-                    <Chip variant="outlined" label={option} {...getTagProps({ index })} />
-                ))
-                }
-                renderInput={(params) => (
-                <TextField
-                    {...params}
-                    variant="filled"
-                    label="Technologies utilisées"
-                    placeholder="Technologies"
+    <div>
+        <Snackbar open={open} autoHideDuration={5000} onClose={handleClose}>
+            <Alert onClose={handleClose} severity={severity} sx={{ width: '100%' }}>
+                {message}
+            </Alert>
+        </Snackbar>
+        <form onSubmit={handleSubmit}>
+            <div>
+                <TextField type="text" id="title" label="Titre du projet" onChange={handleInputChange} variant="filled" name="title" required defaultValue={action === 'edit' ? project.title : null} />
+            </div>
+            <div>
+                <TextField type="text" id="short_description" label="Courte description du projet" onChange={handleInputChange} variant="filled" name="short_description" required defaultValue={action === 'edit' ? project.short_description : null} />
+            </div>
+            <div>
+                <Autocomplete
+                    multiple
+                    id="used_technologies"
+                    options={technologies.map((option) => option.name)}
+                    freeSolo
+                    onChange={handleTechnoChange}
+                    defaultValue={action === 'edit' && project ? project.used_technologies : []}
+                    renderTags={(value, getTagProps) =>
+                    value.map((option, index) => (
+                        <Chip variant="outlined" label={option} {...getTagProps({ index })} />
+                    ))
+                    }
+                    renderInput={(params) => (
+                    <TextField
+                        {...params}
+                        variant="filled"
+                        label="Technologies utilisées"
+                        placeholder="Technologies"
+                    />
+                    )}
                 />
-                )}
-            />
-        </div>
-        <div>
-            <Button
-                component="label"
-                role={undefined}
-                variant="contained"
-                tabIndex={-1}
-                startIcon={<CloudUploadIcon />}
-                id="images"
-                name="images"
-                onChange={handleImageChange}
-                multiple
+            </div>
+            <div>
+                <Button
+                    component="label"
+                    role={undefined}
+                    variant="contained"
+                    tabIndex={-1}
+                    startIcon={<CloudUploadIcon />}
+                    id="images"
+                    name="images"
+                    onChange={handleImageChange}
+                    multiple
+                    required
+                    >
+                    Ajouter une image
+                    <VisuallyHiddenInput type="file" />
+                </Button>
+            </div>
+            <div style={{ display: 'flex', flexWrap: 'wrap' }}>
+                <label>Liste d'image</label>
+                {imgError.length > 0 ? <p>{imgError}</p> : null}
+                {selectedImg.map((img, index) => (
+                    <div style={{ position: 'relative', margin: '10px' }} key={index} >
+                        <button
+                                onClick={(e) => handleDeleteImg(e, index)}
+                                style={{
+                                    position: 'absolute',
+                                    top: '0',
+                                    right: '0',
+                                    backgroundColor: 'red',
+                                    color: 'white',
+                                    border: 'none',
+                                    cursor: 'pointer'
+                                }}
+                            >
+                            Supprimer
+                        </button>
+                        <img src={img} alt={`Image ${index}`} style={{ cursor: 'pointer', width: '100px', height: '100px', objectFit: 'cover' }} onClick={() => handleSelectedImg(index)} />
+                    </div>))}
+            </div>
+            <div>
+                <label>Image de couverture</label>
+                {currentCoverImg()}
+            </div>
+            <div>
+                <TextField type="url" id="demo_link" label="Lien démo" onChange={handleInputChange} variant="filled" name="demo_link" defaultValue={action === 'edit' ? project.demo_link : null} />
+            </div>
+            <div>
+                <TextField type="url" id="github_repo" label="Lien Github" onChange={handleInputChange} variant="filled" name="github_repo" defaultValue={action === 'edit' ? project.github_repo : null} />
+            </div>
+            <div>
+                <TextField
+                id="description"
+                label="Description"
+                multiline
+                rows={4}
+                defaultValue={action === 'edit' ? project.description : "Description du projet"}
+                variant="filled"
+                name="description"
+                onChange={handleInputChange}
                 required
-                >
-                Ajouter une image
-                <VisuallyHiddenInput type="file" />
-            </Button>
-        </div>
-        <div style={{ display: 'flex', flexWrap: 'wrap' }}>
-            <label>Liste d'image</label>
-            {imgError.length > 0 ? <p>{imgError}</p> : null}
-            {selectedImg.map((img, index) => (
-                <div style={{ position: 'relative', margin: '10px' }} key={index} >
-                    <button
-                            onClick={(e) => handleDeleteImg(e, index)}
-                            style={{
-                                position: 'absolute',
-                                top: '0',
-                                right: '0',
-                                backgroundColor: 'red',
-                                color: 'white',
-                                border: 'none',
-                                cursor: 'pointer'
-                            }}
-                        >
-                        Supprimer
-                    </button>
-                    <img src={img} alt={`Image ${index}`} style={{ cursor: 'pointer', width: '100px', height: '100px', objectFit: 'cover' }} onClick={() => handleSelectedImg(index)} />
-                </div>))}
-        </div>
-        <div>
-            <label>Image de couverture</label>
-            {currentCoverImg()}
-        </div>
-        <div>
-            <TextField type="url" id="demo_link" label="Lien démo" onChange={handleInputChange} variant="filled" name="demo_link" defaultValue={action === 'edit' ? project.demo_link : null} />
-        </div>
-        <div>
-            <TextField type="url" id="github_repo" label="Lien Github" onChange={handleInputChange} variant="filled" name="github_repo" defaultValue={action === 'edit' ? project.github_repo : null} />
-        </div>
-        <div>
-            <TextField
-            id="description"
-            label="Description"
-            multiline
-            rows={4}
-            defaultValue={action === 'edit' ? project.description : "Description du projet"}
-            variant="filled"
-            name="description"
-            onChange={handleInputChange}
-            required
-            />
-        </div>
-        <Button variant="contained" type="submit">{action === "edit" ? "Modifier le projet" : "Créer un projet"}</Button>
-    </form>
+                />
+            </div>
+            <Button variant="contained" type="submit">{action === "edit" ? "Modifier le projet" : "Créer un projet"}</Button>
+        </form>
+    </div>
+
   )
 }
 
