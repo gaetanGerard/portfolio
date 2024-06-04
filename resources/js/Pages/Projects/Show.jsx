@@ -8,25 +8,77 @@ import Tooltip from '@mui/material/Tooltip';
 import IconButton from '@mui/material/IconButton';
 import LanguageIcon from '@mui/icons-material/Language';
 import GitHubIcon from '@mui/icons-material/GitHub';
+import Snackbar from '@mui/material/Snackbar';
+import Alert from '@mui/material/Alert';
 
 const Show = ({ auth }) => {
     const {project, technologies, categories} = usePage().props;
     const [techArr, setTechArr] = useState([]);
+    const [open, setOpen] = useState(false);
+    const [message, setMessage] = useState('');
+    const [severity, setSeverity] = useState('');
 
     useEffect(() => {
+        const storedMessage = localStorage.getItem('snackbarMessage');
+        const storedOpen = localStorage.getItem('snackbarState') === 'true';
+        const storedSeverity = localStorage.getItem('snackbarSeverity');
+
+        if (storedMessage && storedOpen && storedSeverity !== null) {
+            setMessage(storedMessage);
+            setOpen(storedOpen);
+            setSeverity(storedSeverity);
+        }
+
+        if(open) {
+            const timeoutId = setTimeout(() => {
+                localStorage.removeItem('snackbarMessage');
+                localStorage.removeItem('snackbarState');
+                localStorage.removeItem('snackbarSeverity');
+
+                setMessage('');
+                setSeverity('');
+                setOpen(false);
+            }, 5000);
+
+            return () => clearTimeout(timeoutId);
+        }
+
         const matchedTechnologies = project.used_technologies.map(tech =>
             technologies.find(t => t.name === tech)
           );
 
         setTechArr(matchedTechnologies);
-    }, [project.used_technologies, technologies]);
+    }, [project.used_technologies, technologies, open]);
+
+
+    const handleClose = (event, reason) => {
+        if (reason === 'clickaway') {
+          return;
+        }
+
+        localStorage.removeItem('snackbarMessage');
+        localStorage.removeItem('snackbarState');
+        localStorage.removeItem('snackbarSeverity');
+        setOpen(false);
+      };
 
     const handleDeleteProject = async (id) => {
         try {
             const response = await axios.delete(`/admin/dashboard/projects/delete/${id}`);
+            const message = response.data.message;
+            const open = true;
+            const severity = 'success';
+            localStorage.setItem('snackbarMessage', message);
+            localStorage.setItem('snackbarState', open);
+            localStorage.setItem('snackbarSeverity', severity);
             window.location.href = '/admin/dashboard/projects';
-            console.log(response.data.message);
         } catch (error) {
+            const message = 'Une erreur est survenue lors de la suppression du projet.';
+            const open = true;
+            const severity = 'error';
+            localStorage.setItem('snackbarMessage', message);
+            localStorage.setItem('snackbarState', open);
+            localStorage.setItem('snackbarSeverity', severity);
             console.error('Une erreur est survenue lors de la suppression du projet :', error);
         }
     };
@@ -38,6 +90,11 @@ const Show = ({ auth }) => {
 >
     <Head title="Projet" />
     <div className="m-3">
+        <Snackbar open={open} autoHideDuration={5000} onClose={handleClose}>
+            <Alert onClose={handleClose} severity={severity} sx={{ width: '100%' }}>
+                {message}
+            </Alert>
+        </Snackbar>
         <div className="grid md:grid-cols-2 gap-3 sm:grid-cols-1">
             <div className="bg-white overflow-hidden shadow-sm sm:rounded-lg p-3">
                 <div className="grid lg:grid-cols-2 gap-3 md:grid-cols-1">
