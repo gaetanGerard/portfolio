@@ -21,7 +21,7 @@ export default function Authenticated({ user, header, children }) {
                             </div>
 
                             <div className="hidden space-x-8 sm:-my-px sm:ms-10 sm:flex">
-                            <NavLink href={route('dashboard')} active={route().current('dashboard')}>
+                                <NavLink href={route('dashboard')} active={route().current('dashboard')}>
                                     Dashboard
                                 </NavLink>
                                 <NavLink href={route('projects.index')} active={route().current('projects.index')}>
@@ -109,12 +109,21 @@ export default function Authenticated({ user, header, children }) {
                         <ResponsiveNavLink href={route('dashboard')} active={route().current('dashboard')}>
                             Dashboard
                         </ResponsiveNavLink>
+                        <ResponsiveNavLink href={route('projects.index')} active={route().current('projects.index')}>
+                            Projets
+                        </ResponsiveNavLink>
+                        <ResponsiveNavLink href={route('technologies.index')} active={route().current('technologies.index')}>
+                            Technologies
+                        </ResponsiveNavLink>
+                        <ResponsiveNavLink href={route('categories.index')} active={route().current('categories.index')}>
+                            Catégories
+                        </ResponsiveNavLink>
                         <ResponsiveNavLink href={route('experiences.index')} active={route().current('experiences.index')}>
                             Expériences
                         </ResponsiveNavLink>
-                        {/* <ResponsiveNavLink href={route('education.index')} active={route().current('education.index')}>
+                        <ResponsiveNavLink href={route('education.index')} active={route().current('education.index')}>
                             Education
-                        </ResponsiveNavLink> */}
+                        </ResponsiveNavLink>
                     </div>
 
                     <div className="pt-4 pb-1 border-t border-gray-200">
