@@ -8,12 +8,12 @@ import DeleteIcon from '@mui/icons-material/Delete';
 import IconButton from '@mui/material/IconButton';
 import LanguageIcon from '@mui/icons-material/Language';
 import GitHubIcon from '@mui/icons-material/GitHub';
-import Typography from '@mui/material/Typography';
 import Snackbar from '@mui/material/Snackbar';
 import Alert from '@mui/material/Alert';
 import { DataGrid } from '@mui/x-data-grid';
 import { frFR } from '@mui/x-data-grid/locales';
 import CustomNoRowsOverlay from '@/Components/CustomNoRowOverlay';
+import Tooltip from '@mui/material/Tooltip';
 
 const Index = ({ auth }) => {
     const {projects} = usePage().props;
@@ -99,7 +99,9 @@ const Index = ({ auth }) => {
             minWidth: 75,
             flex: 1,
             renderCell: (params) => (
-              <IconButton aria-label="detail" variant="contained" className="mt-2" href={params.row.demo_link} target="_blank" rel="noreferrer noopener"><LanguageIcon /></IconButton>
+                <Tooltip title={"Lien vers le site"} placement="top" arrow>
+                    <IconButton aria-label="detail" variant="contained" className="mt-2" href={params.row.demo_link} target="_blank" rel="noreferrer noopener"><LanguageIcon /></IconButton>
+                </Tooltip>
             ), },
         {
             field: 'github_repo',
@@ -107,7 +109,9 @@ const Index = ({ auth }) => {
             minWidth: 75,
             flex: 1,
             renderCell: (params) => (
-              <IconButton aria-label="detail" variant="contained" className="mt-2" href={params.row.github_repo} target="_blank" rel="noreferrer noopener"><GitHubIcon /></IconButton>
+                <Tooltip title={"Lien vers le Repo Github"} placement="top" arrow>
+                    <IconButton aria-label="detail" variant="contained" className="mt-2" href={params.row.github_repo} target="_blank" rel="noreferrer noopener"><GitHubIcon /></IconButton>
+                </Tooltip>
             ),
         },
         {
@@ -116,7 +120,9 @@ const Index = ({ auth }) => {
           minWidth: 75,
           flex: 1,
           renderCell: (params) => (
-            <IconButton aria-label="detail" variant="contained" className="mt-2" href={`/admin/dashboard/projects/project/${params.row.id}`}><InfoIcon /></IconButton>
+            <Tooltip title={"Détail"} placement="top" arrow>
+                <IconButton aria-label="detail" variant="contained" className="mt-2" href={`/admin/dashboard/projects/project/${params.row.id}`}><InfoIcon /></IconButton>
+            </Tooltip>
           ),
         },
         {
@@ -125,7 +131,9 @@ const Index = ({ auth }) => {
           minWidth: 75,
           flex: 1,
           renderCell: (params) => (
-            <IconButton aria-label="edit" variant="contained" className="mt-2" href={`/admin/dashboard/projects/edit?id=${params.row.id}`}><EditIcon /></IconButton>
+            <Tooltip title={"Modifier"} placement="top" arrow>
+                <IconButton aria-label="edit" variant="contained" className="mt-2" href={`/admin/dashboard/projects/edit?id=${params.row.id}`}><EditIcon /></IconButton>
+            </Tooltip>
           ),
         },
         {
@@ -134,7 +142,9 @@ const Index = ({ auth }) => {
           minWidth: 100,
           flex: 1,
           renderCell: (params) => (
-            <IconButton aria-label="delete" variant="contained" className="mt-2" onClick={() => handleDeleteProject(params.row.id)}><DeleteIcon /></IconButton>
+            <Tooltip title={"Supprimer"} placement="top" arrow>
+                <IconButton aria-label="delete" variant="contained" className="mt-2" onClick={() => handleDeleteProject(params.row.id)}><DeleteIcon /></IconButton>
+            </Tooltip>
           ),
         },
     ]

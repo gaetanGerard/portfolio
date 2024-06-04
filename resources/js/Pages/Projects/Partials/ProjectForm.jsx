@@ -163,7 +163,7 @@ export const ProjectForm = () => {
         const url = `/admin/dashboard/projects/${action}`;
         const formDataToSend = new FormData();
         formDataToSend.append('title', formData.title);
-        formDataToSend.append('short_description', formData.short_description);
+        formDataToSend.append('short_description', formData.description);
         formDataToSend.append('main_img', formData.main_img);
         formDataToSend.append('demo_link', formData.demo_link || '');
         formDataToSend.append('github_repo', formData.github_repo || '');
@@ -212,9 +212,9 @@ export const ProjectForm = () => {
             <div>
                 <TextField type="text" id="title" label="Titre du projet" onChange={handleInputChange} variant="filled" name="title" required defaultValue={action === 'edit' ? project.title : null} />
             </div>
-            <div>
+            {/* <div>
                 <TextField type="text" id="short_description" label="Courte description du projet" onChange={handleInputChange} variant="filled" name="short_description" required defaultValue={action === 'edit' ? project.short_description : null} />
-            </div>
+            </div> */}
             <div>
                 <Autocomplete
                     multiple
