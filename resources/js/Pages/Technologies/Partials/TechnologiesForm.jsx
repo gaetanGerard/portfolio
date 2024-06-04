@@ -31,12 +31,13 @@ const TechnologiesForm = () => {
         category_id: action === 'edit' ? technology.category_id : '',
         icon_path: action === 'edit' ? technology.icon_path : '',
         technology_url: action === 'edit' ? technology.technology_url : '',
-        skill_level: action === 'edit' ? technology.skill_level : '',
+        skill_level: action === 'edit' ? technology.skill_level : '0',
     });
     const [categoryName, setCategoryName] = useState('');
     const [open, setOpen] = useState(false);
     const [message, setMessage] = useState('');
     const [severity, setSeverity] = useState('');
+    const [errorInput, setErrorInput] = useState({});
 
     useEffect(() => {
         axios.interceptors.request.use(config => {
@@ -95,6 +96,7 @@ const TechnologiesForm = () => {
     const handleCategoryChange = (e, value) => {
         if(value !== null) {
             const categoryId = technoCategories.filter(category => category.name === value);
+            setCategoryName(value);
             setFormData({
                 ...formData,
                 category_id: value !== null ? categoryId[0].id : ''
@@ -144,6 +146,24 @@ const TechnologiesForm = () => {
         formDataToSend.append('technology_url', formData.technology_url);
         formDataToSend.append('skill_level', formData.skill_level.toString());
 
+        if(formData.icon_path.length === 0) {
+            setErrorInput({
+                ...errorInput,
+                icon_path: {
+                    message: 'Vous devez ajouter une icône',
+                    status: true
+                }
+            })
+        } else {
+            setErrorInput({
+                ...errorInput,
+                icon_path: {
+                    message: '',
+                    status: false
+                }
+            })
+        }
+
         if (action === 'edit') {
             formDataToSend.append('id', technology.id);
         }
@@ -168,6 +188,51 @@ const TechnologiesForm = () => {
         }
     }
 
+    const handleBlur = (e) => {
+        let message = '';
+        if(e.target.name === 'name') message = 'Le nom de la technologie est requis';
+        if(e.target.name === 'technology_url') message = 'Le lien vers la documentation est requis';
+
+        if(e.target.value.length === 0) {
+            setErrorInput({
+                ...errorInput,
+                [e.target.name]: {
+                    message,
+                    status: true
+                }
+
+            })
+        } else {
+            setErrorInput({
+                ...errorInput,
+                [e.target.name]: {
+                    message: '',
+                    status: false
+                }
+            })
+        }
+    }
+
+    const handleCategoryBlur = () => {
+        if(formData.category_id.length === 0) {
+            setErrorInput({
+                ...errorInput,
+                category_id: {
+                    message: 'Vous devez ajouter une catégorie',
+                    status: true
+                }
+            })
+        } else {
+            setErrorInput({
+                ...errorInput,
+                category_id: {
+                    message: '',
+                    status: false
+                }
+            })
+        }
+    }
+
   return (
     <div>
         <Snackbar open={open} autoHideDuration={5000} onClose={handleClose}>
@@ -179,7 +244,20 @@ const TechnologiesForm = () => {
             <div>
                 <div className="grid md:grid-cols-2 sm:grid-cols-1 gap-3 bg-white overflow-hidden shadow-sm sm:rounded-lg grid-rows-3 p-3">
                     <div>
-                        <TextField type="text" className="w-full" id="name" label="Nom de la technologie" onChange={handleInputChange} variant="outlined" name="name" required defaultValue={action === 'edit' ? technology.name : null} />
+                        <TextField
+                            type="text"
+                            onBlur={handleBlur}
+                            error={errorInput.name !== undefined ? errorInput.name.status : false}
+                            helperText={errorInput.name !== undefined ? errorInput.name.message : ''}
+                            className="w-full"
+                            id="name"
+                            label="Nom de la technologie"
+                            onChange={handleInputChange}
+                            variant="outlined"
+                            name="name"
+                            required
+                            defaultValue={action === 'edit' ? technology.name : null}
+                        />
                     </div>
                     <div>
                         <Autocomplete
@@ -187,14 +265,35 @@ const TechnologiesForm = () => {
                             id="combo-box-demo"
                             options={technoCategories.map((option) => option.name)}
                             onChange={handleCategoryChange}
-                            value={action === 'edit' ? categoryName : null}
+                            value={categoryName}
                             isOptionEqualToValue={(option, value) => option === value}
                             className="w-full"
-                            renderInput={(params) => <TextField {...params} label="Catégories" variant="outlined" />}
+                            onBlur={handleCategoryBlur}
+                            renderInput={(params) => (
+                                <TextField
+                                    {...params}
+                                    label="Catégories"
+                                    variant="outlined"
+                                    error={errorInput.category_id !== undefined ? errorInput.category_id.status : false}
+                                    helperText={errorInput.category_id !== undefined ? errorInput.category_id.message : ''}
+                                />)}
                         />
                     </div>
                     <div className="col-span-2">
-                        <TextField type="text" className="w-full" id="technology_url" label="Lien Documentation Technologie" onChange={handleInputChange} variant="outlined" name="technology_url" required defaultValue={action === 'edit' ? technology.technology_url : null} />
+                        <TextField
+                            type="text"
+                            onBlur={handleBlur}
+                            error={errorInput.technology_url !== undefined ? errorInput.technology_url.status : false}
+                            helperText={errorInput.technology_url !== undefined ? errorInput.technology_url.message : ''}
+                            className="w-full"
+                            id="technology_url"
+                            label="Lien Documentation Technologie"
+                            onChange={handleInputChange}
+                            variant="outlined"
+                            name="technology_url"
+                            required
+                            defaultValue={action === 'edit' ? technology.technology_url : null}
+                        />
                     </div>
                     <div className="px-4 col-span-2 justify-items-center">
                         <Slider
@@ -224,6 +323,7 @@ const TechnologiesForm = () => {
                         Ajouter une icône
                         <VisuallyHiddenInput type="file" />
                     </Button>
+                    {errorInput.icon_path !== undefined ? (<p className="text-red-500">{errorInput.icon_path.message}</p>) : null}
                     {formData.icon_path.length > 0 ? (<img src={formData.icon_path} alt={`Image ${formData.name}`} style={{ width: '100px', height: '100px', objectFit: 'cover' }} />) : null}
                 </div>
             </div>

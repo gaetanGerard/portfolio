@@ -1,8 +1,11 @@
-import React, {useEffect} from 'react';
+import React, {useState, useEffect} from 'react';
 import { usePage, router } from '@inertiajs/react';
+import { grey } from '@mui/material/colors';
 import axios from 'axios';
 import TextField from '@mui/material/TextField';
 import Button from '@mui/material/Button';
+import Snackbar from '@mui/material/Snackbar';
+import Alert from '@mui/material/Alert';
 
 const CategoriesForm = () => {
     const { action, categories } = usePage().props;
@@ -10,6 +13,9 @@ const CategoriesForm = () => {
         name: action==='edit' ? categories.name : '',
         description: action==='edit' ? categories.description : ''
     });
+    const [open, setOpen] = useState(false);
+    const [message, setMessage] = useState('');
+    const [severity, setSeverity] = useState('');
 
     useEffect(() => {
         axios.interceptors.request.use(config => {
@@ -17,6 +23,16 @@ const CategoriesForm = () => {
             return config;
         });
     }, []);
+
+    const handleClose = (event, reason) => {
+        if (reason === 'clickaway') {
+          return;
+        }
+
+        setOpen(false);
+        setMessage('');
+        setSeverity('');
+    };
 
     const handleInputChange = (e) => {
         setFormData({
@@ -39,33 +55,51 @@ const CategoriesForm = () => {
         try {
             const response = await axios.post(url, formDataToSend);
             if (response.data.success) {
+                const message = response.data.message;
+                const open = true;
+                const severity = 'success';
+                localStorage.setItem('snackbarMessage', message);
+                localStorage.setItem('snackbarState', open);
+                localStorage.setItem('snackbarSeverity', severity);
                 router.get(document.referrer, response.data.experience);
             }
           } catch (error) {
+            const message = action === 'edit' ? 'Une erreur est survenu lorsque vous avez essayer de modifier une catégorie. Veuillez réessayer.' : 'Une erreur est survenu lorsque vous avez essayer d\'ajouter une catégorie. Veuillez réessayer.';
+            setOpen(true);
+            setMessage(message);
+            setSeverity('error');
             console.error('Une erreur est survenu lorsque vous avez essayer d\'ajouter une catégorie : ', error);
         }
     }
 
   return (
-    <form onSubmit={handleSubmit}>
-        <div>
-            <TextField type="text" id="name" label="Nom de la Catégorie" onChange={handleInputChange} variant="filled" name="name" required defaultValue={action === 'edit' ? categories.name : null} />
-        </div>
-        <div>
-            <TextField
-            id="description"
-            label="Description"
-            multiline
-            rows={4}
-            defaultValue={action === 'edit' ? categories.description : "Description de la catégorie"}
-            variant="filled"
-            name="description"
-            onChange={handleInputChange}
-            required
-            />
-        </div>
-        <Button variant="contained" type="submit">{action === "edit" ? "Modifier la catégorie" : "Créer une catégorie"}</Button>
-    </form>
+    <div>
+        <Snackbar open={open} autoHideDuration={5000} onClose={handleClose}>
+            <Alert onClose={handleClose} severity={severity} sx={{ width: '100%' }}>
+                {message}
+            </Alert>
+        </Snackbar>
+        <form onSubmit={handleSubmit} className="grid gap-1 bg-white overflow-hidden shadow-sm sm:rounded-lg grid-rows-3 p-3">
+            <div>
+                <TextField type="text" className="w-full" id="name" label="Nom de la Catégorie" onChange={handleInputChange} variant="outlined" name="name" required defaultValue={action === 'edit' ? categories.name : null} />
+            </div>
+            <div>
+                <TextField
+                id="description"
+                label="Description"
+                multiline
+                rows={4}
+                defaultValue={action === 'edit' ? categories.description : "Description de la catégorie"}
+                variant="outlined"
+                name="description"
+                className="w-full"
+                onChange={handleInputChange}
+                required
+                />
+            </div>
+            <Button variant="contained" className="self-center justify-self-center" type="submit">{action === "edit" ? "Modifier la catégorie" : "Créer une catégorie"}</Button>
+        </form>
+    </div>
   )
 }
 
