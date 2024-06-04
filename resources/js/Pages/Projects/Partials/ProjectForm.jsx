@@ -387,6 +387,7 @@ export const ProjectForm = () => {
                                     >
                                     <DeleteIcon />
                                 </IconButton>
+                                <p>{img}</p>
                                 <img src={img} alt={`Image ${index}`} className="object-cover w-28 h-28 cursor-pointer" onClick={() => handleSelectedImg(index)} />
                             </div>))}
                     </div>

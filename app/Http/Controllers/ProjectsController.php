@@ -102,9 +102,11 @@ class ProjectsController extends Controller
         if ($request->hasFile('image')) {
             $file = $request->file('image');
             $originalName = $file->getClientOriginalName();
-            $path = $file->storeAs('uploads', Str::random(10) . '_' . $originalName, 'public');
-            $relativePath = str_replace('public/', '', $path);
-            return response()->json(['path' => '/storage/' . $relativePath], 200);
+            // $path = $file->storeAs('uploads', Str::random(10) . '_' . $originalName, 'public');
+            // $relativePath = str_replace('public/', '', $path);
+            $file->move(public_path('images/uploads'), $originalName);
+            // return response()->json(['path' => '/storage/' . $relativePath], 200);
+            return response()->json(['path' => 'images/uploads/' . $originalName], 200);
         }
 
         return response()->json(['error' => 'No image uploaded'], 400);
