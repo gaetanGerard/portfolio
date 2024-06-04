@@ -4,6 +4,9 @@ import { Head, usePage } from '@inertiajs/react';
 import Button from '@mui/material/Button';
 import Snackbar from '@mui/material/Snackbar';
 import Alert from '@mui/material/Alert';
+import Tooltip from '@mui/material/Tooltip';
+import IconButton from '@mui/material/IconButton';
+import LanguageIcon from '@mui/icons-material/Language';
 
 const Show = ({ auth }) => {
     const {technology, categories} = usePage().props;
@@ -74,7 +77,7 @@ const Show = ({ auth }) => {
   return (
     <AuthenticatedLayout
     user={auth.user}
-    header={<h2 className="font-semibold text-xl text-gray-800 leading-tight">Technologie</h2>}
+    header={<h2 className="font-semibold text-xl text-gray-800 leading-tight">Technologie : {technology.name}</h2>}
 >
     <Head title="Technologie" />
     <div>
@@ -83,14 +86,29 @@ const Show = ({ auth }) => {
                 {message}
             </Alert>
         </Snackbar>
-        <div>
-            <p>Nom de la technologie : <span>{technology.name}</span></p>
-            <p>Catégorie : {category.name}</p>
-            <img src={`${technology.icon_path}`} alt={`${technology.name}`} style={{ width: '100px', height: '100px', objectFit: 'cover' }}  />
-            <p>Maitrise : {technology.skill_level}/100</p>
-            <div><a href={technology.technology_url} target="_blank" rel="noreferrer">Lien de documentation</a></div>
-            <Button variant="contained" className="mt-2" color="warning" href={`/admin/dashboard/technologies/edit?id=${technology.id}`}>Modifier</Button>
-            <Button variant="contained" className="mt-2" color="error" onClick={() => handleDeleteTechnology(technology.id)}>Supprimer</Button>
+        <div className=" m-3">
+            <div className="grid lg:grid-cols-2 gap-3 md:grid-cols-1 bg-white overflow-hidden shadow-sm sm:rounded-lg p-3">
+                <div>
+                    <h3 className="text-3xl">Informations sur la technologie</h3>
+                    <p className="font-bold">Nom de la technologie : <span className="font-normal">{technology.name}</span></p>
+                    <p className="font-bold">Catégorie : <span className="font-normal">{category.name}</span></p>
+                    <p className="font-bold">Maitrise : <span className="font-normal">{technology.skill_level}/100</span></p>
+                    <p className="font-bold grid grid-flow-col justify-start content-center items-center">
+                        Lien vers la documentation :
+                        <Tooltip title={"Lien vers le site"} placement="top" arrow>
+                            <IconButton aria-label="detail" variant="contained" href={technology.technology_url} target="_blank" rel="noreferrer noopener"><LanguageIcon /></IconButton>
+                        </Tooltip>
+                    </p>
+                </div>
+                <div>
+                    <h3 className="text-3xl">Icône</h3>
+                    <img src={`${technology.icon_path}`} alt={`${technology.name}`} style={{ width: '100px', height: '100px', objectFit: 'cover' }}  />
+                </div>
+            </div>
+            <div className="grid grid-flow-col justify-start gap-2">
+                <Button variant="contained" className="mt-2" color="warning" href={`/admin/dashboard/technologies/edit?id=${technology.id}`}>Modifier</Button>
+                <Button variant="contained" className="mt-2" color="error" onClick={() => handleDeleteTechnology(technology.id)}>Supprimer</Button>
+            </div>
         </div>
     </div>
 
