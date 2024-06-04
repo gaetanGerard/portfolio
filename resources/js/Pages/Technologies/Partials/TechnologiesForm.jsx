@@ -1,5 +1,6 @@
 import React, {useState, useEffect} from 'react'
 import { usePage, router } from '@inertiajs/react';
+import { grey } from '@mui/material/colors';
 import axios from 'axios';
 import TextField from '@mui/material/TextField';
 import Button from '@mui/material/Button';
@@ -176,52 +177,60 @@ const TechnologiesForm = () => {
         </Snackbar>
         <form onSubmit={handleSubmit}>
             <div>
-                <TextField type="text" id="name" label="Nom de la technologie" onChange={handleInputChange} variant="filled" name="name" required defaultValue={action === 'edit' ? technology.name : null} />
+                <div className="grid md:grid-cols-2 sm:grid-cols-1 gap-3 bg-white overflow-hidden shadow-sm sm:rounded-lg grid-rows-3 p-3">
+                    <div>
+                        <TextField type="text" className="w-full" id="name" label="Nom de la technologie" onChange={handleInputChange} variant="outlined" name="name" required defaultValue={action === 'edit' ? technology.name : null} />
+                    </div>
+                    <div>
+                        <Autocomplete
+                            disablePortal
+                            id="combo-box-demo"
+                            options={technoCategories.map((option) => option.name)}
+                            onChange={handleCategoryChange}
+                            value={action === 'edit' ? categoryName : null}
+                            isOptionEqualToValue={(option, value) => option === value}
+                            className="w-full"
+                            renderInput={(params) => <TextField {...params} label="Catégories" variant="outlined" />}
+                        />
+                    </div>
+                    <div className="col-span-2">
+                        <TextField type="text" className="w-full" id="technology_url" label="Lien Documentation Technologie" onChange={handleInputChange} variant="outlined" name="technology_url" required defaultValue={action === 'edit' ? technology.technology_url : null} />
+                    </div>
+                    <div className="px-4 col-span-2 justify-items-center">
+                        <Slider
+                            aria-label="Maitrise de la technologie"
+                            defaultValue={action === "edit" ? Number(technology.skill_level) : 0}
+                            getAriaValueText={sliderStep.value}
+                            step={25}
+                            valueLabelDisplay="auto"
+                            marks={sliderStep}
+                            onChange={handleSliderChange}
+                        />
+                    </div>
+                </div>
+                <div className="grid md:grid-cols-2 sm:grid-cols-1 gap-3 bg-white overflow-hidden shadow-sm sm:rounded-lg p-3  mt-3" >
+                    <Button
+                        component="label"
+                        role={undefined}
+                        variant="contained"
+                        tabIndex={-1}
+                        startIcon={<CloudUploadIcon />}
+                        id="icon_path"
+                        name="icon_path"
+                        onChange={handleIconChange}
+                        required
+                        className="self-center justify-self-center"
+                        >
+                        Ajouter une icône
+                        <VisuallyHiddenInput type="file" />
+                    </Button>
+                    {formData.icon_path.length > 0 ? (<img src={formData.icon_path} alt={`Image ${formData.name}`} style={{ width: '100px', height: '100px', objectFit: 'cover' }} />) : null}
+                </div>
             </div>
-            <div>
-                <Autocomplete
-                    disablePortal
-                    id="combo-box-demo"
-                    options={technoCategories.map((option) => option.name)}
-                    onChange={handleCategoryChange}
-                    value={action === 'edit' ? categoryName : null}
-                    isOptionEqualToValue={(option, value) => option === value}
-                    sx={{ width: 300 }}
-                    renderInput={(params) => <TextField {...params} label="Catégories" variant="filled" />}
-                />
+            <div className="grid grid-flow-col gap-3 justify-start">
+                <Button variant="contained" style={{ backgroundColor: grey[500] }} className="mt-3" href="/admin/dashboard/technologies">Annuler</Button>
+                <Button variant="contained" className="mt-3" type="submit">{action === "edit" ? "Modifier la technologie" : "Ajouter une technologie"}</Button>
             </div>
-            <div>
-                <Button
-                    component="label"
-                    role={undefined}
-                    variant="contained"
-                    tabIndex={-1}
-                    startIcon={<CloudUploadIcon />}
-                    id="icon_path"
-                    name="icon_path"
-                    onChange={handleIconChange}
-                    required
-                    >
-                    Ajouter une icône
-                    <VisuallyHiddenInput type="file" />
-                </Button>
-                {formData.icon_path.length > 0 ? (<img src={formData.icon_path} alt={`Image ${formData.name}`} style={{ width: '100px', height: '100px', objectFit: 'cover' }} />) : null}
-            </div>
-            <div>
-                <TextField type="text" id="technology_url" label="Lien Documentation Technologie" onChange={handleInputChange} variant="filled" name="technology_url" required defaultValue={action === 'edit' ? technology.technology_url : null} />
-            </div>
-            <div>
-                <Slider
-                    aria-label="Maitrise de la technologie"
-                    defaultValue={action === "edit" ? Number(technology.skill_level) : 0}
-                    getAriaValueText={sliderStep.value}
-                    step={25}
-                    valueLabelDisplay="auto"
-                    marks={sliderStep}
-                    onChange={handleSliderChange}
-                />
-            </div>
-            <Button variant="contained" type="submit">{action === "edit" ? "Modifier la technologie" : "Ajouter une technologie"}</Button>
         </form>
     </div>
   )
