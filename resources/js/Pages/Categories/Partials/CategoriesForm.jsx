@@ -139,7 +139,10 @@ const CategoriesForm = () => {
                 required
                 />
             </div>
-            <Button variant="contained" className="self-center justify-self-center" type="submit">{action === "edit" ? "Modifier la catégorie" : "Créer une catégorie"}</Button>
+            <div className="grid grid-flow-col gap-3 justify-start">
+                <Button variant="contained" className="self-center justify-self-center" style={{ backgroundColor: grey[500] }} href="/admin/dashboard/categories">Annuler</Button>
+                <Button variant="contained" className="self-center justify-self-center" type="submit">{action === "edit" ? "Modifier la catégorie" : "Créer une catégorie"}</Button>
+            </div>
         </form>
     </div>
   )

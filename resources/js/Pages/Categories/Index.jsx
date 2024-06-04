@@ -121,9 +121,9 @@ const Index = ({ auth }) => {
   return (
     <AuthenticatedLayout
         user={auth.user}
-        header={<h2 className="font-semibold text-xl text-gray-800 leading-tight">Technologies</h2>}
+        header={<h2 className="font-semibold text-xl text-gray-800 leading-tight">Catégories</h2>}
     >
-        <Head title="Technologies" />
+        <Head title="Catégories" />
 
         <div className="py-12">
             <div className="max-w-7xl mx-auto sm:px-6 lg:px-8">
@@ -140,7 +140,7 @@ const Index = ({ auth }) => {
                         rowsPerPageOptions={[5, 10, 25, 50, 100]}
                         pageSizeOptions={[5, 10, 25, 50, 100]}
                         localeText={frFR.components.MuiDataGrid.defaultProps.localeText}
-                        slots={{ noRowsOverlay: () => (<CustomNoRowsOverlay message='Aucune technologie trouvé.' />) }}
+                        slots={{ noRowsOverlay: () => (<CustomNoRowsOverlay message='Aucune catégorie trouvé.' />) }}
                     />
                 </div>
                 <Button variant="contained" className="my-2" href='/admin/dashboard/categories/add'>Ajouter une catégorie</Button>
