@@ -60,7 +60,7 @@ const Show = ({ auth }) => {
         localStorage.removeItem('snackbarState');
         localStorage.removeItem('snackbarSeverity');
         setOpen(false);
-      };
+    };
 
     const handleDeleteProject = async (id) => {
         try {

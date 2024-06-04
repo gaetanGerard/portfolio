@@ -8,6 +8,8 @@ import Chip from '@mui/material/Chip';
 import Autocomplete from '@mui/material/Autocomplete';
 import { styled } from '@mui/material/styles';
 import Slider from '@mui/material/Slider';
+import Snackbar from '@mui/material/Snackbar';
+import Alert from '@mui/material/Alert';
 
 const VisuallyHiddenInput = styled('input')({
     clip: 'rect(0 0 0 0)',
@@ -31,6 +33,10 @@ const TechnologiesForm = () => {
         skill_level: action === 'edit' ? technology.skill_level : '',
     });
     const [categoryName, setCategoryName] = useState('');
+    const [open, setOpen] = useState(false);
+    const [message, setMessage] = useState('');
+    const [severity, setSeverity] = useState('');
+
     useEffect(() => {
         axios.interceptors.request.use(config => {
             config.headers['X-CSRF-TOKEN'] = document.querySelector('meta[name="csrf-token"]').getAttribute('content');
@@ -44,6 +50,16 @@ const TechnologiesForm = () => {
         });
 
     }, [technoCategories, formData.category_id]);
+
+    const handleClose = (event, reason) => {
+        if (reason === 'clickaway') {
+          return;
+        }
+
+        setOpen(false);
+        setMessage('');
+        setSeverity('');
+    };
 
     const sliderStep = [
         {
@@ -134,63 +150,80 @@ const TechnologiesForm = () => {
         try {
             const response = await axios.post(url, formDataToSend);
             if (response.data.success) {
+                const message = response.data.message;
+                const open = true;
+                const severity = 'success';
+                localStorage.setItem('snackbarMessage', message);
+                localStorage.setItem('snackbarState', open);
+                localStorage.setItem('snackbarSeverity', severity);
                 router.get(document.referrer, response.data.experience);
             }
           } catch (error) {
+            const message = action === 'edit' ? 'Une erreur est survenu lorsque vous avez essayer de modifier une technologie. Veuillez réessayer.' : 'Une erreur est survenu lorsque vous avez essayer d\'ajouter une technologie. Veuillez réessayer.';
+            setOpen(true);
+            setMessage(message);
+            setSeverity('error');
             console.error('Une erreur est survenu lorsque vous avez essayer d\'ajouter une technologie : ', error);
         }
     }
 
   return (
-    <form onSubmit={handleSubmit}>
-        <div>
-            <TextField type="text" id="name" label="Nom de la technologie" onChange={handleInputChange} variant="filled" name="name" required defaultValue={action === 'edit' ? technology.name : null} />
-        </div>
-        <div>
-            <Autocomplete
-                disablePortal
-                id="combo-box-demo"
-                options={technoCategories.map((option) => option.name)}
-                onChange={handleCategoryChange}
-                value={action === 'edit' ? categoryName : null}
-                isOptionEqualToValue={(option, value) => option === value}
-                sx={{ width: 300 }}
-                renderInput={(params) => <TextField {...params} label="Catégories" variant="filled" />}
-            />
-        </div>
-        <div>
-            <Button
-                component="label"
-                role={undefined}
-                variant="contained"
-                tabIndex={-1}
-                startIcon={<CloudUploadIcon />}
-                id="icon_path"
-                name="icon_path"
-                onChange={handleIconChange}
-                required
-                >
-                Ajouter une icône
-                <VisuallyHiddenInput type="file" />
-            </Button>
-            {formData.icon_path.length > 0 ? (<img src={formData.icon_path} alt={`Image ${formData.name}`} style={{ width: '100px', height: '100px', objectFit: 'cover' }} />) : null}
-        </div>
-        <div>
-            <TextField type="text" id="technology_url" label="Lien Documentation Technologie" onChange={handleInputChange} variant="filled" name="technology_url" required defaultValue={action === 'edit' ? technology.technology_url : null} />
-        </div>
-        <div>
-            <Slider
-                aria-label="Maitrise de la technologie"
-                defaultValue={action === "edit" ? Number(technology.skill_level) : 0}
-                getAriaValueText={sliderStep.value}
-                step={25}
-                valueLabelDisplay="auto"
-                marks={sliderStep}
-                onChange={handleSliderChange}
-            />
-        </div>
-        <Button variant="contained" type="submit">{action === "edit" ? "Modifier la technologie" : "Ajouter une technologie"}</Button>
-    </form>
+    <div>
+        <Snackbar open={open} autoHideDuration={5000} onClose={handleClose}>
+            <Alert onClose={handleClose} severity={severity} sx={{ width: '100%' }}>
+                {message}
+            </Alert>
+        </Snackbar>
+        <form onSubmit={handleSubmit}>
+            <div>
+                <TextField type="text" id="name" label="Nom de la technologie" onChange={handleInputChange} variant="filled" name="name" required defaultValue={action === 'edit' ? technology.name : null} />
+            </div>
+            <div>
+                <Autocomplete
+                    disablePortal
+                    id="combo-box-demo"
+                    options={technoCategories.map((option) => option.name)}
+                    onChange={handleCategoryChange}
+                    value={action === 'edit' ? categoryName : null}
+                    isOptionEqualToValue={(option, value) => option === value}
+                    sx={{ width: 300 }}
+                    renderInput={(params) => <TextField {...params} label="Catégories" variant="filled" />}
+                />
+            </div>
+            <div>
+                <Button
+                    component="label"
+                    role={undefined}
+                    variant="contained"
+                    tabIndex={-1}
+                    startIcon={<CloudUploadIcon />}
+                    id="icon_path"
+                    name="icon_path"
+                    onChange={handleIconChange}
+                    required
+                    >
+                    Ajouter une icône
+                    <VisuallyHiddenInput type="file" />
+                </Button>
+                {formData.icon_path.length > 0 ? (<img src={formData.icon_path} alt={`Image ${formData.name}`} style={{ width: '100px', height: '100px', objectFit: 'cover' }} />) : null}
+            </div>
+            <div>
+                <TextField type="text" id="technology_url" label="Lien Documentation Technologie" onChange={handleInputChange} variant="filled" name="technology_url" required defaultValue={action === 'edit' ? technology.technology_url : null} />
+            </div>
+            <div>
+                <Slider
+                    aria-label="Maitrise de la technologie"
+                    defaultValue={action === "edit" ? Number(technology.skill_level) : 0}
+                    getAriaValueText={sliderStep.value}
+                    step={25}
+                    valueLabelDisplay="auto"
+                    marks={sliderStep}
+                    onChange={handleSliderChange}
+                />
+            </div>
+            <Button variant="contained" type="submit">{action === "edit" ? "Modifier la technologie" : "Ajouter une technologie"}</Button>
+        </form>
+    </div>
   )
 }
 
