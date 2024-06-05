@@ -171,7 +171,7 @@ const TechnologiesForm = () => {
         try {
             const response = await axios.post(url, formDataToSend);
             if (response.data.success) {
-                const message = response.data.message;
+                const message = action === 'edit' ? 'Technologie modifié avec succès.' : 'Technologie ajouté avec succès.';
                 const open = true;
                 const severity = 'success';
                 localStorage.setItem('snackbarMessage', message);

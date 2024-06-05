@@ -102,7 +102,7 @@ const ExperienceForm = () => {
         try {
             const response = await axios.post(url, formDataToSend);
             if (response.data.success) {
-                const message = response.data.message;
+                const message = action === 'edit' ? 'Expérience modifié avec succès.' : 'Expérience ajouté avec succès.';
                 const open = true;
                 const severity = 'success';
                 localStorage.setItem('snackbarMessage', message);
@@ -264,7 +264,7 @@ const ExperienceForm = () => {
                         onChange={(date) => setFormData({...formData, end_date: dayjs(date).format('DD/MM/YYYY')})}
                         renderInput={(params) => <TextField {...params} />}
                         format="DD/MM/YYYY"
-                        onError={(newError) => setStartEndError(newError)}
+                        onError={(newError) => setEndDateError(newError)}
                         className="w-full"
                         slotProps={{
                             textField: {

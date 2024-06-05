@@ -82,7 +82,8 @@ export default function Index({ auth }) {
     const columns = [
         { field: 'id', headerName: 'ID', width: 90 },
         { field: 'school_name', headerName: 'Nom de l\'école', width: 150, flex: 1 },
-        { field: 'school_location', headerName: 'Lieux de l\'école', width: 150, flex: 1 },
+        { field: 'place_of_study', headerName: 'Lieux de l\'école', width: 150, flex: 1 },
+        { field: 'degree', headerName: 'Diplôme', width: 150, flex: 1 },
         {
             field: 'actions',
             headerName: 'Actions',
@@ -114,7 +115,8 @@ export default function Index({ auth }) {
         return {
             id: education.id,
             school_name: education.school_name,
-            school_location: education.school_location,
+            degree: education.degree,
+            place_of_study: education.place_of_study,
         };
     });
 
