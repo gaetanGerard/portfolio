@@ -12,6 +12,10 @@ import Snackbar from '@mui/material/Snackbar';
 import Alert from '@mui/material/Alert';
 import DeleteIcon from '@mui/icons-material/Delete';
 import IconButton from '@mui/material/IconButton';
+import FormHelperText from '@mui/joy/FormHelperText';
+import FormControl from '@mui/joy/FormControl';
+import FormLabel from '@mui/joy/FormLabel';
+import Textarea from '@mui/joy/Textarea';
 
 const VisuallyHiddenInput = styled('input')({
     clip: 'rect(0 0 0 0)',
@@ -347,22 +351,25 @@ export const ProjectForm = () => {
                 <div>
                     <TextField type="url" className="w-full" id="github_repo" label="Lien Github"  onChange={handleInputChange} variant="outlined" name="github_repo" defaultValue={action === 'edit' ? project.github_repo : null} />
                 </div>
-                <div>
-                    <TextField
+                <div className="col-span-2">
+                <FormControl>
+                    <FormLabel>Description du projet</FormLabel>
+                    <Textarea
                     id="description"
                     label="Description"
-                    multiline
-                    rows={4}
-                    defaultValue={action === 'edit' ? project.description : "Description du projet"}
+                    minRows={4}
+                    defaultValue={action === 'edit' ? project.description : ""}
                     variant="outlined"
                     name="description"
                     onChange={handleInputChange}
                     onBlur={handleBlur}
                     error={errorInput.description !== undefined ? errorInput.description.status : false}
-                    helperText={errorInput.description !== undefined ? errorInput.description.message : ''}
                     required
+                    placeholder="Description du projet"
                     className="w-full self-center"
                     />
+                    <FormHelperText style={{color: '#C41C1C'}}>{errorInput.description !== undefined ? errorInput.description.message : ''}</FormHelperText>
+                </FormControl>
                 </div>
 
             </div>
