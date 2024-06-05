@@ -119,8 +119,6 @@ export default function Index({ auth }) {
         };
     });
 
-    console.log(experiences);
-
     return (
         <AuthenticatedLayout
             user={auth.user}
