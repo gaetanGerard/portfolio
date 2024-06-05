@@ -141,7 +141,7 @@ export default function Index({ auth }) {
                             rowsPerPageOptions={[5, 10, 25, 50, 100]}
                             pageSizeOptions={[5, 10, 25, 50, 100]}
                             localeText={frFR.components.MuiDataGrid.defaultProps.localeText}
-                            slots={{ noRowsOverlay: () => (<CustomNoRowsOverlay message='Aucune catégorie trouvé.' />) }}
+                            slots={{ noRowsOverlay: () => (<CustomNoRowsOverlay message='Aucune expérience trouvé.' />) }}
                         />
                     </div>
                     <Button variant="contained" className="my-2" href='/admin/dashboard/experiences/add'>Ajouter une expérience</Button>
