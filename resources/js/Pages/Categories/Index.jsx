@@ -57,7 +57,7 @@ const Index = ({ auth }) => {
             localStorage.setItem('snackbarSeverity', severity);
             window.location.reload();
         } catch (error) {
-            const message = 'Une erreur est survenue lors de la suppression du projet.';
+            const message = 'Une erreur est survenue lors de la suppression de la catégorie.';
             const open = true;
             const severity = 'error';
             localStorage.setItem('snackbarMessage', message);
