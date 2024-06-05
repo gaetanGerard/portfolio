@@ -1,13 +1,10 @@
 import { useState, useEffect } from 'react';
 import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout';
-import { Head, usePage, router } from '@inertiajs/react';
+import { Head, usePage } from '@inertiajs/react';
 import Button from '@mui/material/Button';
 import dayjs from 'dayjs';
 import Snackbar from '@mui/material/Snackbar';
 import Alert from '@mui/material/Alert';
-import Tooltip from '@mui/material/Tooltip';
-import IconButton from '@mui/material/IconButton';
-import LanguageIcon from '@mui/icons-material/Language';
 
 const Show = ({ auth  }) => {
     const { experience } = usePage().props;
