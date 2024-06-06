@@ -1,7 +1,7 @@
 import { Link, Head } from '@inertiajs/react';
 import ApplicationLogo from '@/Components/ApplicationLogo';
 
-export default function Welcome({ auth, laravelVersion, phpVersion }) {
+export default function Portfolio({ auth, laravelVersion, phpVersion }) {
     const handleImageError = () => {
         document.getElementById('screenshot-container')?.classList.add('!hidden');
         document.getElementById('docs-card')?.classList.add('!row-span-1');
@@ -11,7 +11,7 @@ export default function Welcome({ auth, laravelVersion, phpVersion }) {
 
     return (
         <>
-            <Head title="Welcome" />
+            <Head title="Portfolio" />
             <div>
                 <div className="relative flex flex-col justify-center">
                     <div className="relative w-full max-w-2xl px-6 lg:max-w-7xl">
