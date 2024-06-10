@@ -1,13 +1,22 @@
-import { Link, Head } from '@inertiajs/react';
+import React, { useState } from 'react';
+import { Link, Head, usePage, router  } from '@inertiajs/react';
 import ApplicationLogo from '@/Components/ApplicationLogo';
+import SelectLanguage from '@/Components/SelectLanguage';
+import axios from 'axios';
 
 export default function Portfolio({ auth, laravelVersion, phpVersion }) {
-    const handleImageError = () => {
-        document.getElementById('screenshot-container')?.classList.add('!hidden');
-        document.getElementById('docs-card')?.classList.add('!row-span-1');
-        document.getElementById('docs-card-content')?.classList.add('!flex-row');
-        document.getElementById('background')?.classList.add('!hidden');
-    };
+    const { localeData } = usePage().props;
+    const [language, setLanguage] = useState('fr');
+
+    const { data } = localeData;
+
+
+    const changeLocaleLanguage = (e) => {
+        setLanguage(e.target.checked ? "fr" : "gb");
+        router.post('/change-language', {
+            language: e.target.checked ? "fr" : "gb"
+        })
+    }
 
     return (
         <>
@@ -46,6 +55,10 @@ export default function Portfolio({ auth, laravelVersion, phpVersion }) {
                             </nav>
                         </header>
                     </div>
+                </div>
+                <div>
+                    <SelectLanguage localeLanguage={language}  changeLocaleLanguage={changeLocaleLanguage} />
+                    <p>{data.title}</p>
                 </div>
             </div>
         </>

@@ -4,10 +4,12 @@ use App\Http\Controllers\CategoriesController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\EducationsController;
 use App\Http\Controllers\ExperiencesController;
+use App\Http\Controllers\LanguageController;
 use App\Http\Controllers\PortfolioController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\ProjectsController;
 use App\Http\Controllers\TechnologiesController;
+use App\Http\Middleware\InjectLocaleData;
 use Illuminate\Foundation\Application;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
@@ -19,7 +21,10 @@ use Inertia\Inertia;
 
 
 
-Route::get('/', [PortfolioController::class, 'index'])->name('portfolio');
+
+
+Route::get('/', [PortfolioController::class, 'index'])->name('portfolio')->middleware(InjectLocaleData::class);
+Route::post('/change-language', [LanguageController::class, 'changeLanguage'])->name('change.language');
 Route::prefix('admin/dashboard')->group(function () {
     Route::get('/', [DashboardController::class, 'index'])->middleware(['auth', 'verified'])->name('dashboard');
     Route::prefix('projects')->group(function () {
