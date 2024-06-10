@@ -87,6 +87,7 @@ const Show = ({ auth }) => {
         </Snackbar>
         <div className="grid lg:grid-cols-2 gap-3 md:grid-cols-1 bg-white overflow-hidden shadow-sm sm:rounded-lg p-3">
             <p className="font-bold">Nom de la catégorie : <span className="font-normal">{category.name}</span></p>
+            <p className="font-bold">Langue : <span className="font-normal">{category.lang === "fr" ? "Français" : "Anglais"}</span></p>
             <p className="font-bold">Description : <span className="font-normal">{category.description}</span></p>
         </div>
         <div className="grid grid-flow-col justify-start gap-2">

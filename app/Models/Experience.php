@@ -17,6 +17,7 @@ class Experience extends Model
         'end_date',
         'is_current',
         'description',
+        'lang'
     ];
 
     protected $casts = [

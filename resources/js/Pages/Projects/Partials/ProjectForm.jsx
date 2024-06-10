@@ -33,7 +33,7 @@ const VisuallyHiddenInput = styled('input')({
 export const ProjectForm = () => {
     const {project, technologies, action, localeData} = usePage().props;
     const [imgError, setImgError] = useState("");
-    const [language, setLanguage] = useState('fr');
+    const [language, setLanguage] = useState(action === 'edit' ? project.lang : 'fr');
     const [formData, setFormData] = useState({
         title: action==='edit' ? project.title : '',
         short_description: action==='edit' ? project.short_description : '',

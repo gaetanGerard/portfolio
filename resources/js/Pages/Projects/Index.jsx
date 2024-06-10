@@ -157,7 +157,7 @@ const Index = ({ auth }) => {
             short_description: truncateText(project.short_description, 10),
             lang: project.lang === "fr" ? "Français" : "Anglais",
             demo_link: project.demo_link != null ? project.demo_link : "N.A.",
-            github_repo: project.github_repo != null ? project.github_repo : "N.A."
+            github_repo: project.github_repo != null ? project.github_repo : "N.A.",
         }
     }
     );

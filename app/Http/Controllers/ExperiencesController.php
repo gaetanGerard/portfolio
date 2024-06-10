@@ -57,6 +57,7 @@ class ExperiencesController extends Controller
             'end_date' => 'nullable|date_format:d/m/Y',
             'is_current' => 'required|boolean',
             'description' => 'nullable',
+            'lang' => 'nullable|string',
         ]);
 
         $validatedData['start_date'] = Carbon::createFromFormat('d/m/Y', $validatedData['start_date'])->format('Y-m-d');

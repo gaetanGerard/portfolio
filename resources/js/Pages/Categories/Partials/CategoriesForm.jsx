@@ -10,7 +10,7 @@ import SwitchLanguage from '@/Components/SwitchLanguage';
 
 const CategoriesForm = () => {
     const { action, categories, localeData } = usePage().props;
-    const [language, setLanguage] = useState('fr');
+    const [language, setLanguage] = useState(action === 'edit' ? categories.lang : 'fr');
     const [formData, setFormData] = React.useState({
         name: action==='edit' ? categories.name : '',
         description: action==='edit' ? categories.description : ''

@@ -52,6 +52,7 @@ class TechnologiesController extends Controller
             'icon_path' => 'required',
             'technology_url' => 'required',
             'skill_level' => 'required',
+            'lang' => 'nullable|string',
         ]);
 
         Log::debug($validatedData);

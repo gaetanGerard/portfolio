@@ -83,6 +83,7 @@ export default function Index({ auth }) {
         { field: 'company_name', headerName: 'Nom de l\'entreprise', width: 200, flex: 1 },
         { field: 'job_title', headerName: 'Titre du job', width: 200, flex: 1 },
         { field: 'company_location', headerName: 'Lieu de l\'entreprise', width: 200, flex: 1 },
+        { field: 'lang', headerName: 'Langue', minWidth: 100, flex: 1},
         {
             field: 'actions',
             headerName: 'Actions',
@@ -116,6 +117,7 @@ export default function Index({ auth }) {
             company_name: experience.company_name,
             job_title: experience.job_title,
             company_location: experience.company_location,
+            lang: experience.lang === "fr" ? "Français" : "Anglais",
         };
     });
 

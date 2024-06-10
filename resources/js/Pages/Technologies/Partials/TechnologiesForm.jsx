@@ -11,6 +11,7 @@ import { styled } from '@mui/material/styles';
 import Slider from '@mui/material/Slider';
 import Snackbar from '@mui/material/Snackbar';
 import Alert from '@mui/material/Alert';
+import SwitchLanguage from '@/Components/SwitchLanguage';
 
 const VisuallyHiddenInput = styled('input')({
     clip: 'rect(0 0 0 0)',
@@ -25,7 +26,8 @@ const VisuallyHiddenInput = styled('input')({
   });
 
 const TechnologiesForm = () => {
-    const {technology, technoCategories, action} = usePage().props;
+    const {technology, technoCategories, action, localeData} = usePage().props;
+    const [language, setLanguage] = useState(action === 'edit' ? technology.lang : 'fr');
     const [formData, setFormData] = useState({
         name: action === 'edit' ? technology.name : '',
         category_id: action === 'edit' ? technology.category_id : '',
@@ -52,6 +54,13 @@ const TechnologiesForm = () => {
         });
 
     }, [technoCategories, formData.category_id]);
+
+    const changeLocaleLanguage = (e) => {
+        setLanguage(e.target.checked ? "fr" : "gb");
+        router.post('/change-language', {
+            language: e.target.checked ? "fr" : "gb"
+        })
+    }
 
     const handleClose = (event, reason) => {
         if (reason === 'clickaway') {
@@ -145,6 +154,7 @@ const TechnologiesForm = () => {
         formDataToSend.append('icon_path', formData.icon_path);
         formDataToSend.append('technology_url', formData.technology_url);
         formDataToSend.append('skill_level', formData.skill_level.toString());
+        formDataToSend.append('lang', language);
 
         if(formData.icon_path.length === 0) {
             setErrorInput({
@@ -242,7 +252,7 @@ const TechnologiesForm = () => {
         </Snackbar>
         <form onSubmit={handleSubmit}>
             <div>
-                <div className="grid md:grid-cols-2 sm:grid-cols-1 gap-3 bg-white overflow-hidden shadow-sm sm:rounded-lg grid-rows-3 p-3">
+                <div className="grid md:grid-cols-3 sm:grid-cols-1 gap-3 bg-white overflow-hidden shadow-sm sm:rounded-lg grid-rows-3 p-3">
                     <div>
                         <TextField
                             type="text"
@@ -279,7 +289,11 @@ const TechnologiesForm = () => {
                                 />)}
                         />
                     </div>
-                    <div className="col-span-2">
+                    <div>
+                        <p>Choisir la langue pour la technologie : </p>
+                        <SwitchLanguage localeLanguage={language}  changeLocaleLanguage={changeLocaleLanguage} />
+                    </div>
+                    <div className="col-span-3">
                         <TextField
                             type="text"
                             onBlur={handleBlur}
@@ -295,7 +309,7 @@ const TechnologiesForm = () => {
                             defaultValue={action === 'edit' ? technology.technology_url : null}
                         />
                     </div>
-                    <div className="px-4 col-span-2 justify-items-center">
+                    <div className="px-4 col-span-3 justify-items-center">
                         <Slider
                             aria-label="Maitrise de la technologie"
                             defaultValue={action === "edit" ? Number(technology.skill_level) : 0}

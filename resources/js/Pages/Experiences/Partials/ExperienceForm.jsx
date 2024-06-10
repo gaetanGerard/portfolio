@@ -16,9 +16,11 @@ import Alert from '@mui/material/Alert';
 import FormHelperText from '@mui/joy/FormHelperText';
 import FormControl from '@mui/joy/FormControl';
 import FormLabel from '@mui/joy/FormLabel';
+import SwitchLanguage from '@/Components/SwitchLanguage';
 
 const ExperienceForm = () => {
-    const {experience, action, previousUrl} = usePage().props;
+    const {experience, action, previousUrl, localeData} = usePage().props;
+    const [language, setLanguage] = useState(action === 'edit' ? experience.lang : 'fr');
     const [formData, setFormData] = useState({
         company_name: action === 'edit' ? experience.company_name : '',
         company_location: action === 'edit' ? experience.company_location : '',
@@ -50,6 +52,13 @@ const ExperienceForm = () => {
         }
 
     }, [action, experience]);
+
+    const changeLocaleLanguage = (e) => {
+        setLanguage(e.target.checked ? "fr" : "gb");
+        router.post('/change-language', {
+            language: e.target.checked ? "fr" : "gb"
+        })
+    }
 
     const handleClose = (event, reason) => {
         if (reason === 'clickaway') {
@@ -94,6 +103,7 @@ const ExperienceForm = () => {
         formDataToSend.append('end_date', formData.is_current ? '' : dayjs(formData.end_date).format('DD/MM/YYYY'));
         formDataToSend.append('is_current', formData.is_current);
         formDataToSend.append('description', formData.description);
+        formDataToSend.append('lang', language);
 
         if (action === 'edit') {
             formDataToSend.append('id', experience.id);
@@ -287,6 +297,10 @@ const ExperienceForm = () => {
                         }}
                     />
                 </LocalizationProvider>
+            </div>
+            <div>
+                <p>Choisir la langue pour l'expérience : </p>
+                <SwitchLanguage localeLanguage={language}  changeLocaleLanguage={changeLocaleLanguage} />
             </div>
             <div>
                 <FormControlLabel

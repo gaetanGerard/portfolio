@@ -92,6 +92,7 @@ const Show = ({ auth }) => {
                     <h3 className="text-3xl">Informations sur la technologie</h3>
                     <p className="font-bold">Nom de la technologie : <span className="font-normal">{technology.name}</span></p>
                     <p className="font-bold">Catégorie : <span className="font-normal">{category.name}</span></p>
+                    <p className="font-bold">Langue : <span className="font-normal">{technology.lang === "fr" ? "Français" : "Anglais"}</span></p>
                     <p className="font-bold">Maitrise : <span className="font-normal">{technology.skill_level}/100</span></p>
                     <p className="font-bold grid grid-flow-col justify-start content-center items-center">
                         Lien vers la documentation :

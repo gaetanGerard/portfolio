@@ -15,6 +15,7 @@ class Technologies extends Model
         'icon_path',
         'technology_url',
         'skill_level',
+        'lang'
     ];
 
     public function category()

@@ -84,6 +84,7 @@ export default function Index({ auth }) {
         { field: 'school_name', headerName: 'Nom de l\'école', width: 150, flex: 1 },
         { field: 'place_of_study', headerName: 'Lieux de l\'école', width: 150, flex: 1 },
         { field: 'degree', headerName: 'Diplôme', width: 150, flex: 1 },
+        { field: 'lang', headerName: 'Langue', minWidth: 100, flex: 1},
         {
             field: 'actions',
             headerName: 'Actions',
@@ -117,6 +118,7 @@ export default function Index({ auth }) {
             school_name: education.school_name,
             degree: education.degree,
             place_of_study: education.place_of_study,
+            lang: education.lang === "fr" ? "Français" : "Anglais",
         };
     });
 
