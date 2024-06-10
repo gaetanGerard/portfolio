@@ -17,7 +17,6 @@ import FormControl from '@mui/joy/FormControl';
 import FormLabel from '@mui/joy/FormLabel';
 import Textarea from '@mui/joy/Textarea';
 import SwitchLanguage from '@/Components/SwitchLanguage';
-import { Switch } from '@mui/material';
 
 const VisuallyHiddenInput = styled('input')({
     clip: 'rect(0 0 0 0)',
@@ -32,9 +31,8 @@ const VisuallyHiddenInput = styled('input')({
   });
 
 export const ProjectForm = () => {
-    const {project, technologies, action} = usePage().props;
+    const {project, technologies, action, localeData} = usePage().props;
     const [imgError, setImgError] = useState("");
-    const { localeData } = usePage().props;
     const [language, setLanguage] = useState('fr');
     const [formData, setFormData] = useState({
         title: action==='edit' ? project.title : '',

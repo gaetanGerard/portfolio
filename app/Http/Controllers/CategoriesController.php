@@ -44,7 +44,8 @@ class CategoriesController extends Controller
     {
         $validatedData = $request->validate([
             'name' => ['required', 'max:50'],
-            'description' => ['required', 'max:255']
+            'description' => ['required', 'max:255'],
+            'lang' => 'nullable|string',
         ]);
 
         if ($action === 'add') {

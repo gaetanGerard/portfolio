@@ -12,6 +12,7 @@ class TechnoCategory extends Model
     protected $fillable = [
         'name',
         'description',
+        'lang'
     ];
 
     public function technologies()

@@ -6,9 +6,11 @@ import TextField from '@mui/material/TextField';
 import Button from '@mui/material/Button';
 import Snackbar from '@mui/material/Snackbar';
 import Alert from '@mui/material/Alert';
+import SwitchLanguage from '@/Components/SwitchLanguage';
 
 const CategoriesForm = () => {
-    const { action, categories } = usePage().props;
+    const { action, categories, localeData } = usePage().props;
+    const [language, setLanguage] = useState('fr');
     const [formData, setFormData] = React.useState({
         name: action==='edit' ? categories.name : '',
         description: action==='edit' ? categories.description : ''
@@ -17,6 +19,14 @@ const CategoriesForm = () => {
     const [message, setMessage] = useState('');
     const [severity, setSeverity] = useState('');
     const [errorInput, setErrorInput] = useState({});
+
+    const changeLocaleLanguage = (e) => {
+        setLanguage(e.target.checked ? "fr" : "gb");
+        router.post('/change-language', {
+            language: e.target.checked ? "fr" : "gb"
+        })
+    }
+
 
     useEffect(() => {
         axios.interceptors.request.use(config => {
@@ -48,6 +58,7 @@ const CategoriesForm = () => {
         const formDataToSend = new FormData();
         formDataToSend.append('name', formData.name);
         formDataToSend.append('description', formData.description);
+        formDataToSend.append('lang', language);
 
         if (action === 'edit') {
             formDataToSend.append('id', categories.id);
@@ -121,6 +132,10 @@ const CategoriesForm = () => {
                     required
                     defaultValue={action === 'edit' ? categories.name : null}
                 />
+            </div>
+            <div>
+                <p>Choisir la langue de la catégorie : </p>
+                <SwitchLanguage localeLanguage={language}  changeLocaleLanguage={changeLocaleLanguage} />
             </div>
             <div>
                 <TextField

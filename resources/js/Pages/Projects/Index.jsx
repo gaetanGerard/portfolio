@@ -93,7 +93,7 @@ const Index = ({ auth }) => {
         { field: 'id', headerName: 'ID', minWidth: 40, flex: 1},
         { field: 'title', headerName: 'Titre', minWidth: 200, flex: 1},
         { field: 'short_description', headerName: 'Description', minWidth: 200, flex: 1 },
-        { field: 'lang', headerName: 'Langage', minWidth: 100, flex: 1},
+        { field: 'lang', headerName: 'Langue', minWidth: 100, flex: 1},
         {
             field: 'demo_link',
             headerName: 'Demo',
