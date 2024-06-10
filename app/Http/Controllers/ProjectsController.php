@@ -63,6 +63,7 @@ class ProjectsController extends Controller
             'demo_link' => 'nullable|string',
             'github_repo' => 'nullable|string',
             'description' => 'required',
+            'lang' => 'nullable|string',
         ]);
 
         if ($action === 'add') {

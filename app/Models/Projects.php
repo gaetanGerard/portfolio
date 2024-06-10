@@ -19,7 +19,8 @@ class Projects extends Model
         'demo_link',
         'github_repo',
         'description',
-        'slug'
+        'slug',
+        'lang'
     ];
 
     protected $casts = [

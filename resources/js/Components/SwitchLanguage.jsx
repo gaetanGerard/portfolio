@@ -18,7 +18,7 @@ const MaterialUISwitch = styled(Switch)(({ theme }) => ({
         color: '#fff',
         transform: 'translateX(22px)',
         '& .MuiSwitch-thumb:before': {
-          backgroundImage: `url('images/icons/french-flag.svg')`,
+          backgroundImage: `url('/images/icons/french-flag.svg')`,
         },
         '& + .MuiSwitch-track': {
           opacity: 1,
@@ -39,7 +39,7 @@ const MaterialUISwitch = styled(Switch)(({ theme }) => ({
         top: 0,
         backgroundRepeat: 'no-repeat',
         backgroundPosition: 'center',
-        backgroundImage: `url('images/icons/england-flag.svg')`,
+        backgroundImage: `url('/images/icons/england-flag.svg')`,
       },
     },
     '& .MuiSwitch-track': {
@@ -49,7 +49,7 @@ const MaterialUISwitch = styled(Switch)(({ theme }) => ({
     },
   }));
 
-const SelectLanguage = ({localeLanguage, changeLocaleLanguage}) => {
+const SwitchLanguage = ({localeLanguage, changeLocaleLanguage}) => {
     const options = [
         {
             code: 'gb',
@@ -71,4 +71,4 @@ const SelectLanguage = ({localeLanguage, changeLocaleLanguage}) => {
   )
 }
 
-export default SelectLanguage
+export default SwitchLanguage

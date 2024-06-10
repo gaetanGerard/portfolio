@@ -16,7 +16,7 @@ import CustomNoRowsOverlay from '@/Components/CustomNoRowOverlay';
 import Tooltip from '@mui/material/Tooltip';
 
 const Index = ({ auth }) => {
-    const {projects} = usePage().props;
+    const {projects, localeData} = usePage().props;
     const [open, setOpen] = useState(false);
     const [message, setMessage] = useState('');
     const [severity, setSeverity] = useState('');
@@ -93,6 +93,7 @@ const Index = ({ auth }) => {
         { field: 'id', headerName: 'ID', minWidth: 40, flex: 1},
         { field: 'title', headerName: 'Titre', minWidth: 200, flex: 1},
         { field: 'short_description', headerName: 'Description', minWidth: 200, flex: 1 },
+        { field: 'lang', headerName: 'Langage', minWidth: 100, flex: 1},
         {
             field: 'demo_link',
             headerName: 'Demo',
@@ -154,6 +155,7 @@ const Index = ({ auth }) => {
             id: project.id,
             title: project.title,
             short_description: truncateText(project.short_description, 10),
+            lang: project.lang === "fr" ? "Français" : "Anglais",
             demo_link: project.demo_link != null ? project.demo_link : "N.A.",
             github_repo: project.github_repo != null ? project.github_repo : "N.A."
         }

@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { Link, Head, usePage, router  } from '@inertiajs/react';
 import ApplicationLogo from '@/Components/ApplicationLogo';
-import SelectLanguage from '@/Components/SelectLanguage';
+import SwitchLanguage from '@/Components/SwitchLanguage';
 import axios from 'axios';
 
 export default function Portfolio({ auth, laravelVersion, phpVersion }) {
@@ -57,7 +57,7 @@ export default function Portfolio({ auth, laravelVersion, phpVersion }) {
                     </div>
                 </div>
                 <div>
-                    <SelectLanguage localeLanguage={language}  changeLocaleLanguage={changeLocaleLanguage} />
+                    <SwitchLanguage localeLanguage={language}  changeLocaleLanguage={changeLocaleLanguage} />
                     <p>{data.title}</p>
                 </div>
             </div>

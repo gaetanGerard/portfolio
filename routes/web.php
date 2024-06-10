@@ -27,7 +27,7 @@ Route::get('/', [PortfolioController::class, 'index'])->name('portfolio')->middl
 Route::post('/change-language', [LanguageController::class, 'changeLanguage'])->name('change.language');
 Route::prefix('admin/dashboard')->group(function () {
     Route::get('/', [DashboardController::class, 'index'])->middleware(['auth', 'verified'])->name('dashboard');
-    Route::prefix('projects')->group(function () {
+    Route::prefix('projects')->middleware(InjectLocaleData::class)->group(function () {
         Route::get('/', [ProjectsController::class, 'index'])->middleware(['auth', 'verified'])->name('projects.index');
         Route::get('/project/{id}', [ProjectsController::class, 'show'])->middleware(['auth', 'verified'])->name('projects.show');
         Route::get('/{action}', [ProjectsController::class, 'showForm'])->where('action', 'add|edit')->middleware(['auth', 'verified'])->name('projects.showForm');

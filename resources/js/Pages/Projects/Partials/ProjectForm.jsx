@@ -16,6 +16,8 @@ import FormHelperText from '@mui/joy/FormHelperText';
 import FormControl from '@mui/joy/FormControl';
 import FormLabel from '@mui/joy/FormLabel';
 import Textarea from '@mui/joy/Textarea';
+import SwitchLanguage from '@/Components/SwitchLanguage';
+import { Switch } from '@mui/material';
 
 const VisuallyHiddenInput = styled('input')({
     clip: 'rect(0 0 0 0)',
@@ -32,6 +34,8 @@ const VisuallyHiddenInput = styled('input')({
 export const ProjectForm = () => {
     const {project, technologies, action} = usePage().props;
     const [imgError, setImgError] = useState("");
+    const { localeData } = usePage().props;
+    const [language, setLanguage] = useState('fr');
     const [formData, setFormData] = useState({
         title: action==='edit' ? project.title : '',
         short_description: action==='edit' ? project.short_description : '',
@@ -59,6 +63,13 @@ export const ProjectForm = () => {
             setSelectedImg(project.images);
         }
     }, []);
+
+    const changeLocaleLanguage = (e) => {
+        setLanguage(e.target.checked ? "fr" : "gb");
+        router.post('/change-language', {
+            language: e.target.checked ? "fr" : "gb"
+        })
+    }
 
     const handleClose = (event, reason) => {
         if (reason === 'clickaway') {
@@ -198,6 +209,7 @@ export const ProjectForm = () => {
         formDataToSend.append('demo_link', formData.demo_link || '');
         formDataToSend.append('github_repo', formData.github_repo || '');
         formDataToSend.append('description', formData.description);
+        formDataToSend.append('lang', language);
 
         if(formData.main_img.length === 0) {
             setErrorInput({ ...errorInput, main_img: { message: 'Vous devez ajouter une image de couverture', status: true } });
@@ -350,6 +362,10 @@ export const ProjectForm = () => {
                 </div>
                 <div>
                     <TextField type="url" className="w-full" id="github_repo" label="Lien Github"  onChange={handleInputChange} variant="outlined" name="github_repo" defaultValue={action === 'edit' ? project.github_repo : null} />
+                </div>
+                <div>
+                    <p>Choisir la langue du projet : </p>
+                    <SwitchLanguage localeLanguage={language}  changeLocaleLanguage={changeLocaleLanguage} />
                 </div>
                 <div className="col-span-2">
                 <FormControl>
