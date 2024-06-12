@@ -9,6 +9,16 @@ export default function Portfolio() {
 
     const { data } = localeData;
 
+    /*
+    *
+    *
+    *
+    *
+    * Ajouter editeur WYSIWYG au différent formulaire dans l'admin utilisant
+    * un textarea (composant React https://jpuri.github.io/react-draft-wysiwyg/#/)
+    *
+    */
+
 
     const changeLocaleLanguage = (e) => {
         setLanguage(e.target.checked ? "fr" : "gb");
