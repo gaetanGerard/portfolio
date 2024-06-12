@@ -24,7 +24,7 @@ const Nav = ({data, language, changeLocaleLanguage}) => {
                     <div className="hidden space-x-8 sm:-my-px sm:ms-10 sm:flex">
                     {navItems.map((item, index) => (
                         <NavLink
-                            href={`#${item.href}`}
+                            href={`${item.href}`}
                             key={index}
                             className="text-white"
                         >
@@ -69,7 +69,7 @@ const Nav = ({data, language, changeLocaleLanguage}) => {
             <div className="pt-2 pb-3 space-y-1">
                 {navItems.map((item, index) => (
                     <ResponsiveNavLink
-                        href={`#${item.href}`}
+                        href={`${item.href}`}
                         key={index}
                         className="text-white hover:bg-dark"
                     >

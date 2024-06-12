@@ -1,9 +1,9 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Head, usePage, router  } from '@inertiajs/react';
 import Nav from '@/Components/Nav';
 import HeaderSection from './Sections/HeaderSection';
 
-export default function Portfolio({ auth, laravelVersion, phpVersion }) {
+export default function Portfolio() {
     const { localeData } = usePage().props;
     const [language, setLanguage] = useState('fr');
 
