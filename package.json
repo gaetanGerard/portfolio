@@ -32,9 +32,12 @@
         "@mui/styled-engine-sc": "^6.0.0-alpha.18",
         "@mui/x-data-grid": "^7.6.1",
         "@mui/x-date-pickers": "^7.6.1",
+        "@tsparticles/react": "^3.0.0",
+        "@tsparticles/slim": "^3.4.0",
         "bootstrap": "^5.3.3",
         "dayjs": "^1.11.11",
         "flag-icons": "^7.2.3",
+        "react-type-animation": "^3.2.0",
         "styled-components": "^6.1.11"
     }
 }

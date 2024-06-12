@@ -1,3 +1,29 @@
 {
-    "title": "le gros titre"
+    "nav": {
+        "home": {
+            "label": "Accueil",
+            "href": "#home"},
+        "about": {
+            "label": "À propos",
+            "href": "#about"},
+        "skills": {
+            "label": "Compétences",
+            "href": "#skills"},
+        "portfolio": {
+            "label": "Portfolio",
+            "href": "#portfolio"},
+        "experiences": {
+            "label": "Expériences",
+            "href": "#experiences"},
+        "education": {
+            "label": "Éducation",
+            "href": "#educations"}
+    },
+    "headerSection": {
+        "title": "Bonjour, je m'apelle",
+        "name": "Gaétan Gérard",
+        "subtitle": "Développeur Web Full Stack",
+        "description": "Je suis un développeur web full stack passionné par la technologie et le développement web. J'ai une expérience dans le développement de sites et d'applications web.",
+        "button": "Télécharger CV"
+    }
 }

@@ -9,12 +9,17 @@ export default {
         './resources/views/**/*.blade.php',
         './resources/js/**/*.jsx',
     ],
-
     theme: {
         extend: {
             fontFamily: {
                 sans: ['Figtree', ...defaultTheme.fontFamily.sans],
             },
+            colors: {
+                'dark': '#252934',
+                'highlight': '#e31b6d',
+                'blue': '#04c2c9',
+                'dark-blue': '#00a1a7'
+            }
         },
     },
 
