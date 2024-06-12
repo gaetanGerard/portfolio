@@ -1,25 +1,32 @@
-import React from 'react'
+import React, { useEffect, useRef } from 'react';
+import Typed from "typed.js";
 import ParticleBackground from '@/Components/ParticleBackground';
-import { TypeAnimation } from 'react-type-animation';
 
 const HeaderSection = ({data}) => {
-    const section = data.headerSection;
-    console.log(section);
+  const el = useRef(null);
+  const section = data.headerSection;
+
+  useEffect(() => {
+    const typed = new Typed(el.current, {
+      strings: [
+        `<p>${section.title}</p>`,
+        `<p>${section.title} <span class="text-highlight">${section.name}</span></p>`,
+        `<p>${section.title} <span class="text-highlight">${section.name}</span></p><p>${section.subtitle}</p>`,
+      ],
+      typeSpeed: 50,
+      loop: true,
+      loopCount: 1,
+      showCursor: false
+    });
+    return () => {
+      typed.destroy();
+    };
+  }, [section]);
+
   return (
     <div className="relative flex items-center justify-center h-screen">
             <div className="absolute top-50 left-50 text-white z-50 text-center">
-              <TypeAnimation
-                  sequence={[
-                      `${section.title}`, 1000,
-                      `${section.title} ${section.name}`, 1000,
-                      `${section.title} ${section.name}
-                          ${section.subtitle}`,1000,
-
-                  ]}
-                  style={{ whiteSpace: 'pre-line', fontSize: '2em', display: 'block' }}
-                  repeat={5}
-                  wrapper="div"
-              />
+              <div className="text-3xl" ref={el} />
             </div>
         <ParticleBackground />
     </div>

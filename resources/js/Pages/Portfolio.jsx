@@ -17,6 +17,12 @@ export default function Portfolio() {
         })
     }
 
+    useEffect(() => {
+        router.post('/change-language', {
+            language: language
+        })
+    }, [language])
+
     return (
         <>
             <Head title="Portfolio" />

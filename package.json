@@ -38,6 +38,8 @@
         "dayjs": "^1.11.11",
         "flag-icons": "^7.2.3",
         "react-type-animation": "^3.2.0",
-        "styled-components": "^6.1.11"
+        "react-typed": "^2.0.12",
+        "styled-components": "^6.1.11",
+        "typed.js": "^2.1.0"
     }
 }
