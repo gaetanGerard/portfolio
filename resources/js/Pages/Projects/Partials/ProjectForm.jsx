@@ -17,6 +17,8 @@ import FormControl from '@mui/joy/FormControl';
 import FormLabel from '@mui/joy/FormLabel';
 import Textarea from '@mui/joy/Textarea';
 import SwitchLanguage from '@/Components/SwitchLanguage';
+import WysiwygEditor from '@/Components/WysiwygEditor';
+import { EditorState, convertToRaw, convertFromRaw } from 'draft-js';
 
 const VisuallyHiddenInput = styled('input')({
     clip: 'rect(0 0 0 0)',
@@ -50,6 +52,14 @@ export const ProjectForm = () => {
     const [severity, setSeverity] = useState('');
     const [errorInput, setErrorInput] = useState({});
     const autocompleteRef = useRef(null);
+    const [editorState, setEditorState] = useState(() => {
+        if (action === "edit" && project.description) {
+            const contentState = convertFromRaw(JSON.parse(project.description));
+            return EditorState.createWithContent(contentState);
+        } else {
+            return EditorState.createEmpty();
+        }
+    });
 
     useEffect(() => {
         axios.interceptors.request.use(config => {
@@ -60,7 +70,13 @@ export const ProjectForm = () => {
         if(action === 'edit') {
             setSelectedImg(project.images);
         }
-    }, []);
+
+        if (action === "edit" && project.description) {
+            const contentState = convertFromRaw(JSON.parse(project.description));
+            const newEditorState = EditorState.createWithContent(contentState);
+            setEditorState(newEditorState);
+        }
+    }, [project]);
 
     const changeLocaleLanguage = (e) => {
         setLanguage(e.target.checked ? "fr" : "gb");
@@ -200,13 +216,15 @@ export const ProjectForm = () => {
     const handleSubmit = async (e) => {
         e.preventDefault();
         const url = `/admin/dashboard/projects/${action}`;
+        const contentState = editorState.getCurrentContent();
+        const rawContentState = convertToRaw(contentState);
         const formDataToSend = new FormData();
         formDataToSend.append('title', formData.title);
-        formDataToSend.append('short_description', formData.description);
+        formDataToSend.append('short_description', "placeholder");
         formDataToSend.append('main_img', formData.main_img);
         formDataToSend.append('demo_link', formData.demo_link || '');
         formDataToSend.append('github_repo', formData.github_repo || '');
-        formDataToSend.append('description', formData.description);
+        formDataToSend.append('description', JSON.stringify(rawContentState));
         formDataToSend.append('lang', language);
 
         if(formData.main_img.length === 0) {
@@ -256,7 +274,6 @@ export const ProjectForm = () => {
     const handleBlur = (e) => {
         let message = '';
         if(e.target.name === 'title') message = 'Le titre du projet est requis';
-        if(e.target.name === 'description') message = 'La description du projet est requise';
 
         if(e.target.value.length === 0) {
             setErrorInput({
@@ -296,6 +313,30 @@ export const ProjectForm = () => {
                 }
             })
         }
+    }
+
+    const handleBlurOnRichEditor = (e) => {
+        if(e.target.textContent.length === 0) {
+            setErrorInput({
+                ...errorInput,
+                description: {
+                    message: 'Une description est requise',
+                    status: true
+                }
+            })
+        } else {
+            setErrorInput({
+                ...errorInput,
+                description: {
+                    message: '',
+                    status: false
+                }
+            })
+        }
+    }
+
+    const handleEditorStateChange = (editorState) => {
+        setEditorState(editorState);
     }
 
   return (
@@ -366,24 +407,11 @@ export const ProjectForm = () => {
                     <SwitchLanguage localeLanguage={language}  changeLocaleLanguage={changeLocaleLanguage} />
                 </div>
                 <div className="col-span-2">
-                <FormControl>
-                    <FormLabel>Description du projet</FormLabel>
-                    <Textarea
-                    id="description"
-                    label="Description"
-                    minRows={4}
-                    defaultValue={action === 'edit' ? project.description : ""}
-                    variant="outlined"
-                    name="description"
-                    onChange={handleInputChange}
-                    onBlur={handleBlur}
-                    error={errorInput.description !== undefined ? errorInput.description.status : false}
-                    required
-                    placeholder="Description du projet"
-                    className="w-full self-center"
-                    />
-                    <FormHelperText style={{color: '#C41C1C'}}>{errorInput.description !== undefined ? errorInput.description.message : ''}</FormHelperText>
-                </FormControl>
+                    <FormControl>
+                        <FormLabel>Description du projet</FormLabel>
+                        <WysiwygEditor handleEditorStateChange={handleEditorStateChange} editorState={editorState} onBlur={handleBlurOnRichEditor} />
+                        <FormHelperText style={{color: '#C41C1C'}}>{errorInput.description !== undefined ? errorInput.description.message : ''}</FormHelperText>
+                    </FormControl>
                 </div>
 
             </div>

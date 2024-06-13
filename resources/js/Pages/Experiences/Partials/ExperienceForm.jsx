@@ -1,4 +1,4 @@
-import React, {useState, useEffect, useMemo} from 'react';
+import React, {useState, useEffect, useMemo, Component} from 'react';
 import { usePage, router } from '@inertiajs/react';
 import { grey } from '@mui/material/colors';
 import axios from 'axios';
@@ -17,6 +17,8 @@ import FormHelperText from '@mui/joy/FormHelperText';
 import FormControl from '@mui/joy/FormControl';
 import FormLabel from '@mui/joy/FormLabel';
 import SwitchLanguage from '@/Components/SwitchLanguage';
+import WysiwygEditor from '@/Components/WysiwygEditor';
+import { EditorState, convertToRaw, convertFromRaw } from 'draft-js';
 
 const ExperienceForm = () => {
     const {experience, action, previousUrl, localeData} = usePage().props;
@@ -37,6 +39,14 @@ const ExperienceForm = () => {
     const todaysDate = {start: dayjs().format('DD/MM/YYYY')};
     const [starDateError, setStartDateError] = useState(null);
     const [endDateError, setEndDateError] = useState(null);
+    const [editorState, setEditorState] = useState(() => {
+        if (action === "edit" && experience.description) {
+            const contentState = convertFromRaw(JSON.parse(experience.description));
+            return EditorState.createWithContent(contentState);
+        } else {
+            return EditorState.createEmpty();
+        }
+    });
 
     useEffect(() => {
         axios.interceptors.request.use(config => {
@@ -49,6 +59,12 @@ const ExperienceForm = () => {
                 ...formData,
                 is_current: experience.is_current
             })
+        }
+
+        if (action === "edit" && experience.description) {
+            const contentState = convertFromRaw(JSON.parse(experience.description));
+            const newEditorState = EditorState.createWithContent(contentState);
+            setEditorState(newEditorState);
         }
 
     }, [action, experience]);
@@ -96,13 +112,15 @@ const ExperienceForm = () => {
         e.preventDefault();
         const url = `/admin/dashboard/experiences/${action}`;
         const formDataToSend = new FormData();
+        const contentState = editorState.getCurrentContent();
+        const rawContentState = convertToRaw(contentState);
         formDataToSend.append('company_name', formData.company_name);
         formDataToSend.append('company_location', formData.company_location);
         formDataToSend.append('job_title', formData.job_title);
         formDataToSend.append('start_date', dayjs(formData.start_date).format('DD/MM/YYYY'));
         formDataToSend.append('end_date', formData.is_current ? '' : dayjs(formData.end_date).format('DD/MM/YYYY'));
         formDataToSend.append('is_current', formData.is_current);
-        formDataToSend.append('description', formData.description);
+        formDataToSend.append('description', JSON.stringify(rawContentState));
         formDataToSend.append('lang', language);
 
         if (action === 'edit') {
@@ -134,7 +152,6 @@ const ExperienceForm = () => {
         if(e.target.name === 'company_name') message = 'Le nom de l\'entreprise est requis';
         if(e.target.name === 'company_location') message = 'Le lieu de travail est requise';
         if(e.target.name === 'job_title') message = 'Le titre du job est requise';
-        if(e.target.name === 'description') message = 'Une description est requise';
 
         if(e.target.value.length === 0) {
             setErrorInput({
@@ -149,6 +166,26 @@ const ExperienceForm = () => {
             setErrorInput({
                 ...errorInput,
                 [e.target.name]: {
+                    message: '',
+                    status: false
+                }
+            })
+        }
+    }
+
+    const handleBlurOnRichEditor = (e) => {
+        if(e.target.textContent.length === 0) {
+            setErrorInput({
+                ...errorInput,
+                description: {
+                    message: 'Une description est requise',
+                    status: true
+                }
+            })
+        } else {
+            setErrorInput({
+                ...errorInput,
+                description: {
                     message: '',
                     status: false
                 }
@@ -181,6 +218,10 @@ const ExperienceForm = () => {
                 return null;
         }
     }, [endDateError]);
+
+    const handleEditorStateChange = (editorState) => {
+        setEditorState(editorState);
+    }
 
   return (
     <form onSubmit={handleSubmit} className="grid gap-3 bg-white overflow-hidden shadow-sm sm:rounded-lg p-3">
@@ -314,20 +355,7 @@ const ExperienceForm = () => {
             <div className="col-span-3">
                 <FormControl>
                     <FormLabel>Description de l'expérience professionnelle</FormLabel>
-                    <Textarea
-                    id="description"
-                    onBlur={handleBlur}
-                    error={errorInput.description !== undefined ? errorInput.description.status : false}
-                    label="Description"
-                    defaultValue={action === 'edit' ? experience.description : ""}
-                    variant="outlined"
-                    name="description"
-                    placeholder="Description de l'expérience professionnelle"
-                    onChange={handleInputChange}
-                    required
-                    className="w-full"
-                    minRows={4}
-                    />
+                    <WysiwygEditor handleEditorStateChange={handleEditorStateChange} editorState={editorState} onBlur={handleBlurOnRichEditor} />
                     <FormHelperText style={{color: '#C41C1C'}}>{errorInput.description !== undefined ? errorInput.description.message : ''}</FormHelperText>
                 </FormControl>
             </div>

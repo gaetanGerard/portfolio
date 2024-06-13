@@ -43,8 +43,8 @@ class CategoriesController extends Controller
     public function handleForm(Request $request, $action)
     {
         $validatedData = $request->validate([
-            'name' => ['required', 'max:50'],
-            'description' => ['required', 'max:255'],
+            'name' => 'required|string',
+            'description' => 'nullable|json',
             'lang' => 'nullable|string',
         ]);
 

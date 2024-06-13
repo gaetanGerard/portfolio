@@ -20,7 +20,7 @@ return new class extends Migration
             $table->date('start_date');
             $table->date('end_date')->nullable();
             $table->boolean('is_current')->default(false);
-            $table->text('description')->nullable();
+            $table->json('description')->nullable();
         });
     }
 

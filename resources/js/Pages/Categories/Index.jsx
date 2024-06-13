@@ -81,7 +81,6 @@ const Index = ({ auth }) => {
     const columns = [
         { field: 'id', headerName: 'ID', width: 90 },
         { field: 'name', headerName: 'Nom', width: 150, flex: 1},
-        { field: 'description', headerName: 'Description', width: 150, flex: 1 },
         { field: 'lang', headerName: 'Langue', width: 150, flex: 1},
         {
             field: 'actions',
@@ -114,7 +113,6 @@ const Index = ({ auth }) => {
         return {
             id: category.id,
             name: category.name,
-            description: category.description,
             lang: category.lang === "fr" ? "Français" : "Anglais",
         };
     });

@@ -92,7 +92,6 @@ const Index = ({ auth }) => {
     const columns = [
         { field: 'id', headerName: 'ID', minWidth: 40, flex: 1},
         { field: 'title', headerName: 'Titre', minWidth: 200, flex: 1},
-        { field: 'short_description', headerName: 'Description', minWidth: 200, flex: 1 },
         { field: 'lang', headerName: 'Langue', minWidth: 100, flex: 1},
         {
             field: 'demo_link',
@@ -154,7 +153,6 @@ const Index = ({ auth }) => {
         return {
             id: project.id,
             title: project.title,
-            short_description: truncateText(project.short_description, 10),
             lang: project.lang === "fr" ? "Français" : "Anglais",
             demo_link: project.demo_link != null ? project.demo_link : "N.A.",
             github_repo: project.github_repo != null ? project.github_repo : "N.A.",

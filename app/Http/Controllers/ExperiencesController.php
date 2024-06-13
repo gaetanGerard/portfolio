@@ -56,7 +56,7 @@ class ExperiencesController extends Controller
             'start_date' => 'required|date_format:d/m/Y',
             'end_date' => 'nullable|date_format:d/m/Y',
             'is_current' => 'required|boolean',
-            'description' => 'nullable',
+            'description' => 'nullable|json',
             'lang' => 'nullable|string',
         ]);
 

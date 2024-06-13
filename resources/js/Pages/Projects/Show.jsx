@@ -10,6 +10,8 @@ import LanguageIcon from '@mui/icons-material/Language';
 import GitHubIcon from '@mui/icons-material/GitHub';
 import Snackbar from '@mui/material/Snackbar';
 import Alert from '@mui/material/Alert';
+import { convertToRaw, convertFromRaw  } from 'draft-js';
+import draftToHtml from 'draftjs-to-html';
 
 const Show = ({ auth }) => {
     const {project, technologies, categories} = usePage().props;
@@ -17,6 +19,11 @@ const Show = ({ auth }) => {
     const [open, setOpen] = useState(false);
     const [message, setMessage] = useState('');
     const [severity, setSeverity] = useState('');
+
+    const rawContentState = JSON.parse(project.description);
+    const contentState = convertFromRaw(rawContentState);
+
+    const markup = draftToHtml(convertToRaw(contentState));
 
     useEffect(() => {
         const storedMessage = localStorage.getItem('snackbarMessage');
@@ -108,7 +115,10 @@ const Show = ({ auth }) => {
                             <p className="font-bold">Image de couverture : </p>
                             <img src={`${project.main_img}`} alt={`${project.title}`} style={{ width: '300px', height: '200px', objectFit: 'cover' }}  />
                         </div>
-                        <p className="font-bold">Description : <span className="font-normal">{project.description}</span></p>
+                        <div className="col-span-3">
+                            <p className="font-bold col-span-3">Description :</p>
+                            <div dangerouslySetInnerHTML={{ __html: markup }} className="grid grid-flow-row gap-4" />
+                        </div>
                         {project.demo_link != null ? (
                             <p className="font-bold grid grid-flow-col justify-start content-center items-center">
                                 Lien vers le site :

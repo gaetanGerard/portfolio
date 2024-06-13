@@ -5,12 +5,19 @@ import Button from '@mui/material/Button';
 import dayjs from 'dayjs';
 import Snackbar from '@mui/material/Snackbar';
 import Alert from '@mui/material/Alert';
+import { convertToRaw, convertFromRaw  } from 'draft-js';
+import draftToHtml from 'draftjs-to-html';
 
 const Show = ({ auth }) => {
     const {education} = usePage().props;
     const [open, setOpen] = useState(false);
     const [message, setMessage] = useState('');
     const [severity, setSeverity] = useState('');
+
+    const rawContentState = JSON.parse(education.description);
+    const contentState = convertFromRaw(rawContentState);
+
+    const markup = draftToHtml(convertToRaw(contentState));
 
     useEffect(() => {
         const storedMessage = localStorage.getItem('snackbarMessage');
@@ -90,7 +97,10 @@ const Show = ({ auth }) => {
             <p className="font-bold">Langue : <span className="font-normal">{education.lang === "fr" ? "Français" : "Anglais"}</span></p>
             <p className="font-bold">Début : <span className="font-normal">{dayjs(education.start_date).format('DD/MM/YYYY')}</span></p>
             {education.is_current ? (<p className="font-bold">En cours : Oui</p>) : (<p className="font-bold">Fin : <span className="font-normal">{dayjs(education.end_date).format('DD/MM/YYYY')}</span></p>)}
-            <p className="font-bold col-span-3">Description : <span className="font-normal">{education.description}</span></p>
+            <div className="col-span-3">
+                <p className="font-bold col-span-3">Description :</p>
+                <div dangerouslySetInnerHTML={{ __html: markup }} className="grid grid-flow-row gap-4" />
+            </div>
         </div>
         <div className="grid grid-flow-col justify-start gap-2">
             <Button variant="contained" className="mt-2" color="warning" href={`/admin/dashboard/educations/edit?id=${education.id}`}>Modifier</Button>

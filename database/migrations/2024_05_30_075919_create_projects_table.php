@@ -20,7 +20,7 @@ return new class extends Migration
             $table->text('images');
             $table->string('demo_link')->nullable();
             $table->string('github_repo')->nullable();
-            $table->text('description');
+            $table->json('description');
             $table->string('slug')->unique();
             $table->timestamps();
         });

@@ -17,6 +17,8 @@ import FormHelperText from '@mui/joy/FormHelperText';
 import FormControl from '@mui/joy/FormControl';
 import FormLabel from '@mui/joy/FormLabel';
 import SwitchLanguage from '@/Components/SwitchLanguage';
+import WysiwygEditor from '@/Components/WysiwygEditor';
+import { EditorState, convertToRaw, convertFromRaw } from 'draft-js';
 
 const EducationForm = () => {
     const {education, action, localeData} = usePage().props;
@@ -37,6 +39,14 @@ const EducationForm = () => {
     const todaysDate = {start: dayjs().format('DD/MM/YYYY')};
     const [starDateError, setStartDateError] = useState(null);
     const [endDateError, setEndDateError] = useState(null);
+    const [editorState, setEditorState] = useState(() => {
+        if (action === "edit" && education.description) {
+            const contentState = convertFromRaw(JSON.parse(education.description));
+            return EditorState.createWithContent(contentState);
+        } else {
+            return EditorState.createEmpty();
+        }
+    });
 
     useEffect(() => {
         axios.interceptors.request.use(config => {
@@ -49,6 +59,12 @@ const EducationForm = () => {
                 ...formData,
                 is_current: education.is_current
             })
+        }
+
+        if (action === "edit" && education.description) {
+            const contentState = convertFromRaw(JSON.parse(education.description));
+            const newEditorState = EditorState.createWithContent(contentState);
+            setEditorState(newEditorState);
         }
 
     }, [action, education]);
@@ -95,6 +111,8 @@ const EducationForm = () => {
     const handleSubmit = async (e) => {
         e.preventDefault();
         const url = `/admin/dashboard/educations/${action}`;
+        const contentState = editorState.getCurrentContent();
+        const rawContentState = convertToRaw(contentState);
         const formDataToSend = new FormData();
         formDataToSend.append('school_name', formData.school_name);
         formDataToSend.append('degree', formData.degree);
@@ -102,7 +120,7 @@ const EducationForm = () => {
         formDataToSend.append('start_date', dayjs(formData.start_date).format('DD/MM/YYYY'));
         formDataToSend.append('end_date', formData.is_current ? '' : dayjs(formData.end_date).format('DD/MM/YYYY'));
         formDataToSend.append('is_current', formData.is_current);
-        formDataToSend.append('description', formData.description);
+        formDataToSend.append('description', JSON.stringify(rawContentState));
         formDataToSend.append('lang', language);
 
         if (action === 'edit') {
@@ -134,7 +152,6 @@ const EducationForm = () => {
         if(e.target.name === 'school_name') message = 'Le nom de l\'école est requis';
         if(e.target.name === 'degree') message = 'Le nom du diplôme est requis';
         if(e.target.name === 'place_of_study') message = 'Le lieu de l\'éducation est requis';
-        if(e.target.name === 'description') message = 'Une description est requise';
 
         if(e.target.value.length === 0) {
             setErrorInput({
@@ -149,6 +166,26 @@ const EducationForm = () => {
             setErrorInput({
                 ...errorInput,
                 [e.target.name]: {
+                    message: '',
+                    status: false
+                }
+            })
+        }
+    }
+
+    const handleBlurOnRichEditor = (e) => {
+        if(e.target.textContent.length === 0) {
+            setErrorInput({
+                ...errorInput,
+                description: {
+                    message: 'Une description est requise',
+                    status: true
+                }
+            })
+        } else {
+            setErrorInput({
+                ...errorInput,
+                description: {
                     message: '',
                     status: false
                 }
@@ -181,6 +218,10 @@ const EducationForm = () => {
                 return null;
         }
     }, [endDateError]);
+
+    const handleEditorStateChange = (editorState) => {
+        setEditorState(editorState);
+    }
 
   return (
     <form onSubmit={handleSubmit} className="grid gap-3 bg-white overflow-hidden shadow-sm sm:rounded-lg p-3">
@@ -314,19 +355,7 @@ const EducationForm = () => {
             <div className="col-span-3">
                 <FormControl>
                     <FormLabel>Description de l'éducation</FormLabel>
-                    <Textarea
-                    id="description"
-                    onBlur={handleBlur}
-                    error={errorInput.description !== undefined ? errorInput.description.status : false}
-                    label="Description"
-                    minRows={4}
-                    defaultValue={action === 'edit' ? education.description : ""}
-                    variant="outlined"
-                    name="description"
-                    onChange={handleInputChange}
-                    placeholder="Description de l'éducation"
-                    required
-                    />
+                    <WysiwygEditor handleEditorStateChange={handleEditorStateChange} editorState={editorState} onBlur={handleBlurOnRichEditor} />
                     <FormHelperText style={{color: '#C41C1C'}}>{errorInput.description !== undefined ? errorInput.description.message : ''}</FormHelperText>
                 </FormControl>
             </div>

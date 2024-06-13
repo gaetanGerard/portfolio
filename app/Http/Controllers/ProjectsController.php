@@ -62,7 +62,7 @@ class ProjectsController extends Controller
             'used_technologies' => 'required|array',
             'demo_link' => 'nullable|string',
             'github_repo' => 'nullable|string',
-            'description' => 'required',
+            'description' => 'nullable|json',
             'lang' => 'nullable|string',
         ]);
 
