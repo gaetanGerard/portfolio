@@ -12,6 +12,7 @@ import Slider from '@mui/material/Slider';
 import Snackbar from '@mui/material/Snackbar';
 import Alert from '@mui/material/Alert';
 import SwitchLanguage from '@/Components/SwitchLanguage';
+import Switch from '@mui/material/Switch';
 
 const VisuallyHiddenInput = styled('input')({
     clip: 'rect(0 0 0 0)',
@@ -34,6 +35,7 @@ const TechnologiesForm = () => {
         icon_path: action === 'edit' ? technology.icon_path : '',
         technology_url: action === 'edit' ? technology.technology_url : '',
         skill_level: action === 'edit' ? technology.skill_level : '0',
+        show: action === 'edit' ? technology.show : true
     });
     const [categoryName, setCategoryName] = useState('');
     const [open, setOpen] = useState(false);
@@ -158,6 +160,7 @@ const TechnologiesForm = () => {
         formDataToSend.append('technology_url', formData.technology_url);
         formDataToSend.append('skill_level', formData.skill_level.toString());
         formDataToSend.append('lang', language);
+        formDataToSend.append('show', formData.show ? '1' : '0');
 
         if(formData.icon_path.length === 0) {
             setErrorInput({
@@ -276,7 +279,7 @@ const TechnologiesForm = () => {
                             defaultValue={action === 'edit' ? technology.name : null}
                         />
                     </div>
-                    <div>
+                    <div className="col-span-2">
                         <Autocomplete
                             multiple
                             freeSolo
@@ -301,6 +304,14 @@ const TechnologiesForm = () => {
                                     error={errorInput.category_ids !== undefined ? errorInput.category_ids.status : false}
                                     helperText={errorInput.category_ids !== undefined ? errorInput.category_ids.message : ''}
                                 />)}
+                        />
+                    </div>
+                    <div>
+                        <p>Montrer/Cacher la technologie : </p>
+                        <Switch
+                            checked={formData.show}
+                            onChange={e => setFormData({...formData, show: e.target.checked})}
+                            inputProps={{ 'aria-label': 'controlled' }}
                         />
                     </div>
                     <div>

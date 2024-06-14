@@ -55,6 +55,7 @@ class TechnologiesController extends Controller
             'technology_url' => 'required',
             'skill_level' => 'required',
             'lang' => 'nullable|string',
+            'show' => 'required|boolean',
         ]);
 
         Log::debug($validatedData);

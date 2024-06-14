@@ -17,6 +17,7 @@ return new class extends Migration
             $table->string('icon_path');
             $table->string('technology_url');
             $table->string('skill_level');
+            $table->boolean('show')->default(true);
             $table->timestamps();
         });
     }
