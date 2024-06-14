@@ -37,11 +37,12 @@ class TechnologiesController extends Controller
         if ($action == 'edit') {
             $technologyId = $request->query('id');
             $technology = Technologies::find($technologyId);
+            $categoryTechnology = $technology->categories;
             if (!$technology) {
                 return Inertia::render('Technologies/Add', ['status' => '404']);
             }
         }
-        return Inertia::render('Technologies/Add', ['action' => $action, 'technology' => $technology, 'technoCategories' => $technoCategories]);
+        return Inertia::render('Technologies/Add', ['action' => $action, 'technology' => $technology, 'technoCategories' => $technoCategories, 'categoryTechnology' => $categoryTechnology ?? null]);
     }
 
     public function handleForm(Request $request, $action)

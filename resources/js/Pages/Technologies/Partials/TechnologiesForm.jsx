@@ -27,7 +27,7 @@ const VisuallyHiddenInput = styled('input')({
   });
 
 const TechnologiesForm = () => {
-    const {technology, technoCategories, action, localeData} = usePage().props;
+    const {technology, technoCategories, action, localeData, categoryTechnology} = usePage().props;
     const [language, setLanguage] = useState(action === 'edit' ? technology.lang : 'fr');
     const [formData, setFormData] = useState({
         name: action === 'edit' ? technology.name : '',
@@ -253,6 +253,8 @@ const TechnologiesForm = () => {
         }
     }
 
+    console.log(categoryTechnology)
+
   return (
     <div>
         <Snackbar open={open} autoHideDuration={5000} onClose={handleClose}>
@@ -286,7 +288,11 @@ const TechnologiesForm = () => {
                             id="combo-box-demo"
                             options={technoCategories.map((option) => option.name)}
                             onChange={handleCategoryChange}
-                            defaultValue={action === 'edit' && technoCategories ? technoCategories.category_ids : []}
+                            defaultValue={
+                                action === 'edit' && technoCategories
+                                ? categoryTechnology.map((category) => category.name)
+                                : []
+                            }
                             isOptionEqualToValue={(option, value) => option === value}
                             className="w-full"
                             ref={autocompleteRef}
