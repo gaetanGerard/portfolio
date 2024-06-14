@@ -31,13 +31,12 @@ const TechnologiesForm = () => {
     const [language, setLanguage] = useState(action === 'edit' ? technology.lang : 'fr');
     const [formData, setFormData] = useState({
         name: action === 'edit' ? technology.name : '',
-        category_ids: action === 'edit' ? technology.category_ids : [],
+        category_ids: action === 'edit' ? categoryTechnology.map(cat => cat.id) : [],
         icon_path: action === 'edit' ? technology.icon_path : '',
         technology_url: action === 'edit' ? technology.technology_url : '',
         skill_level: action === 'edit' ? technology.skill_level : '0',
         show: action === 'edit' ? technology.show : true
     });
-    const [categoryName, setCategoryName] = useState('');
     const [open, setOpen] = useState(false);
     const [message, setMessage] = useState('');
     const [severity, setSeverity] = useState('');
@@ -49,14 +48,7 @@ const TechnologiesForm = () => {
             config.headers['X-CSRF-TOKEN'] = document.querySelector('meta[name="csrf-token"]').getAttribute('content');
             return config;
         });
-
-        technoCategories.map((category) => {
-            if (category.id === formData.category_ids) {
-                setCategoryName(category.name);
-            }
-        });
-
-    }, [technoCategories, formData.category_ids]);
+    }, []);
 
     const changeLocaleLanguage = (e) => {
         setLanguage(e.target.checked ? "fr" : "gb");
@@ -160,7 +152,7 @@ const TechnologiesForm = () => {
         formDataToSend.append('technology_url', formData.technology_url);
         formDataToSend.append('skill_level', formData.skill_level.toString());
         formDataToSend.append('lang', language);
-        formDataToSend.append('show', formData.show ? '1' : '0');
+        formDataToSend.append('show', formData.show ? 1 : 0);
 
         if(formData.icon_path.length === 0) {
             setErrorInput({
@@ -179,6 +171,8 @@ const TechnologiesForm = () => {
                 }
             })
         }
+
+        console.log(formData.category_ids)
 
         formData.category_ids.forEach((categoryId, index) => {
             formDataToSend.append(`category_ids[${index}]`, categoryId);
@@ -253,8 +247,6 @@ const TechnologiesForm = () => {
         }
     }
 
-    console.log(categoryTechnology)
-
   return (
     <div>
         <Snackbar open={open} autoHideDuration={5000} onClose={handleClose}>
@@ -315,8 +307,8 @@ const TechnologiesForm = () => {
                     <div>
                         <p>Montrer/Cacher la technologie : </p>
                         <Switch
-                            checked={formData.show}
-                            onChange={e => setFormData({...formData, show: e.target.checked})}
+                            checked={action === "edit" ? formData.show === 1 : formData.show}
+                            onChange={e => setFormData({...formData, show: e.target.checked ? 1 : 0 })}
                             inputProps={{ 'aria-label': 'controlled' }}
                         />
                     </div>

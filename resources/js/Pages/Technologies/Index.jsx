@@ -6,6 +6,8 @@ import InfoIcon from '@mui/icons-material/Info';
 import EditIcon from '@mui/icons-material/Edit';
 import DeleteIcon from '@mui/icons-material/Delete';
 import IconButton from '@mui/material/IconButton';
+import VisibilityIcon from '@mui/icons-material/Visibility';
+import VisibilityOffIcon from '@mui/icons-material/VisibilityOff';
 import Snackbar from '@mui/material/Snackbar';
 import Alert from '@mui/material/Alert';
 import { DataGrid } from '@mui/x-data-grid';
@@ -86,6 +88,18 @@ const Index = ({ auth }) => {
             <img src={`${params.value}`} alt={`${params.row.name}`} style={{ width: '50px', height: '50px', objectFit: 'cover' }}  />
         )
         },
+        { field: 'show', headerName: 'Afficher', width: 150, flex: 1, renderCell: (params) => (
+            <div className="button-group">
+                {params.row.show === 1 ?
+                (<Tooltip title="Afficher">
+                        <VisibilityIcon />
+                </Tooltip>) :
+                (<Tooltip title="Cacher">
+                        <VisibilityOffIcon />
+                </Tooltip>)}
+            </div>
+        )
+        },
         {
             field: 'actions',
             headerName: 'Actions',
@@ -114,12 +128,12 @@ const Index = ({ auth }) => {
     ];
 
     const rows = technologies.map((technology, index) => {
-        console.log(technology)
         return {
             id: technology.id,
             name: technology.name,
             lang: technology.lang === "fr" ? "Français" : "Anglais",
             icon_path: technology.icon_path,
+            show: technology.show,
         }
     });
 
