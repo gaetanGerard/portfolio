@@ -74,8 +74,6 @@ const Show = ({ auth }) => {
         }
     };
 
-    console.log(categories)
-
   return (
     <AuthenticatedLayout
     user={auth.user}
@@ -100,6 +98,7 @@ const Show = ({ auth }) => {
                         </ul>
                     </div>
                     <p className="font-bold">Langue : <span className="font-normal">{technology.lang === "fr" ? "Français" : "Anglais"}</span></p>
+                    <p className="font-bold">Visibilité : <span className="font-normal">{technology.show === 1 ? "Visible" : "Caché"}</span></p>
                     <p className="font-bold">Maitrise : <span className="font-normal">{technology.skill_level}/100</span></p>
                     <p className="font-bold grid grid-flow-col justify-start content-center items-center">
                         Lien vers la documentation :
