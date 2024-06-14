@@ -21,11 +21,11 @@ class TechnologiesController extends Controller
     public function show($id)
     {
         $technology = Technologies::find($id);
-        $categories = TechnoCategory::all();
+        $categoryTechnology = $technology->categories;
         if (!$technology) {
             return Inertia::render('Technologies/Index', ['status' => '404']);
         }
-        return Inertia::render('Technologies/Show', ['technology' => $technology, 'categories' => $categories]);
+        return Inertia::render('Technologies/Show', ['technology' => $technology, 'categories' => $categoryTechnology]);
     }
 
     public function showForm($action, Request $request)
@@ -46,9 +46,11 @@ class TechnologiesController extends Controller
 
     public function handleForm(Request $request, $action)
     {
+
         $validatedData = $request->validate([
             'name' => 'required',
-            'category_id' => 'required',
+            'category_ids' => 'required|array',
+            'category_ids.*' => 'exists:techno_categories,id',
             'icon_path' => 'required',
             'technology_url' => 'required',
             'skill_level' => 'required',
@@ -59,14 +61,15 @@ class TechnologiesController extends Controller
 
         if ($action === 'add') {
             $technology = Technologies::create($validatedData);
+            $technology->categories()->sync($validatedData['category_ids']);
         } else {
             $validatedData = array_merge($validatedData, $request->validate([
                 'id' => 'required|integer|exists:technologies,id',
             ]));
 
             $technology = Technologies::findOrFail($validatedData['id']);
-
             $technology->update($validatedData);
+            $technology->categories()->sync($validatedData['category_ids']);
         }
 
         return response()->json(['success' => true, "message" => "Technologie ajouté avec succès"]);

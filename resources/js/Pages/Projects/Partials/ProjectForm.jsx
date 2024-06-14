@@ -413,7 +413,6 @@ export const ProjectForm = () => {
                         <FormHelperText style={{color: '#C41C1C'}}>{errorInput.description !== undefined ? errorInput.description.message : ''}</FormHelperText>
                     </FormControl>
                 </div>
-
             </div>
             <div className="grid md:grid-cols-2 sm:grid-cols-1 gap-3 bg-white overflow-hidden shadow-sm sm:rounded-lg p-3 mt-3">
                 <div className="grid grid-rows-5 gap-3">

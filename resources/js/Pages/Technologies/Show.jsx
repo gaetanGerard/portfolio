@@ -10,7 +10,7 @@ import LanguageIcon from '@mui/icons-material/Language';
 
 const Show = ({ auth }) => {
     const {technology, categories} = usePage().props;
-    const [category] = useState(categories.find(category => category.id === technology.category_id));
+    const [category] = useState(categories.find(category => category.id === technology.category_ids));
     const [open, setOpen] = useState(false);
     const [message, setMessage] = useState('');
     const [severity, setSeverity] = useState('');
@@ -74,6 +74,8 @@ const Show = ({ auth }) => {
         }
     };
 
+    console.log(categories)
+
   return (
     <AuthenticatedLayout
     user={auth.user}
@@ -91,7 +93,12 @@ const Show = ({ auth }) => {
                 <div>
                     <h3 className="text-3xl">Informations sur la technologie</h3>
                     <p className="font-bold">Nom de la technologie : <span className="font-normal">{technology.name}</span></p>
-                    <p className="font-bold">Catégorie : <span className="font-normal">{category.name}</span></p>
+                    <div>
+                        <p className="font-bold">Catégorie :  </p>
+                        <ul>
+                            {categories.map((category, index) => <li className="font-normal" key={index}>- {category.name}</li>)}
+                        </ul>
+                    </div>
                     <p className="font-bold">Langue : <span className="font-normal">{technology.lang === "fr" ? "Français" : "Anglais"}</span></p>
                     <p className="font-bold">Maitrise : <span className="font-normal">{technology.skill_level}/100</span></p>
                     <p className="font-bold grid grid-flow-col justify-start content-center items-center">

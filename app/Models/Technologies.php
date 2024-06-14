@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Models\TechnoCategory;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
@@ -11,15 +12,14 @@ class Technologies extends Model
 
     protected $fillable = [
         'name',
-        'category_id',
         'icon_path',
         'technology_url',
         'skill_level',
         'lang'
     ];
 
-    public function category()
+    public function categories()
     {
-        return $this->belongsTo(TechnoCategory::class, 'category_id');
+        return $this->belongsToMany(TechnoCategory::class, 'category_technology', 'technology_id', 'category_ids');
     }
 }

@@ -14,7 +14,6 @@ return new class extends Migration
         Schema::create('technologies', function (Blueprint $table) {
             $table->id();
             $table->string('name');
-            $table->foreignId('category_id')->constrained('techno_categories');
             $table->string('icon_path');
             $table->string('technology_url');
             $table->string('skill_level');

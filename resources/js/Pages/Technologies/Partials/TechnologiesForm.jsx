@@ -1,4 +1,4 @@
-import React, {useState, useEffect} from 'react'
+import React, {useState, useEffect, useRef} from 'react'
 import { usePage, router } from '@inertiajs/react';
 import { grey } from '@mui/material/colors';
 import axios from 'axios';
@@ -30,7 +30,7 @@ const TechnologiesForm = () => {
     const [language, setLanguage] = useState(action === 'edit' ? technology.lang : 'fr');
     const [formData, setFormData] = useState({
         name: action === 'edit' ? technology.name : '',
-        category_id: action === 'edit' ? technology.category_id : '',
+        category_ids: action === 'edit' ? technology.category_ids : [],
         icon_path: action === 'edit' ? technology.icon_path : '',
         technology_url: action === 'edit' ? technology.technology_url : '',
         skill_level: action === 'edit' ? technology.skill_level : '0',
@@ -40,6 +40,7 @@ const TechnologiesForm = () => {
     const [message, setMessage] = useState('');
     const [severity, setSeverity] = useState('');
     const [errorInput, setErrorInput] = useState({});
+    const autocompleteRef = useRef(null);
 
     useEffect(() => {
         axios.interceptors.request.use(config => {
@@ -48,12 +49,12 @@ const TechnologiesForm = () => {
         });
 
         technoCategories.map((category) => {
-            if (category.id === formData.category_id) {
+            if (category.id === formData.category_ids) {
                 setCategoryName(category.name);
             }
         });
 
-    }, [technoCategories, formData.category_id]);
+    }, [technoCategories, formData.category_ids]);
 
     const changeLocaleLanguage = (e) => {
         setLanguage(e.target.checked ? "fr" : "gb");
@@ -103,19 +104,22 @@ const TechnologiesForm = () => {
     }
 
     const handleCategoryChange = (e, value) => {
-        if(value !== null) {
-            const categoryId = technoCategories.filter(category => category.name === value);
-            setCategoryName(value);
+        if(value.length > 0) {
+            const matchingCategoryIds = value.flatMap(val =>
+                technoCategories
+                    .filter(category => category.name.toLowerCase() === val.toLowerCase())
+                    .map(category => category.id)
+            );
             setFormData({
                 ...formData,
-                category_id: value !== null ? categoryId[0].id : ''
-            });
+                category_ids: matchingCategoryIds
+            })
         }
         else {
             setFormData({
                 ...formData,
-                category_id: ''
-            });
+                category_ids: []
+            })
         }
     }
 
@@ -150,7 +154,6 @@ const TechnologiesForm = () => {
         const url = `/admin/dashboard/technologies/${action}`;
         const formDataToSend = new FormData();
         formDataToSend.append('name', formData.name);
-        formDataToSend.append('category_id', formData.category_id);
         formDataToSend.append('icon_path', formData.icon_path);
         formDataToSend.append('technology_url', formData.technology_url);
         formDataToSend.append('skill_level', formData.skill_level.toString());
@@ -173,6 +176,10 @@ const TechnologiesForm = () => {
                 }
             })
         }
+
+        formData.category_ids.forEach((categoryId, index) => {
+            formDataToSend.append(`category_ids[${index}]`, categoryId);
+        });
 
         if (action === 'edit') {
             formDataToSend.append('id', technology.id);
@@ -224,18 +231,18 @@ const TechnologiesForm = () => {
     }
 
     const handleCategoryBlur = () => {
-        if(formData.category_id.length === 0) {
+        if(formData.category_ids.length === 0) {
             setErrorInput({
                 ...errorInput,
-                category_id: {
-                    message: 'Vous devez ajouter une catégorie',
+                category_ids: {
+                    message: 'Vous devez ajouter au moins une catégorie',
                     status: true
                 }
             })
         } else {
             setErrorInput({
                 ...errorInput,
-                category_id: {
+                category_ids: {
                     message: '',
                     status: false
                 }
@@ -271,21 +278,28 @@ const TechnologiesForm = () => {
                     </div>
                     <div>
                         <Autocomplete
-                            disablePortal
+                            multiple
+                            freeSolo
                             id="combo-box-demo"
                             options={technoCategories.map((option) => option.name)}
                             onChange={handleCategoryChange}
-                            value={categoryName}
+                            defaultValue={action === 'edit' && technoCategories ? technoCategories.category_ids : []}
                             isOptionEqualToValue={(option, value) => option === value}
                             className="w-full"
+                            ref={autocompleteRef}
                             onBlur={handleCategoryBlur}
+                            renderTags={(value, getTagProps) =>
+                                value.map((option, index) => (
+                                    <Chip variant="outlined" label={option} {...getTagProps({ index })} />
+                                ))
+                                }
                             renderInput={(params) => (
                                 <TextField
                                     {...params}
                                     label="Catégories"
                                     variant="outlined"
-                                    error={errorInput.category_id !== undefined ? errorInput.category_id.status : false}
-                                    helperText={errorInput.category_id !== undefined ? errorInput.category_id.message : ''}
+                                    error={errorInput.category_ids !== undefined ? errorInput.category_ids.status : false}
+                                    helperText={errorInput.category_ids !== undefined ? errorInput.category_ids.message : ''}
                                 />)}
                         />
                     </div>
