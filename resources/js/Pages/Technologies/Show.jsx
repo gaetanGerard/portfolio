@@ -93,6 +93,7 @@ const Show = ({ auth }) => {
                 <div>
                     <h3 className="text-3xl">Informations sur la technologie</h3>
                     <p className="font-bold">Nom de la technologie : <span className="font-normal">{technology.name}</span></p>
+                    <p className="font-bold">Visibilité : <span className="font-normal">{technology.show === 1 ? "Visible" : "Caché"}</span></p>
                     <div>
                         <p className="font-bold">Catégorie :  </p>
                         <ul>

@@ -17,7 +17,8 @@ class Education extends Model
         'end_date',
         'is_current',
         'description',
-        'lang'
+        'lang',
+        'show'
     ];
 
     protected $casts = [

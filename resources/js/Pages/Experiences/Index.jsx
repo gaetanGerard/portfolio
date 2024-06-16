@@ -5,6 +5,8 @@ import Button from '@mui/material/Button';
 import InfoIcon from '@mui/icons-material/Info';
 import EditIcon from '@mui/icons-material/Edit';
 import DeleteIcon from '@mui/icons-material/Delete';
+import VisibilityIcon from '@mui/icons-material/Visibility';
+import VisibilityOffIcon from '@mui/icons-material/VisibilityOff';
 import IconButton from '@mui/material/IconButton';
 import Snackbar from '@mui/material/Snackbar';
 import Alert from '@mui/material/Alert';
@@ -84,6 +86,18 @@ export default function Index({ auth }) {
         { field: 'job_title', headerName: 'Titre du job', width: 200, flex: 1 },
         { field: 'company_location', headerName: 'Lieu de l\'entreprise', width: 200, flex: 1 },
         { field: 'lang', headerName: 'Langue', minWidth: 100, flex: 1},
+        { field: 'show', headerName: 'Afficher', width: 150, flex: 1, renderCell: (params) => (
+            <div className="button-group">
+                {params.row.show === 1 ?
+                (<Tooltip title="Afficher">
+                        <VisibilityIcon />
+                </Tooltip>) :
+                (<Tooltip title="Cacher">
+                        <VisibilityOffIcon />
+                </Tooltip>)}
+            </div>
+        )
+        },
         {
             field: 'actions',
             headerName: 'Actions',
@@ -118,6 +132,7 @@ export default function Index({ auth }) {
             job_title: experience.job_title,
             company_location: experience.company_location,
             lang: experience.lang === "fr" ? "Français" : "Anglais",
+            show: experience.show,
         };
     });
 

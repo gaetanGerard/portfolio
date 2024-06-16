@@ -95,6 +95,7 @@ const Show = ({ auth  }) => {
             <p className="font-bold">Titre du job : <span className="font-normal">{experience.job_title}</span></p>
             <p className="font-bold">Lieu : <span className="font-normal">{experience.company_location}</span></p>
             <p className="font-bold">Langue : <span className="font-normal">{experience.lang === "fr" ? "Français" : "Anglais"}</span></p>
+            <p className="font-bold">Visibilité : <span className="font-normal">{experience.show === 1 ? "Visible" : "Caché"}</span></p>
             <p className="font-bold">Début : <span className="font-normal">{dayjs(experience.start_date).format('DD/MM/YYYY')}</span></p>
             {experience.is_current ? (<p className="font-bold">En cours : Oui</p>) : (<p className="font-bold">Fin : <span className="font-normal">{dayjs(experience.end_date).format('DD/MM/YYYY')}</span></p>)}
             <div className="col-span-3">

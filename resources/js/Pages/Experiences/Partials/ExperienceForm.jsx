@@ -19,6 +19,7 @@ import FormLabel from '@mui/joy/FormLabel';
 import SwitchLanguage from '@/Components/SwitchLanguage';
 import WysiwygEditor from '@/Components/WysiwygEditor';
 import { EditorState, convertToRaw, convertFromRaw } from 'draft-js';
+import Switch from '@mui/material/Switch';
 
 const ExperienceForm = () => {
     const {experience, action, previousUrl, localeData} = usePage().props;
@@ -31,6 +32,7 @@ const ExperienceForm = () => {
         end_date: action === 'edit' ? experience.end_date : '',
         is_current: false,
         description: action === 'edit' ? experience.description : '',
+        show: action === 'edit' ? experience.show : true
     });
     const [open, setOpen] = useState(false);
     const [message, setMessage] = useState('');
@@ -122,6 +124,7 @@ const ExperienceForm = () => {
         formDataToSend.append('is_current', formData.is_current);
         formDataToSend.append('description', JSON.stringify(rawContentState));
         formDataToSend.append('lang', language);
+        formDataToSend.append('show', formData.show ? 1 : 0);
 
         if (action === 'edit') {
             formDataToSend.append('id', experience.id);
@@ -342,6 +345,14 @@ const ExperienceForm = () => {
             <div>
                 <p>Choisir la langue pour l'expérience : </p>
                 <SwitchLanguage localeLanguage={language}  changeLocaleLanguage={changeLocaleLanguage} />
+            </div>
+            <div>
+                <p>Montrer/Cacher l'expérience : </p>
+                <Switch
+                    checked={action === "edit" ? formData.show === 1 : formData.show}
+                    onChange={e => setFormData({...formData, show: e.target.checked ? 1 : 0 })}
+                    inputProps={{ 'aria-label': 'controlled' }}
+                />
             </div>
             <div>
                 <FormControlLabel

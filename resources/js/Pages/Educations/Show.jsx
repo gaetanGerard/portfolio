@@ -95,6 +95,7 @@ const Show = ({ auth }) => {
             <p className="font-bold">Diplôme : <span className="font-normal">{education.degree}</span></p>
             <p className="font-bold">Lieu : <span className="font-normal">{education.place_of_study}</span></p>
             <p className="font-bold">Langue : <span className="font-normal">{education.lang === "fr" ? "Français" : "Anglais"}</span></p>
+            <p className="font-bold">Visibilité : <span className="font-normal">{education.show === 1 ? "Visible" : "Caché"}</span></p>
             <p className="font-bold">Début : <span className="font-normal">{dayjs(education.start_date).format('DD/MM/YYYY')}</span></p>
             {education.is_current ? (<p className="font-bold">En cours : Oui</p>) : (<p className="font-bold">Fin : <span className="font-normal">{dayjs(education.end_date).format('DD/MM/YYYY')}</span></p>)}
             <div className="col-span-3">

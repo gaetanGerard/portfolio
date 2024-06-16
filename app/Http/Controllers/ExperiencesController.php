@@ -58,6 +58,7 @@ class ExperiencesController extends Controller
             'is_current' => 'required|boolean',
             'description' => 'nullable|json',
             'lang' => 'nullable|string',
+            'show' => 'required|boolean',
         ]);
 
         $validatedData['start_date'] = Carbon::createFromFormat('d/m/Y', $validatedData['start_date'])->format('Y-m-d');
