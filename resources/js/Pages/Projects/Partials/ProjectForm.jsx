@@ -19,6 +19,7 @@ import Textarea from '@mui/joy/Textarea';
 import SwitchLanguage from '@/Components/SwitchLanguage';
 import WysiwygEditor from '@/Components/WysiwygEditor';
 import { EditorState, convertToRaw, convertFromRaw } from 'draft-js';
+import Switch from '@mui/material/Switch';
 
 const VisuallyHiddenInput = styled('input')({
     clip: 'rect(0 0 0 0)',
@@ -44,7 +45,8 @@ export const ProjectForm = () => {
         main_img: action==='edit' ? project.main_img : '',
         demo_link: action==='edit' ? project.demo_link : null,
         github_repo: action==='edit' ? project.github_repo : null,
-        description: action==='edit' ? project.description : ''
+        description: action==='edit' ? project.description : '',
+        show: action === 'edit' ? project.show : true
     });
     const [selectedImg, setSelectedImg] = useState([]);
     const [open, setOpen] = useState(false);
@@ -226,6 +228,7 @@ export const ProjectForm = () => {
         formDataToSend.append('github_repo', formData.github_repo || '');
         formDataToSend.append('description', JSON.stringify(rawContentState));
         formDataToSend.append('lang', language);
+        formDataToSend.append('show', formData.show ? 1 : 0);
 
         if(formData.main_img.length === 0) {
             setErrorInput({ ...errorInput, main_img: { message: 'Vous devez ajouter une image de couverture', status: true } });
@@ -405,6 +408,14 @@ export const ProjectForm = () => {
                 <div>
                     <p>Choisir la langue du projet : </p>
                     <SwitchLanguage localeLanguage={language}  changeLocaleLanguage={changeLocaleLanguage} />
+                </div>
+                <div>
+                    <p>Montrer/Cacher le projet : </p>
+                    <Switch
+                        checked={action === "edit" ? formData.show === 1 : formData.show}
+                        onChange={e => setFormData({...formData, show: e.target.checked ? 1 : 0 })}
+                        inputProps={{ 'aria-label': 'controlled' }}
+                    />
                 </div>
                 <div className="col-span-2">
                     <FormControl>

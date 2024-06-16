@@ -108,6 +108,7 @@ const Show = ({ auth }) => {
                     <div>
                         <h3 className="text-3xl">Informations du projet</h3>
                         <p className="font-bold">Titre : <span className="font-normal">{project.title}</span></p>
+                        <p className="font-bold">Visibilité : <span className="font-normal">{project.show === 1 ? "Visible" : "Caché"}</span></p>
                         <p className="font-bold">Langue : <span className="font-normal">{project.lang === "fr" ? "Français" : "Anglais"}</span></p>
                         <p className="font-bold">Date de création : <span className="font-normal">{dayjs(project.created_at).format('DD/MM/YYYY')}</span></p>
                         <p className="font-bold">Date de mise à jour : <span className="font-normal">{dayjs(project.updated_at).format('DD/MM/YYYY')}</span></p>

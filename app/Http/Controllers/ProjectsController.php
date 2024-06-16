@@ -64,6 +64,7 @@ class ProjectsController extends Controller
             'github_repo' => 'nullable|string',
             'description' => 'nullable|json',
             'lang' => 'nullable|string',
+            'show' => 'required|boolean',
         ]);
 
         if ($action === 'add') {

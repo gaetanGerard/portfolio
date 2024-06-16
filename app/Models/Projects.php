@@ -20,7 +20,8 @@ class Projects extends Model
         'github_repo',
         'description',
         'slug',
-        'lang'
+        'lang',
+        'show'
     ];
 
     protected $casts = [

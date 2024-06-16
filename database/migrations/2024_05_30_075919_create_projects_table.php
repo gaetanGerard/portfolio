@@ -21,6 +21,7 @@ return new class extends Migration
             $table->string('demo_link')->nullable();
             $table->string('github_repo')->nullable();
             $table->json('description');
+            $table->boolean('show')->default(true);
             $table->string('slug')->unique();
             $table->timestamps();
         });

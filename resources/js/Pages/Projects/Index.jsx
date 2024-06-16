@@ -5,6 +5,8 @@ import Button from '@mui/material/Button';
 import InfoIcon from '@mui/icons-material/Info';
 import EditIcon from '@mui/icons-material/Edit';
 import DeleteIcon from '@mui/icons-material/Delete';
+import VisibilityIcon from '@mui/icons-material/Visibility';
+import VisibilityOffIcon from '@mui/icons-material/VisibilityOff';
 import IconButton from '@mui/material/IconButton';
 import LanguageIcon from '@mui/icons-material/Language';
 import GitHubIcon from '@mui/icons-material/GitHub';
@@ -93,6 +95,18 @@ const Index = ({ auth }) => {
         { field: 'id', headerName: 'ID', minWidth: 40, flex: 1},
         { field: 'title', headerName: 'Titre', minWidth: 200, flex: 1},
         { field: 'lang', headerName: 'Langue', minWidth: 100, flex: 1},
+        { field: 'show', headerName: 'Afficher', width: 150, flex: 1, renderCell: (params) => (
+            <div className="button-group">
+                {params.row.show === 1 ?
+                (<Tooltip title="Afficher">
+                        <VisibilityIcon />
+                </Tooltip>) :
+                (<Tooltip title="Cacher">
+                        <VisibilityOffIcon />
+                </Tooltip>)}
+            </div>
+        )
+        },
         {
             field: 'demo_link',
             headerName: 'Demo',
@@ -156,6 +170,7 @@ const Index = ({ auth }) => {
             lang: project.lang === "fr" ? "Français" : "Anglais",
             demo_link: project.demo_link != null ? project.demo_link : "N.A.",
             github_repo: project.github_repo != null ? project.github_repo : "N.A.",
+            show: project.show,
         }
     }
     );
