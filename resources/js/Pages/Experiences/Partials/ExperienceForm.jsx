@@ -119,12 +119,35 @@ const ExperienceForm = () => {
         formDataToSend.append('company_name', formData.company_name);
         formDataToSend.append('company_location', formData.company_location);
         formDataToSend.append('job_title', formData.job_title);
-        formDataToSend.append('start_date', dayjs(formData.start_date).format('DD/MM/YYYY'));
-        formDataToSend.append('end_date', formData.is_current ? '' : dayjs(formData.end_date).format('DD/MM/YYYY'));
         formDataToSend.append('is_current', formData.is_current);
         formDataToSend.append('description', JSON.stringify(rawContentState));
         formDataToSend.append('lang', language);
         formDataToSend.append('show', formData.show ? 1 : 0);
+
+        if(action ==='edit') {
+            formDataToSend.append('start_date', dayjs(formData.start_date, 'DD/MM/YYYY').format('DD/MM/YYYY'));
+        } else {
+            if(formData.start_date) {
+                if (dayjs(formData.start_date, 'DD/MM/YYYY', true).isValid()) {
+                    formDataToSend.append('start_date', dayjs(formData.start_date, 'DD/MM/YYYY').format('DD/MM/YYYY'));
+                } else {
+                    console.error('Invalid start_date format:', formData.start_date);
+                }
+            }
+        }
+
+        if(action ==='edit') {
+            formDataToSend.append('end_date', dayjs(formData.end_date, 'DD/MM/YYYY').format('DD/MM/YYYY'));
+        } else {
+            if (!formData.is_current && formData.end_date) {
+                if (dayjs(formData.end_date, 'DD/MM/YYYY', true).isValid()) {
+                    formDataToSend.append('end_date', dayjs(formData.end_date, 'DD/MM/YYYY').format('DD/MM/YYYY'));
+                } else {
+                    console.error('Invalid end_date format:', formData.end_date);
+                }
+            }
+        }
+
 
         if (action === 'edit') {
             formDataToSend.append('id', experience.id);

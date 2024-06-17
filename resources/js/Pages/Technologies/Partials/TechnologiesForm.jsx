@@ -361,7 +361,7 @@ const TechnologiesForm = () => {
                         <VisuallyHiddenInput type="file" />
                     </Button>
                     {errorInput.icon_path !== undefined ? (<p className="text-red-500">{errorInput.icon_path.message}</p>) : null}
-                    {formData.icon_path.length > 0 ? (<img src={formData.icon_path} alt={`Image ${formData.name}`} style={{ width: '100px', height: '100px', objectFit: 'cover' }} />) : null}
+                    {formData.icon_path.length > 0 ? (<img src={formData.icon_path} alt={`Image ${formData.name}`} style={{ width: '100px', height: '100px', objectFit: 'contain' }} />) : null}
                 </div>
             </div>
             <div className="grid grid-flow-col gap-3 justify-start">

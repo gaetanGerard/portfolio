@@ -25,6 +25,7 @@ use Inertia\Inertia;
 
 Route::get('/', [PortfolioController::class, 'index'])->name('portfolio')->middleware(InjectLocaleData::class);
 Route::post('/change-language', [LanguageController::class, 'changeLanguage'])->name('change.language');
+Route::redirect('/admin', '/admin/dashboard')->middleware(['auth', 'verified']);
 Route::prefix('admin/dashboard')->group(function () {
     Route::get('/', [DashboardController::class, 'index'])->middleware(['auth', 'verified'])->name('dashboard');
     Route::prefix('projects')->middleware(InjectLocaleData::class)->group(function () {

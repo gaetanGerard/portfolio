@@ -119,12 +119,34 @@ const EducationForm = () => {
         formDataToSend.append('school_name', formData.school_name);
         formDataToSend.append('degree', formData.degree);
         formDataToSend.append('place_of_study', formData.place_of_study);
-        formDataToSend.append('start_date', dayjs(formData.start_date).format('DD/MM/YYYY'));
-        formDataToSend.append('end_date', formData.is_current ? '' : dayjs(formData.end_date).format('DD/MM/YYYY'));
         formDataToSend.append('is_current', formData.is_current);
         formDataToSend.append('description', JSON.stringify(rawContentState));
         formDataToSend.append('lang', language);
         formDataToSend.append('show', formData.show ? 1 : 0);
+
+        if(action ==='edit') {
+            formDataToSend.append('start_date', dayjs(formData.start_date, 'DD/MM/YYYY').format('DD/MM/YYYY'));
+        } else {
+            if(formData.start_date) {
+                if (dayjs(formData.start_date, 'DD/MM/YYYY', true).isValid()) {
+                    formDataToSend.append('start_date', dayjs(formData.start_date, 'DD/MM/YYYY').format('DD/MM/YYYY'));
+                } else {
+                    console.error('Invalid start_date format:', formData.start_date);
+                }
+            }
+        }
+
+        if(action ==='edit') {
+            formDataToSend.append('end_date', dayjs(formData.end_date, 'DD/MM/YYYY').format('DD/MM/YYYY'));
+        } else {
+            if (!formData.is_current && formData.end_date) {
+                if (dayjs(formData.end_date, 'DD/MM/YYYY', true).isValid()) {
+                    formDataToSend.append('end_date', dayjs(formData.end_date, 'DD/MM/YYYY').format('DD/MM/YYYY'));
+                } else {
+                    console.error('Invalid end_date format:', formData.end_date);
+                }
+            }
+        }
 
         if (action === 'edit') {
             formDataToSend.append('id', education.id);

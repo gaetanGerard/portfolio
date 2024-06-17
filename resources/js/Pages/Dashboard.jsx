@@ -33,7 +33,7 @@ export default function Dashboard({ auth }) {
                             <CardContent className="grid grid-rows-2 justify-items-center items-stretch">
                                 <Typography variant="h5" component="div" className="text-center">Technologies</Typography>
                                 {technologies.length > 0 ? (<Typography variant="body2" component="p" className="self-center">
-                                    {technologies.length}
+                                    {technologies.length} {technologies.length > 1 ? 'technologies' : 'technologie'}
                                 </Typography>) : <Typography variant="body2" component="p" className="self-center">Aucune technologie</Typography>}
                             </CardContent>
                         </Card>
@@ -41,7 +41,7 @@ export default function Dashboard({ auth }) {
                             <CardContent className="grid grid-rows-2 justify-items-center items-stretch">
                                 <Typography variant="h5" component="div" className="text-center">Catégories</Typography>
                                 {technoCategory.length > 0 ? (<Typography variant="body2" component="p" className="self-center">
-                                    {technoCategory.length}
+                                    {technoCategory.length} {technoCategory.length > 1 ? 'catégories' : 'catégorie'} ({technoCategory.length/2}FR / {technoCategory.length/2}EN )
                                 </Typography>) : <Typography variant="body2" component="p" className="self-center">Aucune catégorie</Typography>}
                             </CardContent>
                         </Card>
@@ -49,7 +49,7 @@ export default function Dashboard({ auth }) {
                             <CardContent className="grid grid-rows-2 justify-items-center items-stretch">
                                 <Typography variant="h5" component="div" className="text-center">Expériences</Typography>
                                 {experiences.length > 0 ? (<Typography variant="body2" component="p" className="self-center">
-                                    {experiences.length}
+                                    {experiences.length} {experiences.length > 1 ? 'expériences' : 'expérience'} ({experiences.length/2}FR / {experiences.length/2}EN )
                                 </Typography>) : <Typography variant="body2" component="p" className="self-center">Aucune expérience</Typography>}
                             </CardContent>
                         </Card>
@@ -57,7 +57,7 @@ export default function Dashboard({ auth }) {
                             <CardContent className="grid grid-rows-2 justify-items-center items-stretch">
                                 <Typography variant="h5" component="div" className="text-center">Formations</Typography>
                                 {educations.length > 0 ? (<Typography variant="body2" component="p" className="self-center">
-                                    {educations.length}
+                                    {educations.length} {educations.length > 1 ? 'formations' : 'formation'} ({educations.length/2}FR / {educations.length/2}EN )
                                 </Typography>) : <Typography variant="body2" component="p" className="self-center">Aucune formation</Typography>}
                             </CardContent>
                         </Card>

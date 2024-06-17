@@ -110,7 +110,7 @@ const Show = ({ auth }) => {
                 </div>
                 <div>
                     <h3 className="text-3xl">Icône</h3>
-                    <img src={`${technology.icon_path}`} alt={`${technology.name}`} style={{ width: '100px', height: '100px', objectFit: 'cover' }}  />
+                    <img src={`${technology.icon_path}`} alt={`${technology.name}`} style={{ width: '100px', height: '100px', objectFit: 'contain' }}  />
                 </div>
             </div>
             <div className="grid grid-flow-col justify-start gap-2">
