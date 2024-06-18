@@ -138,11 +138,11 @@ const Show = ({ auth }) => {
                     </div>
                     <div>
                         <h3 className="text-3xl">Technologies utilisées</h3>
-                        <div className="grid lg:grid-flow-col md:grid-cols-3 md:auto-rows-max auto-cols-max mt-5">
+                        <div className="grid lg:grid-cols-5 md:grid-cols-3 md:auto-rows-max auto-cols-max mt-5 gap-3">
                             {techArr.map((technology, index) => (
                                 <Tooltip title={technology.name} key={index} placement="top" arrow>
                                     <Link href={`/admin/dashboard/technologies/technology/${technology.id}`}>
-                                        <img src={`${technology.icon_path}`} alt={`${technology.name}`} className="w-20 h-20 object-cover hover:scale-105 transition-all duration-300"  />
+                                        <img src={`${technology.icon_path}`} alt={`${technology.name}`} className="w-20 h-20 object-contain hover:scale-105 transition-all duration-300"  />
                                     </Link>
                                 </Tooltip>
                             ))}
@@ -154,7 +154,7 @@ const Show = ({ auth }) => {
                 <h3 className="text-3xl">Liste d'images</h3>
                 <div className="grid md:grid-flow-col sm:grid-flow-row auto-rows-max gap-2">
                     {project.images.map((image, index) => (
-                        <img key={index} src={`${image}`} alt={`${project.title}`} style={{ width: '300px', height: '200px', objectFit: 'cover' }}  />
+                        <img key={index} src={`${image}`} alt={`${project.title}`} style={{ width: '300px', height: '200px', objectFit: 'contain' }}  />
                     ))}
                 </div>
             </div>

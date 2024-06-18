@@ -34,11 +34,11 @@ class Projects extends Model
         parent::boot();
 
         static::creating(function ($project) {
-            $project->slug = Str::slug($project->title . '-' . $project->id);
+            $project->slug = Str::slug($project->title . '-' . $project->lang . '-' . $project->id);
         });
 
         static::updating(function ($project) {
-            $project->slug = Str::slug($project->title . '-' . $project->id);
+            $project->slug = Str::slug($project->title . '-' . $project->lang . '-' . $project->id);
         });
     }
 }

@@ -25,7 +25,7 @@ export default function Dashboard({ auth }) {
                             <CardContent className="grid grid-rows-2 justify-items-center items-stretch">
                                 <Typography variant="h5" component="div" className="text-center">Projets</Typography>
                                 {projects.length > 0 ? (<Typography variant="body2" component="p"  className="self-center">
-                                    {projects.length}
+                                    {projects.length} {projects.length > 1 ? 'catégories' : 'catégorie'} ({projects.length/2}FR / {projects.length/2}EN )
                                 </Typography>) : <Typography variant="body2" component="p"  className="self-center">Aucun projet</Typography>}
                             </CardContent>
                         </Card>
