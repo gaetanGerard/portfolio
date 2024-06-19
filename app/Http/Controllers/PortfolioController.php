@@ -21,6 +21,7 @@ class PortfolioController extends Controller
         $technologies = Technologies::all();
         $educations = Education::all();
         $experiences = Experience::all();
+        $user = auth()->user();
 
         return Inertia::render('Portfolio', [
             'canLogin' => Route::has('login'),
@@ -29,7 +30,8 @@ class PortfolioController extends Controller
             'categories' => $categories,
             'technologies' => $technologies,
             'educations' => $educations,
-            'experiences' => $experiences
+            'experiences' => $experiences,
+            'user' => $user
         ]);
     }
 }
