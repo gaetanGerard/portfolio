@@ -62,4 +62,16 @@ class ProfileController extends Controller
 
         return Redirect::to('/');
     }
+
+    public function uploadImage(Request $request)
+    {
+        if ($request->hasFile('image')) {
+            $file = $request->file('image');
+            $originalName = $file->getClientOriginalName();
+            $file->move(public_path('/images/uploads'), $originalName);
+            return response()->json(['path' => '/images/uploads/' . $originalName], 200);
+        }
+
+        return response()->json(['error' => 'No image uploaded'], 400);
+    }
 }
