@@ -24,23 +24,14 @@ const ParticleBackground = ({className}) => {
                 color: {
                     value: "#252934",
                 },
-                opacity: 1
-            },
-            backgroundMask: {
-                composite: "destination-out",
-                cover: {
-                  color: {
-                    value: "#fff"
-                  },
-                  opacity: 1
-                },
-                enable: false
+                opacity: 1,
+                size: "cover",
             },
             clear: true,
             defaultThemes: {},
             delay: 0,
             fullScreen: {
-                enable: true,
+                enable: false,
                 zIndex: -1
             },
             detectRetina: true,
@@ -595,6 +586,7 @@ const ParticleBackground = ({className}) => {
                 particlesLoaded={particlesLoaded}
                 options={options}
                 className={className}
+
             />
         );
     }
