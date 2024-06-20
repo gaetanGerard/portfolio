@@ -30,5 +30,16 @@
         "subtitle": "Full Stack Developer",
         "description": "I am a Full Stack Developer with 5 years of experience in developing web applications. I have a strong understanding of web technologies and I am passionate about learning new technologies.",
         "btnText": "Download CV"
+    },
+    "skills": {
+        "title": "Skills",
+        "skillsLevelLabelText": "Skill Level",
+        "skillsLevelLabel": {
+            "beginner": "Beginner",
+            "intermediate": "Intermediate",
+            "advanced": "Advanced",
+            "expert": "Expert",
+            "master": "Master"
+        }
     }
 }

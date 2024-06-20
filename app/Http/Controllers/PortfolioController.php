@@ -19,6 +19,7 @@ class PortfolioController extends Controller
         $projects = Projects::all();
         $categories = TechnoCategory::all();
         $technologies = Technologies::all();
+        $categoryTechnologies = TechnoCategory::with('technologies')->get();
         $educations = Education::all();
         $experiences = Experience::all();
         $user = auth()->user();
@@ -31,6 +32,7 @@ class PortfolioController extends Controller
             'technologies' => $technologies,
             'educations' => $educations,
             'experiences' => $experiences,
+            'categoryTechnologies' => $categoryTechnologies,
             'user' => $user
         ]);
     }

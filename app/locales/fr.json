@@ -2,27 +2,44 @@
     "nav": {
         "home": {
             "label": "Accueil",
-            "href": "#home"},
+            "href": "#home"
+        },
         "about": {
             "label": "À propos",
-            "href": "#about"},
+            "href": "#about"
+        },
         "skills": {
             "label": "Compétences",
-            "href": "#skills"},
+            "href": "#skills"
+        },
         "portfolio": {
             "label": "Portfolio",
-            "href": "#portfolio"},
+            "href": "#portfolio"
+        },
         "experiences": {
             "label": "Expériences",
-            "href": "#experiences"},
+            "href": "#experiences"
+        },
         "education": {
             "label": "Éducation",
-            "href": "#educations"}
+            "href": "#educations"
+        }
     },
     "headerSection": {
         "title": "Bonjour, je m'apelle",
         "subtitle": "Développeur Web Full Stack",
         "description": "Je suis un développeur web full stack passionné par la technologie et le développement web. J'ai une expérience dans le développement de sites et d'applications web.",
         "btnText": "Télécharger CV"
+    },
+    "skills": {
+        "title": "Compétences",
+        "skillsLevelLabelText": "Niveau de compétence",
+        "skillsLevelLabel": {
+            "beginner": "Débutant",
+            "intermediate": "Intermédiaire",
+            "advanced": "Avancé",
+            "expert": "Expert",
+            "master": "Maitre"
+        }
     }
 }

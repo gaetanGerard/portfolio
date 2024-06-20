@@ -3,9 +3,10 @@ import { Head, usePage, router  } from '@inertiajs/react';
 import Nav from '@/Components/Nav';
 import HeaderSection from './Sections/HeaderSection';
 import About from './Sections/About';
+import Skills from './Sections/Skills';
 
 export default function Portfolio() {
-    const { localeData, user } = usePage().props;
+    const { localeData, user, categories, technologies, categoryTechnologies } = usePage().props;
     const [language, setLanguage] = useState('fr');
 
     const { data } = localeData;
@@ -25,6 +26,7 @@ export default function Portfolio() {
                 <Nav data={data} language={language} changeLocaleLanguage={changeLocaleLanguage} />
                 <HeaderSection data={data} userName={user.name} />
                 <About description={language === "fr" ? user.fr_description : user.en_description} picture={user.user_img} />
+                <Skills categoryTechnologies={categoryTechnologies} language={language} data={data} />
             </>
         </>
     );

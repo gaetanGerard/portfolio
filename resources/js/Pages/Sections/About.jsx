@@ -3,8 +3,6 @@ import { convertToRaw, convertFromRaw  } from 'draft-js';
 import draftToHtml from 'draftjs-to-html';
 
 const About = ({ description, picture}) => {
-    console.log(description);
-
     const rawContentState = JSON.parse(description);
     const contentState = convertFromRaw(rawContentState);
 
