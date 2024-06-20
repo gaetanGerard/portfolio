@@ -3,6 +3,10 @@
 @import 'tailwindcss/utilities';
 @import 'bootstrap/dist/css/bootstrap.css';
 
+body {
+    margin-bottom: 0 !important;
+}
+
 
 .editor-wrapper {
     border: 1px solid #f1f1f1;

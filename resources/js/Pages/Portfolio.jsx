@@ -24,7 +24,7 @@ export default function Portfolio() {
             <>
                 <Nav data={data} language={language} changeLocaleLanguage={changeLocaleLanguage} />
                 <HeaderSection data={data} userName={user.name} />
-                <About localeData={data} language={language} data={user} />
+                <About description={language === "fr" ? user.fr_description : user.en_description} picture={user.user_img} />
             </>
         </>
     );

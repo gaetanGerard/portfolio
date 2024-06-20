@@ -1,15 +1,33 @@
-import React from 'react';
+import React, {useState, useEffect, useRef} from 'react';
 import InputError from '@/Components/InputError';
 import InputLabel from '@/Components/InputLabel';
 import PrimaryButton from '@/Components/PrimaryButton';
-import TextInput from '@/Components/TextInput';
 import Textarea from '@/Components/Textarea';
-import { Link, useForm, usePage } from '@inertiajs/react';
+import { useForm, usePage } from '@inertiajs/react';
 import { Transition } from '@headlessui/react';
+import WysiwygEditor from '@/Components/WysiwygEditor';
+import { EditorState, convertToRaw, convertFromRaw } from 'draft-js';
 
 const UpdateUserDescriptionForm = ({ className = '' }) => {
     const user = usePage().props.auth.user;
+    const [errorInput, setErrorInput] = useState({});
+    const [frEditorState, setFrEditorState] = useState(() => {
+        if (user.fr_description) {
+            const contentState = convertFromRaw(JSON.parse(user.fr_description));
+            return EditorState.createWithContent(contentState);
+        } else {
+            return EditorState.createEmpty();
+        }
+    });
 
+    const [enEditorState, setEnEditorState] = useState(() => {
+        if (user.en_description) {
+            const contentState = convertFromRaw(JSON.parse(user.en_description));
+            return EditorState.createWithContent(contentState);
+        } else {
+            return EditorState.createEmpty();
+        }
+    });
     const { data, setData, patch, errors, processing, recentlySuccessful } = useForm({
         name: user.name,
         email: user.email,
@@ -30,6 +48,41 @@ const UpdateUserDescriptionForm = ({ className = '' }) => {
         });
     };
 
+
+    const handleBlurOnRichEditor = (e) => {
+        if(e.target.textContent.length === 0) {
+            setErrorInput({
+                ...errorInput,
+                description: {
+                    message: 'Une description est requise',
+                    status: true
+                }
+            })
+        } else {
+            setErrorInput({
+                ...errorInput,
+                description: {
+                    message: '',
+                    status: false
+                }
+            })
+        }
+    }
+
+    const handleFrEditorStateChange = (editorState) => {
+        const contentState = frEditorState.getCurrentContent();
+        const rawContentState = convertToRaw(contentState);
+        setData('fr_description', JSON.stringify(rawContentState));
+        setFrEditorState(editorState);
+    }
+
+    const handleEnEditorStateChange = (editorState) => {
+        const contentState = enEditorState.getCurrentContent();
+        const rawContentState = convertToRaw(contentState);
+        setData('en_description', JSON.stringify(rawContentState));
+        setEnEditorState(editorState);
+    }
+
   return (
     <section className={className}>
         <header>
@@ -41,35 +94,18 @@ const UpdateUserDescriptionForm = ({ className = '' }) => {
         </header>
 
         <form onSubmit={submit} className="mt-6 space-y-6">
-            <div>
-                <InputLabel htmlFor="en_description" value="English Description" />
+            <div className="grid grid-cols-2 gap-3">
+                <div>
+                    <InputLabel htmlFor="en_description" value="English Description" />
+                    <WysiwygEditor handleEditorStateChange={handleEnEditorStateChange} id="en_description" editorState={enEditorState} onBlur={handleBlurOnRichEditor} />
+                    <InputError className="mt-2" message={errors.en_description} />
+                </div>
 
-                <Textarea
-                    id="en_description"
-                    className="mt-1 block w-full"
-                    value={data.en_description}
-                    onChange={(e) => setData('en_description', e.target.value)}
-                    required
-                    isFocused
-                    autoComplete="en_description"
-                />
-
-                <InputError className="mt-2" message={errors.en_description} />
-            </div>
-
-            <div>
-                <InputLabel htmlFor="fr_description" value="French Description" />
-
-                <Textarea
-                    id="fr_description"
-                    className="mt-1 block w-full"
-                    value={data.fr_description}
-                    onChange={(e) => setData('fr_description', e.target.value)}
-                    required
-                    autoComplete="fr_description"
-                />
-
-                <InputError className="mt-2" message={errors.fr_description} />
+                <div>
+                    <InputLabel htmlFor="fr_description" value="French Description" />
+                    <WysiwygEditor handleEditorStateChange={handleFrEditorStateChange} id="fr_description" editorState={frEditorState} onBlur={handleBlurOnRichEditor} />
+                    <InputError className="mt-2" message={errors.fr_description} />
+                </div>
             </div>
 
             <div className="flex items-center gap-4">
