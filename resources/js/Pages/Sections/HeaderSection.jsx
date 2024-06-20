@@ -2,7 +2,7 @@ import React, { useEffect, useRef } from 'react';
 import Typed from "typed.js";
 import ParticleBackground from '@/Components/ParticleBackground';
 
-const HeaderSection = ({data}) => {
+const HeaderSection = ({data, userName}) => {
   const el = useRef(null);
   const section = data.headerSection;
 
@@ -10,8 +10,8 @@ const HeaderSection = ({data}) => {
     const typed = new Typed(el.current, {
       strings: [
         `<p>${section.title}</p>`,
-        `<p>${section.title} <span class="text-highlight">${section.name}</span></p>`,
-        `<p>${section.title} <span class="text-highlight">${section.name}</span></p><p>${section.subtitle}</p>`,
+        `<p>${section.title} <span class="text-highlight">${userName}</span></p>`,
+        `<p>${section.title} <span class="text-highlight">${userName}</span></p><p>${section.subtitle}</p>`,
       ],
       typeSpeed: 50,
       loop: true,

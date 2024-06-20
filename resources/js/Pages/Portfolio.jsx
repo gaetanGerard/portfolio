@@ -23,7 +23,7 @@ export default function Portfolio() {
             <Head title="Portfolio" />
             <>
                 <Nav data={data} language={language} changeLocaleLanguage={changeLocaleLanguage} />
-                <HeaderSection data={data} />
+                <HeaderSection data={data} userName={user.name} />
                 <About localeData={data} language={language} data={user} />
             </>
         </>
