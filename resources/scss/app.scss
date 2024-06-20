@@ -52,13 +52,13 @@ h6 {
 }
 
 .slide-techno {
-    width: 75px;
-    height: 75px;
+    width: 50px;
+    height: 50px;
     transition: $transition;
     position: relative;
     .logo-container {
-        width: 75px;
-        height: 75px;
+        width: 50px;
+        height: 50px;
         overflow: hidden;
         transition: $transition;
         &.overlay {
@@ -71,8 +71,8 @@ h6 {
         }
     }
     img {
-        width: 75px;
-        height: 75px;
+        width: 50px;
+        height: 50px;
         object-fit: contain;
     }
     &.beginner:hover {
@@ -99,5 +99,39 @@ h6 {
         .logo-container.overlay {
             height: 0%;
         }
+    }
+}
+
+#skills {
+    .category-container-3, .category-container-4 {
+        order: 1;
+    }
+    .category-container-11, .category-container-12 {
+        order: 7;
+    }
+    .category-container-5, .category-container-6 {
+        order: 2;
+    }
+    .category-container-7, .category-container-8 {
+        order: 4;
+    }
+    .category-container-9, .category-container-10 {
+        order: 5;
+    }
+    .category-container-13, .category-container-14 {
+        order: 3;
+    }
+    .category-container-15, .category-container-16 {
+        order: 7;
+    }
+    .category-container-17, .category-container-18 {
+        order: 8;
+    }
+    .category-container-21, .category-container-22 {
+        order: 9;
+    }
+    .category-container-19, .category-container-20 {
+        order: 10;
+        grid-column: 1 / 4;
     }
 }

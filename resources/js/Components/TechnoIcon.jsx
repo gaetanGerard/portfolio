@@ -39,10 +39,10 @@ const TechnoIcon = ({level, url, name, data}) => {
     <Tooltip title={`${name} - ${data.skillsLevelLabelText}: ${skillLevelLabel}`} placement="top" arrow>
         <div className={`slide-techno ${skillLevel}`}>
             <div className="logo-container overlay">
-            <img src={url} alt={name} className={`logo-overlay`} />
+            <img src={url} alt={name} className={`logo-overlay logo-${name}`} />
             </div>
             <div className="logo-container">
-            <img src={url} alt={name} className={`logo`} />
+            <img src={url} alt={name} className={`logo logo-${name}`} />
             </div>
         </div>
     </Tooltip>
