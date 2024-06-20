@@ -41,5 +41,9 @@
             "expert": "Expert",
             "master": "Master"
         }
+    },
+    "projects": {
+        "title": "Projects",
+        "description": "These projects demonstrate my expertise with practical examples of some of my work, including brief descriptions and links to code repositories and live demos. They showcase my ability to tackle intricate challenges, adapt to various technologies, and efficiently oversee projects."
     }
 }
