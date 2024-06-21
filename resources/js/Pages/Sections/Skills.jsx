@@ -6,12 +6,10 @@ import TechnoIcon from '@/Components/TechnoIcon';
 const Skills = ({ categoryTechnologies, language, data }) => {
     const section = data.skills;
 
-    console.log(categoryTechnologies)
-
     return (
         <div id="skills" className="bg-custom-dark p-5 w-full h-full">
             <h1 className="text-white text-center">{section.title}</h1>
-            <div className="grid grid-cols-3 gap-3">
+            <div className="lg:grid flex flex-column lg:grid-cols-3 gap-3">
                 {categoryTechnologies.map((category, index) => (
                     category.lang === language ? (
                         <div key={index} className={`category-container-${category.id} bg-custom-dark text-center p-3 shadow-lg rounded-lg`}>

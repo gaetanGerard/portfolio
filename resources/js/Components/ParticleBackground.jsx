@@ -332,7 +332,7 @@ const ParticleBackground = ({className}) => {
                   mode: "delete",
                   value: 0
                 },
-                value: 300
+                value: 200
               },
               opacity: {
                 value: {

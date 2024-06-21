@@ -7,8 +7,9 @@ import Skills from './Sections/Skills';
 import Projects from './Sections/Projects';
 
 export default function Portfolio() {
-    const { localeData, user, categories, technologies, categoryTechnologies } = usePage().props;
+    const { localeData, user, categoryTechnologies, projects } = usePage().props;
     const [language, setLanguage] = useState('fr');
+    const [localProjects, setLocalProjects] = useState([]);
 
     const { data } = localeData;
 
@@ -20,6 +21,11 @@ export default function Portfolio() {
         })
     }
 
+    useEffect(() => {
+        const filteredProjects = projects.filter(project => project.lang === language);
+        setLocalProjects(filteredProjects);
+    }, [language, projects])
+
     return (
         <>
             <Head title="Portfolio" />
@@ -28,7 +34,7 @@ export default function Portfolio() {
                 <HeaderSection data={data} userName={user.name} />
                 <About description={language === "fr" ? user.fr_description : user.en_description} picture={user.user_img} />
                 <Skills categoryTechnologies={categoryTechnologies} language={language} data={data} />
-                <Projects data={data} />
+                <Projects data={data} projects={localProjects} />
             </>
         </>
     );

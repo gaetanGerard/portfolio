@@ -44,6 +44,8 @@
     },
     "projects": {
         "title": "Projets",
-        "description": "Ces projets démontrent mon expertise avec des exemples pratiques de certains de mes travaux, y compris de brèves descriptions et des liens vers le repository git et des démos en direct. Ils démontrent ma capacité à relever des défis complexes, à m'adapter à diverses technologies et à superviser efficacement des projets."
+        "description": "Ces projets démontrent mon expertise avec des exemples pratiques de certains de mes travaux, y compris de brèves descriptions et des liens vers le repository git et des démos en direct. Ils démontrent ma capacité à relever des défis complexes, à m'adapter à diverses technologies et à superviser efficacement des projets.",
+        "githubLabel": "Lien vers le repo sur Github.",
+        "demoLabel": "Lien vers la démo."
     }
 }
