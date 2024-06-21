@@ -19,10 +19,6 @@
         "experiences": {
             "label": "Expériences",
             "href": "#experiences"
-        },
-        "education": {
-            "label": "Éducation",
-            "href": "#educations"
         }
     },
     "headerSection": {
