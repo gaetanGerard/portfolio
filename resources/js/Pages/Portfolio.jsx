@@ -34,7 +34,7 @@ export default function Portfolio() {
                 <HeaderSection data={data} userName={user.name} />
                 <About description={language === "fr" ? user.fr_description : user.en_description} picture={user.user_img} />
                 <Skills categoryTechnologies={categoryTechnologies} language={language} data={data} />
-                <Projects data={data} projects={localProjects} />
+                <Projects data={data} projects={localProjects} language={language} />
             </>
         </>
     );
