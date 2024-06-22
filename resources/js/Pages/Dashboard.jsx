@@ -5,7 +5,7 @@ import CardContent from '@mui/material/CardContent';
 import Typography from '@mui/material/Typography';
 
 export default function Dashboard({ auth }) {
-    const {projects, technoCategory, technologies, experiences, educations} = usePage().props;
+    const {projects, technoCategory, technologies, experiences, educations, cvs} = usePage().props;
 
     return (
         <AuthenticatedLayout
@@ -59,6 +59,14 @@ export default function Dashboard({ auth }) {
                                 {educations.length > 0 ? (<Typography variant="body2" component="p" className="self-center">
                                     {educations.length} {educations.length > 1 ? 'formations' : 'formation'} ({educations.length/2}FR / {educations.length/2}EN )
                                 </Typography>) : <Typography variant="body2" component="p" className="self-center">Aucune formation</Typography>}
+                            </CardContent>
+                        </Card>
+                        <Card className="grid justify-items-center items-stretch">
+                            <CardContent className="grid grid-rows-2 justify-items-center items-stretch">
+                                <Typography variant="h5" component="div" className="text-center">CV</Typography>
+                                {cvs.length > 0 ? (<Typography variant="body2" component="p" className="self-center">
+                                    {cvs.length} CV ({cvs.length/2}FR / {cvs.length/2}EN )
+                                </Typography>) : <Typography variant="body2" component="p" className="self-center">Aucun CV</Typography>}
                             </CardContent>
                         </Card>
                     </div>

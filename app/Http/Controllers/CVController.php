@@ -58,11 +58,12 @@ class CVController extends Controller
             return response()->json(['message' => 'CV not found'], 404);
         }
 
-        $cvPath = str_replace('/storage/', 'public/', $cv->cv_path);
-        Storage::delete($cvPath);
+        $cvPath = public_path() . $cv->cv_path;
 
-        $cv->delete();
-
-        return response()->json(['message' => 'CV deleted'], 200);
+        if (file_exists($cvPath)) {
+            unlink($cvPath);
+            $cv->delete();
+            return response()->json(['message' => 'CV supprimé avec succès'], 200);
+        }
     }
 }

@@ -7,6 +7,7 @@ use App\Models\Experience;
 use App\Models\Projects;
 use App\Models\TechnoCategory;
 use App\Models\Technologies;
+use App\Models\CV;
 use Inertia\Inertia;
 
 class DashboardController extends Controller
@@ -18,6 +19,7 @@ class DashboardController extends Controller
         $technologies = Technologies::all();
         $experiences = Experience::all();
         $educations = Education::all();
+        $cvs = CV::all();
 
         return Inertia::render('Dashboard', [
             'projects' => $projects,
@@ -25,6 +27,7 @@ class DashboardController extends Controller
             'technologies' => $technologies,
             'experiences' => $experiences,
             'educations' => $educations,
+            'cvs' => $cvs,
         ]);
     }
 }

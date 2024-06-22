@@ -264,4 +264,20 @@ h6 {
         box-shadow: 0 0 0 4px #252934, inset 0 2px 0 rgba(37, 41, 52, 0.08),
           0 3px 0 4px rgba(37, 41, 52, 0.05);
       }
+
+        /*
+        *
+        * J'ai passer toute la journée sans succès à me battre avec laravel pour editer un CV (sans succès pour l'instant
+        * cet classe est là juste parce que s'était plus facile et rapide supprimer le background que de retourner dans l'editeur
+        * pour réécrire le texte parce que pour une raison que je n'ai pas réussi à identifier la gomme ne réinitialise pas correctement les styles
+        * Donc je remets sa a plus tard comme il ne s'agit pas d'une priorité.
+        */
+
+      .thatIsJustBecauseImDoneForToday {
+        p, ul {
+            span {
+                background-color: transparent !important;
+            }
+        }
+      }
 }

@@ -141,8 +141,6 @@ const CVForm = () => {
         }
     }
 
-    console.log(formData)
-
   return (
     <>
         <Snackbar open={open} autoHideDuration={5000} onClose={handleClose}>
@@ -182,7 +180,7 @@ const CVForm = () => {
                     required
                     className="self-center justify-self-center"
                     >
-                    Ajouter une icône
+                    Ajouter un CV
                     <VisuallyHiddenInput type="file" />
                 </Button>
             </div>

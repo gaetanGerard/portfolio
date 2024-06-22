@@ -62,7 +62,7 @@ const ExperienceCard = ({ experience, language, section }) => {
         </p>
         {isExpanded ? (
             <div>
-                <div dangerouslySetInnerHTML={{ __html: markup }} />
+                <div dangerouslySetInnerHTML={{ __html: markup }} className="thatIsJustBecauseImDoneForToday" />
                 <button onClick={toggleExpand} className="expand-button">
                     <ExpandLessIcon /> {section.btnSeeLess}
                 </button>
