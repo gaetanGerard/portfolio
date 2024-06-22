@@ -15,7 +15,6 @@ const Accordion = ({
     const contentState = convertFromRaw(rawContentState);
 
     const markup = draftToHtml(convertToRaw(contentState));
-    console.log(project)
     return (
       <motion.div
         variants={fadeIn('right', 'spring', index * 0.5, 0.75)}

@@ -5,11 +5,13 @@ import HeaderSection from './Sections/HeaderSection';
 import About from './Sections/About';
 import Skills from './Sections/Skills';
 import Projects from './Sections/Projects';
+import Experiences from './Sections/Experiences';
 
 export default function Portfolio() {
-    const { localeData, user, categoryTechnologies, projects } = usePage().props;
+    const { localeData, user, categoryTechnologies, projects, experiences } = usePage().props;
     const [language, setLanguage] = useState('fr');
     const [localProjects, setLocalProjects] = useState([]);
+    const [localExperiences, setLocalExperiences] = useState([]);
 
     const { data } = localeData;
 
@@ -23,8 +25,10 @@ export default function Portfolio() {
 
     useEffect(() => {
         const filteredProjects = projects.filter(project => project.lang === language);
+        const filteredExperiences = experiences.filter(experience => experience.lang === language);
         setLocalProjects(filteredProjects);
-    }, [language, projects])
+        setLocalExperiences(filteredExperiences);
+    }, [language, projects, experiences])
 
     return (
         <>
@@ -33,8 +37,9 @@ export default function Portfolio() {
                 <Nav data={data} language={language} changeLocaleLanguage={changeLocaleLanguage} />
                 <HeaderSection data={data} userName={user.name} />
                 <About description={language === "fr" ? user.fr_description : user.en_description} picture={user.user_img} />
-                <Skills categoryTechnologies={categoryTechnologies} language={language} data={data} />
+                <Skills data={data} categoryTechnologies={categoryTechnologies} language={language} />
                 <Projects data={data} projects={localProjects} language={language} />
+                <Experiences data={data} experiences={localExperiences} />
             </>
         </>
     );

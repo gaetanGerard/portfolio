@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react'
 import Accordion from '@/Components/Accordion';
 import { motion } from 'framer-motion';
-import { staggerContainer } from '../../utils/motion';
+import { staggerContainer, fadeIn, textVariant } from '../../utils/motion';
 
 const Projects = ({data, projects, language}) => {
     const section = data.projects;
@@ -12,8 +12,12 @@ const Projects = ({data, projects, language}) => {
   return (
     <div id="projects" className="bg-custom-dark p-5 w-full h-full">
         <div className="grid grid-flow-row gap-3 text-white justify-center justify-items-center">
-            <h1>{section.title}</h1>
-            <p className="sm:w-100 lg:w-2/4 text-center">{section.description}</p>
+            <motion.div variants={textVariant()}>
+                <h1>{section.title}</h1>
+            </motion.div>
+            <div className="w-full flex justify-center">
+                <motion.p variants={fadeIn('', '', 0.1, 1)} className="sm:w-100 lg:w-2/4 text-center">{section.description}</motion.p>
+            </div>
             <motion.div
                 variants={staggerContainer}
                 initial="hidden"
