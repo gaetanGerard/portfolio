@@ -6,6 +6,7 @@ import About from './Sections/About';
 import Skills from './Sections/Skills';
 import Projects from './Sections/Projects';
 import Experiences from './Sections/Experiences';
+import FloatingBtn from '@/Components/FloatingBtn';
 
 export default function Portfolio() {
     const { localeData, user, categoryTechnologies, projects, experiences } = usePage().props;
@@ -38,10 +39,11 @@ export default function Portfolio() {
             <>
                 <Nav data={data} language={language} changeLocaleLanguage={changeLocaleLanguage} />
                 <HeaderSection data={data} userName={user.name} />
-                <About description={language === "fr" ? user.fr_description : user.en_description} picture={user.user_img} />
+                <About description={language === "fr" ? user.fr_description : user.en_description} picture={user.user_img} language={language} />
                 <Skills data={data} categoryTechnologies={categoryTechnologies} language={language} />
                 <Projects data={data} projects={localProjects} language={language} />
                 <Experiences data={data} experiences={localExperiences} language={language} />
+                <FloatingBtn data={data.social} />
             </>
         </>
     );

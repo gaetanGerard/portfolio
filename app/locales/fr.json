@@ -48,5 +48,20 @@
         "title": "Expériences Professionelles",
         "btnSeeMore": "Voire Plus",
         "btnSeeLess": "Voire Moins"
+    },
+    "social": {
+        "contactUs": "Me Contacter",
+        "email": {
+            "label": "Email",
+            "href": "mailto:gaetan.gerard27@gmail.com"
+        },
+        "linkedin": {
+            "label": "LinkedIn",
+            "href": "https://www.linkedin.com/in/gaetan-gerard/"
+        },
+        "github": {
+            "label": "Github",
+            "href": "https://github.com/gaetanGerard"
+        }
     }
 }

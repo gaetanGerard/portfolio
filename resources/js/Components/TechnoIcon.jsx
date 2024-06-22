@@ -33,7 +33,7 @@ const TechnoIcon = ({level, url, name, data}) => {
                 break;
         }
     }
-    , [level]);
+    , [level, data]);
 
   return (
     <Tooltip title={`${name} - ${data.skillsLevelLabelText}: ${skillLevelLabel}`} placement="top" arrow>

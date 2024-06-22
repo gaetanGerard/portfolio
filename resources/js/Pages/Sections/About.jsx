@@ -4,13 +4,14 @@ import { fadeIn, staggerContainer } from '../../utils/motion';
 import { convertToRaw, convertFromRaw  } from 'draft-js';
 import draftToHtml from 'draftjs-to-html';
 
-const About = ({ description, picture}) => {
+const About = ({ description, picture, language }) => {
     const rawContentState = JSON.parse(description);
     const contentState = convertFromRaw(rawContentState);
 
     const markup = draftToHtml(convertToRaw(contentState));
   return (
     <motion.section
+        key={language}
         variants={staggerContainer()}
         initial="hidden"
         whileInView="show"

@@ -49,17 +49,17 @@ const Accordion = ({
               className="absolute bottom-0 p-8 justify-start w-full
               flex-col bg-[rgba(122,122,122,0.5)] rounded-b-[24px] lg:w-[500px] w-full z-20">
               <div className="absolute inset-0 flex justify-end m-3">
-                <div
+                {project.github_repo !== null ? (<div
                   onClick={() => window.open(project.github_repo, '_blank')}
-                  className="bg-night sm:w-11 sm:h-11 w-10 h-10 rounded-full
+                  className="bg-custom-dark sm:w-11 sm:h-11 w-10 h-10 rounded-full
                     flex justify-center items-center cursor-pointer
                     sm:opacity-[0.9] opacity-[0.8]">
                   <img
                     src={github}
                     alt="source code"
-                    className="w-4/5 h-4/5 object-contain"
+                    className="w-4/5 h-4/5 object-contain fill-white"
                   />
-                </div>
+                </div>) : null}
               </div>
 
               <h2
@@ -72,7 +72,7 @@ const Accordion = ({
                 className="text-silver sm:text-[14px] text-[12px]
                 max-w-3xl sm:leading-[24px] leading-[18px]
                 font-poppins tracking-[1px]" />
-              <button
+              {project.demo_link !== null ? (<button
                 className="live-demo flex justify-start
                 sm:text-[16px] text-[14px] text-timberWolf
                 font-bold font-beckman items-center p-2
@@ -89,7 +89,7 @@ const Accordion = ({
                     w-[30px] h-[30px] object-contain"
                 />
                 DEMO
-              </button>
+              </button>) : null}
             </div>
           </>
         )}

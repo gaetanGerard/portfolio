@@ -14,6 +14,7 @@ const Projects = ({data, projects, language}) => {
         variants={staggerContainer()}
         initial="hidden"
         whileInView="show"
+        key={language}
         viewport={{ once: false, amount: 0.25 }}
     >
         <div id="projects" className="bg-custom-dark p-5 w-full h-full">
