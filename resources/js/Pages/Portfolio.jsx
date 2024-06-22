@@ -15,12 +15,13 @@ export default function Portfolio() {
 
     const { data } = localeData;
 
-
     const changeLocaleLanguage = (e) => {
         setLanguage(e.target.checked ? "fr" : "gb");
         router.post('/change-language', {
             language: e.target.checked ? "fr" : "gb"
-        })
+        }, {
+            preserveScroll: true
+        });
     }
 
     useEffect(() => {
@@ -29,6 +30,7 @@ export default function Portfolio() {
         setLocalProjects(filteredProjects);
         setLocalExperiences(filteredExperiences);
     }, [language, projects, experiences])
+
 
     return (
         <>
