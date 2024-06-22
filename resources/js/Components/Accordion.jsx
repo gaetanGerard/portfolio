@@ -1,6 +1,6 @@
 import React from 'react'
 import { motion } from 'framer-motion';
-import { github, pineapple, pineappleHover } from '../assets/index';
+import { github, website } from '../assets/index';
 import { fadeIn } from '../utils/motion';
 import { convertToRaw, convertFromRaw  } from 'draft-js';
 import draftToHtml from 'draftjs-to-html';
@@ -74,22 +74,22 @@ const Accordion = ({
                 max-w-3xl sm:leading-[24px] leading-[18px]
                 font-poppins tracking-[1px]" />
               <button
-                className="live-demo flex justify-between
+                className="live-demo flex justify-start
                 sm:text-[16px] text-[14px] text-timberWolf
                 font-bold font-beckman items-center p-2
-                whitespace-nowrap gap-1 sm:w-[138px] sm:h-[50px]
-                w-[125px] h-[46px] rounded-[10px] glassmorphism
+                whitespace-nowrap gap-1 sm:w-[115px] sm:h-[50px]
+                w-[115px] h-[46px] rounded-[10px] glassmorphism
                 sm:mt-[22px] mt-[16px] hover:bg-highlight
                 hover:text-white transition duration-[0.2s]
                 ease-in-out"
                 onClick={() => window.open(project.demo_link, '_blank')}>
                 <img
-                  src={pineapple}
-                  alt="pineapple"
+                  src={website}
+                  alt="website"
                   className="btn-icon sm:w-[34px] sm:h-[34px]
                     w-[30px] h-[30px] object-contain"
                 />
-                LIVE DEMO
+                DEMO
               </button>
             </div>
           </>
