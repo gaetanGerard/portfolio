@@ -24,6 +24,7 @@ const Nav = ({data, language, changeLocaleLanguage}) => {
                     <div className="hidden space-x-8 sm:-my-px sm:ms-10 sm:flex">
                     {navItems.map((item, index) => (
                         <NavLink
+                            replace={true}
                             href={`${item.href}`}
                             key={index}
                             className="text-white"
