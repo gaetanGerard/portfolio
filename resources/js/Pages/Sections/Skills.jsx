@@ -3,12 +3,18 @@ import Tooltip from '@mui/material/Tooltip';
 import Link from '@mui/material/Link';
 import TechnoIcon from '@/Components/TechnoIcon';
 import { motion } from 'framer-motion';
-import { fadeIn, textVariant } from '../../utils/motion';
+import { fadeIn, textVariant, staggerContainer } from '../../utils/motion';
 
 const Skills = ({ categoryTechnologies, language, data }) => {
     const section = data.skills;
 
     return (
+        <motion.section
+            variants={staggerContainer()}
+            initial="hidden"
+            whileInView="show"
+            viewport={{ once: false, amount: 0.25 }}
+        >
         <div id="skills" className="bg-custom-dark p-5 w-full h-full">
             <motion.div variants={textVariant()} className="text-white text-center mb-3">
                 <h1>{section.title}</h1>
@@ -43,6 +49,8 @@ const Skills = ({ categoryTechnologies, language, data }) => {
                 ))}
             </motion.div>
         </div>
+    </motion.section>
+
     )
 }
 

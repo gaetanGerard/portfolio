@@ -43,6 +43,7 @@
         "react-draft-wysiwyg": "^1.15.0",
         "react-type-animation": "^3.2.0",
         "react-typed": "^2.0.12",
+        "react-vertical-timeline-component": "^3.6.0",
         "styled-components": "^6.1.11",
         "typed.js": "^2.1.0"
     }
