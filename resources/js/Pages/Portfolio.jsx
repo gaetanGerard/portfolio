@@ -6,6 +6,7 @@ import About from './Sections/About';
 import Skills from './Sections/Skills';
 import Projects from './Sections/Projects';
 import Experiences from './Sections/Experiences';
+import Footer from './Sections/Footer';
 import FloatingBtn from '@/Components/FloatingBtn';
 
 export default function Portfolio() {
@@ -43,6 +44,7 @@ export default function Portfolio() {
                 <Skills data={data} categoryTechnologies={categoryTechnologies} language={language} />
                 <Projects data={data} projects={localProjects} language={language} />
                 <Experiences data={data} experiences={localExperiences} language={language} />
+                <Footer data={data} />
                 <FloatingBtn data={data.social} />
             </>
         </>

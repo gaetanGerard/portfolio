@@ -63,5 +63,9 @@
             "label": "Github",
             "href": "https://github.com/gaetanGerard"
         }
+    },
+    "footer": {
+        "copyRight": "© 2021 Gaétan Gérard. All rights reserved.",
+        "madeBy": "Made with ❤️ by Gaétan Gérard"
     }
 }
