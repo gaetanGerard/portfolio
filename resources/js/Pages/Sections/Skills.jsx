@@ -17,7 +17,7 @@ const Skills = ({ categoryTechnologies, language, data }) => {
         >
         <div id="skills" className="bg-custom-dark p-5 w-full h-full">
             <motion.div variants={textVariant()} className="text-white text-center mb-3">
-                <h1>{section.title}</h1>
+                <h2>{section.title}</h2>
             </motion.div>
             <motion.div
                 initial="hidden"

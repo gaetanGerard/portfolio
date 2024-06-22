@@ -28,8 +28,8 @@ const ExperienceForm = () => {
         company_name: action === 'edit' ? experience.company_name : '',
         company_location: action === 'edit' ? experience.company_location : '',
         job_title: action === 'edit' ? experience.job_title : '',
-        start_date: action === 'edit' ? experience.start_date : '',
-        end_date: action === 'edit' ? experience.end_date : '',
+        start_date: action === 'edit' ? dayjs(experience.start_date, 'DD/MM/YYYY').format('DD/MM/YYYY') : '',
+        end_date: action === 'edit' ? dayjs(experience.end_date, 'DD/MM/YYYY').format('DD/MM/YYYY') : '',
         is_current: false,
         description: action === 'edit' ? experience.description : '',
         show: action === 'edit' ? experience.show : true
@@ -403,3 +403,26 @@ const ExperienceForm = () => {
 }
 
 export default ExperienceForm
+
+
+// At Data essential I had several missions, mainly focused on application development but also on deployment,
+// infrastructure maintenance, I was also able to participate in several projects using the DevOps methodology and its technologies.
+
+// I worked for clients such as Foyer Assurance ,  la commission européenne , Grant Thornton , Victor Buck Services , EY , Crédit Suisse , SIGI , ...
+// Main Missions:
+// Customer interventions and follow-up for various requests.
+// Deployment, maintenance, decommissioning of VxRail/vmware cluster.
+// Automation of tasks and creation of various PoCs.
+// Application development.
+// Compass application development project:
+// React front-end development.
+// Customer follow-up and implementation of requests.
+// Automating development and deployment using GCP.
+// Script Development:
+// Python Script Development.
+// Automate Kubernetes manifest creation.
+// Established a standard format for users.
+// Application Modernisation:
+// Convert a Python application to a React Application.
+// Implementation of new features upon customer request.
+// Transformation of the application into a cross-platform desktop app using electronJS.

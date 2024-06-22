@@ -5,6 +5,7 @@
 
 $transition: all 0.3s ease-in-out;
 $highlight-color: #e31b6d;
+$custom-dark-color: #252934;
 
 body {
     margin-bottom: 0 !important;
@@ -245,5 +246,22 @@ h6 {
 
       .live-demo:hover {
         background-color: $highlight-color;
+      }
+}
+
+// Experiences related classes
+#experiences {
+    .vertical-timeline.vertical-timeline-custom-line::before {
+        background: rgb(227, 27, 109);
+        background: linear-gradient(
+          180deg,
+          rgba(227, 27, 109, 0.8) 40%,
+          rgba(234, 234, 236, 0.45) 100%
+        );
+      }
+
+      .vertical-timeline-element-icon {
+        box-shadow: 0 0 0 4px #252934, inset 0 2px 0 rgba(37, 41, 52, 0.08),
+          0 3px 0 4px rgba(37, 41, 52, 0.05);
       }
 }

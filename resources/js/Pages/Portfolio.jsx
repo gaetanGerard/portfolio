@@ -39,7 +39,7 @@ export default function Portfolio() {
                 <About description={language === "fr" ? user.fr_description : user.en_description} picture={user.user_img} />
                 <Skills data={data} categoryTechnologies={categoryTechnologies} language={language} />
                 <Projects data={data} projects={localProjects} language={language} />
-                <Experiences data={data} experiences={localExperiences} />
+                <Experiences data={data} experiences={localExperiences} language={language} />
             </>
         </>
     );

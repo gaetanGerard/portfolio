@@ -19,7 +19,7 @@ const Projects = ({data, projects, language}) => {
         <div id="projects" className="bg-custom-dark p-5 w-full h-full">
             <div className="grid grid-flow-row gap-3 text-white justify-center justify-items-center">
                 <motion.div variants={textVariant()}>
-                    <h1>{section.title}</h1>
+                    <h2>{section.title}</h2>
                 </motion.div>
                 <div className="w-full flex justify-center">
                     <motion.p variants={fadeIn('left', 'spring', 0.1, 1)} className="sm:w-100 lg:w-2/4 text-center">{section.description}</motion.p>

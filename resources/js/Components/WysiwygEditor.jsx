@@ -24,11 +24,12 @@ const WysiwygEditor = ({handleEditorStateChange, editorState, onBlur}) => {
         link: `/images/editor/link.svg`,
         unlink: `/images/editor/unlink.svg`,
         undo: `/images/editor/undo.svg`,
-        redo: `/images/editor/redo.svg`
+        redo: `/images/editor/redo.svg`,
+        eraser: `/images/editor/eraser.svg`
     }
 
     const toolbarOptions = {
-        options: ['inline', 'blockType', 'fontSize', 'fontFamily', 'list', 'textAlign', 'colorPicker', 'link', 'history'],
+        options: ['inline', 'blockType', 'fontSize', 'fontFamily', 'list', 'textAlign', 'colorPicker', 'link','remove', 'history'],
         inline: {
           inDropdown: false,
           className: undefined,
@@ -109,6 +110,7 @@ const WysiwygEditor = ({handleEditorStateChange, editorState, onBlur}) => {
           unlink: { icon: iconPaths.unlink, className: "fill-black" },
           linkCallback: undefined
         },
+        remove: { icon: iconPaths.eraser, className: undefined, component: undefined },
         history: {
           inDropdown: false,
           className: undefined,
