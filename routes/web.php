@@ -9,6 +9,7 @@ use App\Http\Controllers\PortfolioController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\ProjectsController;
 use App\Http\Controllers\TechnologiesController;
+use App\Http\Controllers\CVController;
 use App\Http\Middleware\InjectLocaleData;
 use Illuminate\Foundation\Application;
 use Illuminate\Support\Facades\Route;
@@ -66,6 +67,12 @@ Route::prefix('admin/dashboard')->group(function () {
         Route::get('/{action}', [EducationsController::class, 'showForm'])->where('action', 'add|edit')->middleware(['auth', 'verified'])->name('eductation.showForm');
         Route::post('/{action}', [EducationsController::class, 'handleForm'])->where('action', 'add|edit')->middleware(['auth', 'verified'])->name('eductation.store');
         Route::delete('/delete/{id}', [EducationsController::class, 'destroy'])->middleware(['auth', 'verified'])->name('eductation.destroy');
+    });
+    Route::prefix('cvs')->group(function () {
+        Route::get('/', [CVController::class, 'index'])->middleware(['auth', 'verified'])->name('cvs.index');
+        Route::get('/upload/{action}', [CVController::class, 'showForm'])->middleware(['auth', 'verified'])->name('cvs.showForm');
+        Route::post('/upload', [CVController::class, 'uploadCV'])->middleware(['auth', 'verified'])->name('cvs.upload');
+        Route::delete('/delete/{id}', [CVController::class, 'deleteCV'])->middleware(['auth', 'verified'])->name('cvs.delete');
     });
 });
 
