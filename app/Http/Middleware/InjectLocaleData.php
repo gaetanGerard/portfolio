@@ -24,9 +24,9 @@ class InjectLocaleData
             $data = json_decode(file_get_contents($languageFilePath), true);
         } else {
             // Fallback to English if the language file does not exist
-            $englishFilePath = "{$localesPath}/en.json";
+            $englishFilePath = "{$localesPath}/fr.json";
             $data = json_decode(file_get_contents($englishFilePath), true);
-            $languageCode = 'en';
+            $languageCode = 'fr';
         }
 
         // Inject data into Inertia

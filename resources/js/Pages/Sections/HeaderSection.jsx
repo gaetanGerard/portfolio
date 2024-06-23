@@ -48,7 +48,7 @@ const HeaderSection = ({data, userName, cv, language}) => {
     <div className="relative flex items-center justify-center h-screen">
             <div className="absolute top-50 left-50 text-white z-50 text-center">
               <div className="text-3xl" ref={el} />
-              <button onClick={handleDownload} className="uppercase border-2 p-3 mt-3 hover:border-highlight hover:text-highlight transition duration-500 ease-in-out" as="button" preserveScroll >{section.btnText}</button>
+              <button onClick={handleDownload} className="uppercase border-2 p-3 mt-3 hover:border-highlight hover:text-highlight transition duration-500 ease-in-out">{section.btnText}</button>
             </div>
         <ParticleBackground />
     </div>

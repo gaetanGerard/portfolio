@@ -11,12 +11,12 @@ import FloatingBtn from '@/Components/FloatingBtn';
 
 export default function Portfolio() {
     const { localeData, user, categoryTechnologies, projects, experiences, cvs } = usePage().props;
-    const [language, setLanguage] = useState('fr');
+    const { data, languageCode } = localeData;
+    const [language, setLanguage] = useState(languageCode);
     const [localProjects, setLocalProjects] = useState([]);
     const [localExperiences, setLocalExperiences] = useState([]);
-    const [localCV, setLocalCV] = useState(null)
+    const [localCV, setLocalCV] = useState(null);
 
-    const { data } = localeData;
 
     const changeLocaleLanguage = (e) => {
         setLanguage(e.target.checked ? "fr" : "gb");
@@ -34,7 +34,7 @@ export default function Portfolio() {
         setLocalProjects(filteredProjects);
         setLocalExperiences(filteredExperiences);
         setLocalCV(filteredCV[0])
-    }, [language, projects, experiences])
+    }, [language, projects, experiences, languageCode, cvs])
 
 
     return (
@@ -44,7 +44,7 @@ export default function Portfolio() {
                 <Nav data={data} language={language} changeLocaleLanguage={changeLocaleLanguage} />
                 <HeaderSection data={data} userName={user.name} cv={localCV} language={language} />
                 <About description={language === "fr" ? user.fr_description : user.en_description} picture={user.user_img} language={language} />
-                <Skills data={data} categoryTechnologies={categoryTechnologies} language={language} />
+                <Skills data={data} categoryTechnologies={categoryTechnologies} language={`${languageCode}`} />
                 <Projects data={data} projects={localProjects} language={language} />
                 <Experiences data={data} experiences={localExperiences} language={language} />
                 <Footer data={data} />
