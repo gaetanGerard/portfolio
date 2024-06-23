@@ -10,10 +10,11 @@ import Footer from './Sections/Footer';
 import FloatingBtn from '@/Components/FloatingBtn';
 
 export default function Portfolio() {
-    const { localeData, user, categoryTechnologies, projects, experiences } = usePage().props;
+    const { localeData, user, categoryTechnologies, projects, experiences, cvs } = usePage().props;
     const [language, setLanguage] = useState('fr');
     const [localProjects, setLocalProjects] = useState([]);
     const [localExperiences, setLocalExperiences] = useState([]);
+    const [localCV, setLocalCV] = useState(null)
 
     const { data } = localeData;
 
@@ -29,8 +30,10 @@ export default function Portfolio() {
     useEffect(() => {
         const filteredProjects = projects.filter(project => project.lang === language);
         const filteredExperiences = experiences.filter(experience => experience.lang === language);
+        const filteredCV = cvs.filter(cv => cv.lang === language);
         setLocalProjects(filteredProjects);
         setLocalExperiences(filteredExperiences);
+        setLocalCV(filteredCV[0])
     }, [language, projects, experiences])
 
 
@@ -39,7 +42,7 @@ export default function Portfolio() {
             <Head title="Portfolio" />
             <>
                 <Nav data={data} language={language} changeLocaleLanguage={changeLocaleLanguage} />
-                <HeaderSection data={data} userName={user.name} />
+                <HeaderSection data={data} userName={user.name} cv={localCV} />
                 <About description={language === "fr" ? user.fr_description : user.en_description} picture={user.user_img} language={language} />
                 <Skills data={data} categoryTechnologies={categoryTechnologies} language={language} />
                 <Projects data={data} projects={localProjects} language={language} />

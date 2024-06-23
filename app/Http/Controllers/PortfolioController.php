@@ -2,11 +2,13 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\CV;
 use App\Models\Education;
 use App\Models\Experience;
 use App\Models\Projects;
 use App\Models\TechnoCategory;
 use App\Models\Technologies;
+use Illuminate\Foundation\Auth\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
@@ -22,7 +24,8 @@ class PortfolioController extends Controller
         $categoryTechnologies = TechnoCategory::with('technologies')->get();
         $educations = Education::all();
         $experiences = Experience::all();
-        $user = auth()->user();
+        $user = User::all();
+        $cvs = CV::all();
 
         return Inertia::render('Portfolio', [
             'canLogin' => Route::has('login'),
@@ -33,7 +36,8 @@ class PortfolioController extends Controller
             'educations' => $educations,
             'experiences' => $experiences,
             'categoryTechnologies' => $categoryTechnologies,
-            'user' => $user
+            'user' => $user[0],
+            'cvs' => $cvs,
         ]);
     }
 }
