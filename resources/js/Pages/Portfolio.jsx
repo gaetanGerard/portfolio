@@ -42,7 +42,7 @@ export default function Portfolio() {
             <Head title="Portfolio" />
             <>
                 <Nav data={data} language={language} changeLocaleLanguage={changeLocaleLanguage} />
-                <HeaderSection data={data} userName={user.name} cv={localCV} />
+                <HeaderSection data={data} userName={user.name} cv={localCV} language={language} />
                 <About description={language === "fr" ? user.fr_description : user.en_description} picture={user.user_img} language={language} />
                 <Skills data={data} categoryTechnologies={categoryTechnologies} language={language} />
                 <Projects data={data} projects={localProjects} language={language} />

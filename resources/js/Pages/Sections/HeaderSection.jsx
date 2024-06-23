@@ -3,7 +3,7 @@ import Typed from "typed.js";
 import ParticleBackground from '@/Components/ParticleBackground';
 import axios from 'axios';
 
-const HeaderSection = ({data, userName, cv}) => {
+const HeaderSection = ({data, userName, cv, language}) => {
   const el = useRef(null);
   const section = data.headerSection;
 
@@ -22,7 +22,7 @@ const HeaderSection = ({data, userName, cv}) => {
     return () => {
       typed.destroy();
     };
-  }, [section]);
+  }, [section, language]);
 
   const handleDownload = async () => {
     if (cv !== null) {

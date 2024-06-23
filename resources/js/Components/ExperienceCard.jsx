@@ -42,7 +42,7 @@ const ExperienceCard = ({ experience, language, section }) => {
             borderRight: '7px solid  #eaeaec',
         }}
         date={
-            <div>
+            <div className="text-white">
                 <h3 className="text-dim text-[18px] font-bold font-beckman">
                 {displayedDate}
                 </h3>

@@ -33,3 +33,12 @@ Une fois le projet télécharger :
 2) `composer install` à la racine du projet
 3) `php artisan migrate` pour générer les tables dans la DB (sauf si vous avez eu le projet déjà avec une DB SQLite)
 4) a cet étape tout devrait être installer vous pouvez ouvrir deux terminals dans le premier vous pour faire `npm run dev` et dans l'autre `php artisan serve`
+
+## Pour Thibaut
+
+pour accéder à l'admin je n'ai pas mis de bouton pour y accéder directement celà me semblait inaproprié puisque seul l'admin devrait avoir accès à l'administration, l'accès se fait donc en faisant `/admin`
+
+pour les credentials
+
+l'email: gaetan.gerard27@gmail.com
+mdp: azerty123
