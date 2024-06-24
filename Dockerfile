@@ -1,5 +1,8 @@
-# Utiliser l'image de base officielle PHP avec Apache
-FROM php:8.2-apache
+# Utiliser l'image de base officielle PHP avec PHP-FPM
+FROM php:8.2-fpm
+
+# Définir le répertoire de travail
+WORKDIR /var/www
 
 # Installer les dépendances système nécessaires
 RUN apt-get update && apt-get install -y \
@@ -10,60 +13,37 @@ RUN apt-get update && apt-get install -y \
     unzip \
     git \
     curl \
-    libsqlite3-dev
-
-# Installer Node.js LTS
-RUN curl -fsSL https://deb.nodesource.com/setup_lts.x | bash -
-RUN apt-get install -y nodejs
-
-# Installer Yarn
-RUN npm install -g yarn
-
-# Installer ViteJS globalement
-RUN yarn global add vite
-
-# Installer esbuild et ses dépendances
-RUN yarn add --dev esbuild
-
-# Configurer l'extension GD
-RUN docker-php-ext-configure gd --with-freetype --with-jpeg
-
-# Installer les extensions PHP nécessaires
-RUN docker-php-ext-install -j$(nproc) gd pdo pdo_mysql pdo_sqlite
+    libsqlite3-dev \
+    && docker-php-ext-configure gd --with-freetype --with-jpeg \
+    && docker-php-ext-install -j$(nproc) gd pdo pdo_mysql pdo_sqlite
 
 # Installer Composer
 COPY --from=composer:2 /usr/bin/composer /usr/bin/composer
 
-# Configurer le répertoire de l'application
-WORKDIR /var/www/html
-
-# Copier les fichiers de l'application
+# Copier les fichiers du projet
 COPY . .
 
+# Vérifier que les fichiers ont été copiés correctement
+RUN echo "Listing /var/www after copying project files:" && ls -l /var/www
+
+# Copier le fichier de configuration php.ini
+COPY ./docker/php/local.ini /usr/local/etc/php/conf.d/
+
 # Installer les dépendances PHP
-RUN composer install --no-dev --optimize-autoloader
+RUN composer install --optimize-autoloader --no-dev --verbose
 
-# Installer les dépendances npm ou yarn
-RUN yarn install
+# Vérifier les permissions avant d'exécuter chmod
+RUN echo "Listing /var/www and /var/www/storage before chown & chmod:" && ls -l /var/www && ls -l /var/www/storage
 
-# Ajuster les permissions avant de construire
-RUN chown -R www-data:www-data /var/www/html/public/build
+# Modifier les permissions
+RUN chown -R www-data:www-data /var/www
+RUN chmod -R 755 /var/www/storage
 
-# Trouver le chemin exact de Yarn global bin
-RUN export PATH="$(yarn global bin):$PATH"
+# Vérifier les permissions après chmod
+RUN echo "Listing /var/www/storage after chmod & chown:" && ls -l /var/www/storage
 
-# Construire les assets frontend avec ViteJS (en utilisant le chemin complet)
-RUN /usr/local/bin/vite build --mode production
+# Exposer le port 9000 pour PHP-FPM
+EXPOSE 9000
 
-# Configurer Apache
-RUN a2enmod rewrite
-COPY ./docker/apache/vhost.conf /etc/apache2/sites-available/000-default.conf
-
-# Configurer les permissions
-RUN chown -R www-data:www-data /var/www/html/storage /var/www/html/bootstrap/cache
-
-# Exposer le port
-EXPOSE 80
-
-# Lancer Apache
-CMD ["apache2-foreground"]
+# Démarrer PHP-FPM
+CMD ["php-fpm"]
